@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Sign In View Controller-->
+        <scene sceneID="EDP-zM-v8H">
+            <objects>
+                <viewController storyboardIdentifier="SignInViewController" automaticallyAdjustsScrollViewInsets="NO" id="ftg-EE-zrT" customClass="SignInViewController" customModule="AMP" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="U7c-VY-gTe">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" delaysContentTouches="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Llq-if-GEw">
+                                <rect key="frame" x="0.0" y="20" width="0.0" height="647"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qgD-PH-dWg">
+                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="647"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Gxa-Hr-JZl">
+                                                <rect key="frame" x="0.0" y="155.5" width="0.0" height="208.5"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Регистрация или вход" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LCW-sI-zIB">
+                                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="31.5"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Телефон:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2dg-VW-CIs">
+                                                        <rect key="frame" x="0.0" y="39.5" width="0.0" height="20.5"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="+7 (xxx) xxx xx xx" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="J6f-WA-eD2" customClass="PhoneNumberTextField" customModule="PhoneNumberKit">
+                                                        <rect key="frame" x="0.0" y="68" width="0.0" height="30"/>
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="phonePad" enablesReturnKeyAutomatically="YES" textContentType="tel"/>
+                                                    </textField>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Смс-код: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Fz-9H-9lI">
+                                                        <rect key="frame" x="0.0" y="106" width="0.0" height="20.5"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text=" " borderStyle="roundedRect" placeholder="хххх" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bv6-9q-5Fu">
+                                                        <rect key="frame" x="0.0" y="134.5" width="0.0" height="30"/>
+                                                        <nil key="textColor"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    </textField>
+                                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LnB-lD-o2d">
+                                                        <rect key="frame" x="0.0" y="172.5" width="0.0" height="36"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                                        <state key="normal" title="Далее"/>
+                                                        <connections>
+                                                            <action selector="nextButtonTapped:" destination="ftg-EE-zrT" eventType="touchUpInside" id="Ct8-PN-jfW"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tZl-fp-q01">
+                                                <rect key="frame" x="-120" y="597" width="120" height="30"/>
+                                                <state key="normal" title="Войти анонимно"/>
+                                                <connections>
+                                                    <action selector="enterAnonimouslyTapped:" destination="ftg-EE-zrT" eventType="touchUpInside" id="CFr-PP-ZTG"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <gestureRecognizers/>
+                                        <constraints>
+                                            <constraint firstItem="tZl-fp-q01" firstAttribute="top" relation="greaterThanOrEqual" secondItem="LnB-lD-o2d" secondAttribute="bottom" priority="750" constant="20" id="2dS-Bc-uTB"/>
+                                            <constraint firstItem="Gxa-Hr-JZl" firstAttribute="top" relation="greaterThanOrEqual" secondItem="qgD-PH-dWg" secondAttribute="top" constant="20" symbolic="YES" id="e3n-i1-aqz"/>
+                                            <constraint firstAttribute="bottom" secondItem="tZl-fp-q01" secondAttribute="bottom" constant="20" symbolic="YES" id="fKl-Wh-kpo"/>
+                                            <constraint firstAttribute="trailing" secondItem="tZl-fp-q01" secondAttribute="trailing" constant="20" symbolic="YES" id="ggB-SI-r6R"/>
+                                            <constraint firstItem="Gxa-Hr-JZl" firstAttribute="centerX" secondItem="qgD-PH-dWg" secondAttribute="centerX" id="xEj-Oc-tUT"/>
+                                            <constraint firstItem="Gxa-Hr-JZl" firstAttribute="centerY" secondItem="qgD-PH-dWg" secondAttribute="centerY" multiplier="0.8" id="zB0-iZ-WMG"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="qgD-PH-dWg" firstAttribute="height" secondItem="Llq-if-GEw" secondAttribute="height" priority="750" id="5z5-Y0-jSn"/>
+                                    <constraint firstAttribute="bottom" secondItem="qgD-PH-dWg" secondAttribute="bottom" id="FaQ-t8-rsI"/>
+                                    <constraint firstItem="Gxa-Hr-JZl" firstAttribute="width" secondItem="Llq-if-GEw" secondAttribute="width" multiplier="0.8" id="TrC-hL-pdk"/>
+                                    <constraint firstItem="qgD-PH-dWg" firstAttribute="top" secondItem="Llq-if-GEw" secondAttribute="top" id="gix-e2-bAy"/>
+                                    <constraint firstItem="qgD-PH-dWg" firstAttribute="leading" secondItem="Llq-if-GEw" secondAttribute="leading" id="itG-wT-mSu"/>
+                                    <constraint firstAttribute="trailing" secondItem="qgD-PH-dWg" secondAttribute="trailing" id="jaU-Sn-Fj9"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Llq-if-GEw" firstAttribute="top" secondItem="E81-Gy-8ms" secondAttribute="top" id="4ID-T2-E8x"/>
+                            <constraint firstItem="Llq-if-GEw" firstAttribute="leading" secondItem="E81-Gy-8ms" secondAttribute="leading" id="8UM-zf-NPe"/>
+                            <constraint firstItem="qgD-PH-dWg" firstAttribute="height" secondItem="U7c-VY-gTe" secondAttribute="height" priority="250" id="FWT-Kt-ifp"/>
+                            <constraint firstItem="qgD-PH-dWg" firstAttribute="width" secondItem="U7c-VY-gTe" secondAttribute="width" id="Fij-BC-SgF"/>
+                            <constraint firstItem="E81-Gy-8ms" firstAttribute="trailing" secondItem="Llq-if-GEw" secondAttribute="trailing" id="Iwd-DY-dhe"/>
+                            <constraint firstItem="E81-Gy-8ms" firstAttribute="bottom" secondItem="Llq-if-GEw" secondAttribute="bottom" id="ixp-hu-J07"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="E81-Gy-8ms"/>
+                    </view>
+                    <connections>
+                        <outlet property="enterAnonimouslyButton" destination="tZl-fp-q01" id="Ni9-Wd-qwT"/>
+                        <outlet property="nextButton" destination="LnB-lD-o2d" id="nD9-Df-ukk"/>
+                        <outlet property="phoneLabel" destination="2dg-VW-CIs" id="a1a-uP-qzc"/>
+                        <outlet property="phoneTextField" destination="J6f-WA-eD2" id="Hiz-ef-HO0"/>
+                        <outlet property="scrollView" destination="Llq-if-GEw" id="cI4-Wr-pUv"/>
+                        <outlet property="scrollViewBottomConstraint" destination="ixp-hu-J07" id="mvm-ad-NL1"/>
+                        <outlet property="smsLabel" destination="3Fz-9H-9lI" id="NBB-iP-ZdF"/>
+                        <outlet property="smsTextField" destination="Bv6-9q-5Fu" id="7ef-5q-bMa"/>
+                        <outlet property="stackView" destination="Gxa-Hr-JZl" id="ogf-O8-dxh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HJN-4Q-Jrz" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>
