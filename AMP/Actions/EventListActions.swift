@@ -7,6 +7,7 @@
 //
 
 import ReSwift
+import CoreLocation
 
 struct RequestEventList: Action { }
 
@@ -18,10 +19,8 @@ struct AppendEventsToList: Action {
 }
 
 struct RefreshEventsList: Action {
+  let location: CLLocation
   let events: [Event]
-  init (_ events: [Event]) {
-    self.events = events
-  }
 }
 
 struct SetEventListError: Action {

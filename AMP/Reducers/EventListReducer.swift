@@ -10,7 +10,7 @@ import ReSwift
 
 func eventListReducer(action: Action, state: EventListState?) -> EventListState {
   
-  var state = state ?? EventListState(location: nil, events: [], requestStatus: .none)
+  var state = state ?? EventListState(list: nil, request: .none)
 
   
   switch action {
@@ -19,7 +19,10 @@ func eventListReducer(action: Action, state: EventListState?) -> EventListState 
     break
     
   case _ as RequestEventList:
-    state.requestStatus = .request(.refresh)
+    state.request = .request(.refresh)
+    
+  case let action as RefreshEventsList:
+    state.list = (action.location, action.events)
     
   default :
     break

@@ -27,7 +27,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="252.5"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YJA-1c-dN2" customClass="EventBodyView" customModule="AMA" customModuleProvider="target">
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YJA-1c-dN2" customClass="EventBodyView" customModule="AMP" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="253"/>
                                             <subviews>
                                                 <label contentMode="left" horizontalHuggingPriority="220" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Dmitry Yurlagin" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QHF-0b-l21">
@@ -201,7 +201,6 @@
                                     <outlet property="commentsButton" destination="Sfc-Yp-v11" id="6zp-jU-PP5"/>
                                     <outlet property="createdLabel" destination="cYk-Xy-7mM" id="sNf-i9-Mef"/>
                                     <outlet property="dislikesButton" destination="wfH-Sk-b2f" id="ERl-6E-PMP"/>
-                                    <outlet property="eventBodyView" destination="YJA-1c-dN2" id="mc6-uN-ofu"/>
                                     <outlet property="fromMeLabel" destination="Ghh-I4-ZZl" id="xiX-aO-Iie"/>
                                     <outlet property="likesButton" destination="Rh9-IQ-0Pr" id="mWZ-yx-ViW"/>
                                     <outlet property="mapImageView" destination="be6-c5-dyc" id="4RW-Ud-uFr"/>
@@ -222,7 +221,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Comments Filled-50" width="50" height="50"/>
+        <image name="Comments Filled-50" width="25" height="25"/>
         <image name="Comments-50" width="25" height="25"/>
         <image name="Dislike Filled-50" width="25" height="25"/>
         <image name="Dislike-50" width="25" height="25"/>

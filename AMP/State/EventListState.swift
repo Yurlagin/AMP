@@ -10,9 +10,10 @@ import ReSwift
 import CoreLocation
 
 struct EventListState: StateType {
-  var location: CLLocation?
-  var events: [Event]
-  var requestStatus: RequestStatus
+  
+  var list: (location: CLLocation, events: [Event])?
+
+  var request: RequestStatus
   
   enum RequestStatus {
     case none

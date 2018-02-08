@@ -19,7 +19,7 @@ extension EventListTableViewController: StoreSubscriber {
 struct EventListViewModel {
   
   let events: [Event]
-  let showSpinner: SpinnerType
+  let spinner: SpinnerType
   let onDidLoad: (()->())?
   
   enum SpinnerType {
@@ -30,26 +30,27 @@ struct EventListViewModel {
   
   init (state: EventListState) {
    
-    self.events = state.events
+    self.events = state.list?.events ?? []
   
-    showSpinner = state.requestStatus.getSpinnerType()
+    spinner = state.request.getSpinnerType()
     
     onDidLoad = {
       
-//      let filter = EventService.EventListRequest.Filter(exclude: [], helps: true, founds: true, chats: true, witness: true, gibdds: true, alerts: true, news: true, questions: true, onlyactive: true, lat: 0, lon: 0)
+      let filter = EventService.EventListRequest.Filter(exclude: [], helps: true, founds: true, chats: true, witness: true, gibdds: true, alerts: true, news: true, questions: true, onlyactive: true, lat: 0, lon: 0)
       
-//      store.dispatch({ (state, store) -> Action? in
-//        guard case .loggedIn(let user) = state.authState.loggedInState else { return nil }
-//        let maxId = state.eventListState.events.first?.id
-//        let offset = state.eventListState.events.count
-//        EventService.getEventsList(parameters: EventService.EventListRequest(filter: filter, token: user.token, maxId: maxId, limit: 20, offset: offset))
-//          .then {
-//            store.dispatch(RefreshEventsList($0))
-//          }.catch {
-//            store.dispatch(SetEventListError($0))
-//        }
-//        return RequestEventList()
-//      })
+      store.dispatch({ (state, store) -> Action? in
+        guard case .loggedIn(let user, let logout) = state.authState.loginStatus, case .none = logout else { return nil }
+        let events = state.eventListState.list?.events
+        let maxId = events?.first?.id
+        let offset = events?.count
+        EventService.getEventsList(parameters: EventService.EventListRequest(filter: filter, token: user.token, maxId: maxId, limit: 20, offset: offset ?? 0))
+          .then {
+            store.dispatch(RefreshEventsList(location: $0.0, events: $0.1))
+          }.catch {
+            store.dispatch(SetEventListError($0))
+        }
+        return RequestEventList()
+      })
       
     }
   }

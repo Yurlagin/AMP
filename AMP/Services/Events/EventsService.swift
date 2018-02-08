@@ -7,6 +7,7 @@
 //
 
 import PromiseKit
+import CoreLocation
 
 struct EventService {
   
@@ -49,17 +50,20 @@ struct EventService {
   }
   
   
-  static func getEventsList(parameters: EventListRequest) -> Promise<[Event]> {
+  static func getEventsList(parameters: EventListRequest) -> Promise<(CLLocation, [Event])> {
     var params = parameters
+    var location: CLLocation?
     return CLLocationManager.promise()
       .then {
+        location = $0
         params.filter.lat = $0.coordinate.latitude
         params.filter.lon = $0.coordinate.longitude
         let urlRequest = try self.makeURLRequest(parameters: params)
         return Alamofire.request(urlRequest).responseData()
-      }.then {
+      }
+      .then {
         Parser.parseEventList(data: $0)
-    }
+      }.then { (location!, $0) }
     
   }
   

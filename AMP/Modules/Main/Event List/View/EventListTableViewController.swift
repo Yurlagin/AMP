@@ -53,6 +53,7 @@ class EventListTableViewController: UITableViewController, EventListView {
       viewModel.onDidLoad?()
       firstViewModelRendered = true
     }
+    tableView.reloadData()
   }
   
   override func numberOfSections(in tableView: UITableView) -> Int {
