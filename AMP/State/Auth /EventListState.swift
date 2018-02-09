@@ -12,6 +12,7 @@ import CoreLocation
 struct EventListState: StateType {
   
   var list: (location: CLLocation, events: [Event])?
+  var isEndOfListReached: Bool
 
   var request: RequestStatus
   
@@ -30,9 +31,9 @@ struct EventListState: StateType {
 
 struct Event: Codable {
   let id: Int
-  let userName: String
+  let userName: String?
   let avatarUrl: String?
-  let message: String
+  let message: String?
   let latitude: Double
   let longitude: Double
   let type: EventType
@@ -44,7 +45,7 @@ struct Event: Codable {
   let likes: Int
   let like: Bool
   let dislike: Bool
-  let address: String
+  let address: String?
   let visible: Bool // visible=показывается всем pended= на премодерации и показывается только автору
   
   enum EventType: String, Codable {
@@ -65,16 +66,16 @@ struct Event: Codable {
     case message
     case latitude = "lat"
     case longitude = "lon"
+    case address
     case type
     case created
     case howlong
     case changed
-    case commentsCount = "commentsnum"
-    case dislikes
-    case likes
     case like
+    case likes
     case dislike
-    case address
+    case dislikes
+    case commentsCount = "commentsnum"
     case visible = "status"
   }
 }
@@ -86,15 +87,14 @@ extension Event {
     let values = try decoder.container(keyedBy: CodingKeys.self)
     
     id = try values.decode(Int.self, forKey: .id)
-    userName = try values.decode(String.self, forKey: .userName)
-    avatarUrl = try values.decode(String.self, forKey: .avatarUrl)
-    message = try values.decode(String.self, forKey: .message)
-    address =  try values.decode(String.self, forKey: .address)
+    userName = try values.decodeIfPresent(String.self, forKey: .userName)
+    avatarUrl = try values.decodeIfPresent(String.self, forKey: .avatarUrl)
+    message = try values.decodeIfPresent(String.self, forKey: .message)
+    address =  try values.decodeIfPresent(String.self, forKey: .address)
     howlong = try values.decode(Double.self, forKey: .howlong)
     commentsCount = try values.decode(Int.self, forKey: .commentsCount)
     likes = try values.decode(Int.self, forKey: .likes)
     dislikes = try values.decode(Int.self, forKey: .dislikes)
-
 
     let lat = try values.decode(String.self, forKey: .latitude)
     let lon = try values.decode(String.self, forKey: .longitude)

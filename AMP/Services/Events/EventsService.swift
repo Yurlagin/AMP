@@ -43,9 +43,14 @@ struct EventService {
     }
   }
   
+  
+  
   static private func makeURLRequest(parameters: EventListRequest) throws -> URLRequest {
     var urlRequest = try URLRequest(url: baseURL, method: .post)
-    urlRequest.httpBody = try JSONEncoder().encode(parameters)
+    let body = try JSONEncoder().encode(parameters)
+    urlRequest.httpBody = body
+    let string = String(data: body, encoding: .utf8)!
+    print ("request json: \(string.debugDescription)")
     return urlRequest
   }
   
@@ -66,5 +71,15 @@ struct EventService {
       }.then { (location!, $0) }
     
   }
+  
+}
+
+extension EventService.EventListRequest: CustomStringConvertible {
+ 
+  var description: String {
+    let mirror = Mirror(reflecting: self)
+    return mirror.description
+  }
+  
   
 }

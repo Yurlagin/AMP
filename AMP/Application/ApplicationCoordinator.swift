@@ -1,12 +1,13 @@
 
 import ReSwift
 
-fileprivate var isAuthorized  = false
-
 fileprivate enum LaunchInstructor {
   case main, auth
-  static func configure (isAutorized: Bool) -> LaunchInstructor {
-    return isAutorized ? .main : .auth
+  static func configure (state: AppState) -> LaunchInstructor {
+    if case .loggedIn = state.authState.loginStatus {
+      return .main
+    }
+    return .auth
   }
 }
 
@@ -15,8 +16,10 @@ final class ApplicationCoordinator: BaseCoordinator {
   private let coordinatorFactory: CoordinatorFactory
   private let router: Router
   
-  private var instructor: LaunchInstructor {
-    return LaunchInstructor.configure(isAutorized: isAuthorized)
+  fileprivate var instructor: LaunchInstructor! {
+    didSet {
+      if oldValue != instructor { start() }
+    }
   }
   
   init(router: Router, coordinatorFactory: CoordinatorFactory) {
@@ -25,7 +28,15 @@ final class ApplicationCoordinator: BaseCoordinator {
   }
   
   override func start(with option: DeepLinkOption?) {
-    //start with deepLink
+    
+    guard subscribed else {
+      store.subscribe(self)
+      subscribed = true
+      start(with: option)
+      return
+    }
+    
+    // start with deepLink
     if let option = option {
       switch option {
       case .signUp: runAuthFlow()
@@ -34,17 +45,18 @@ final class ApplicationCoordinator: BaseCoordinator {
         }
       }
     } else {
-      switch instructor {
+      switch instructor! {
       case .auth: runAuthFlow()
       case .main: runMainFlow()
       }
     }
   }
   
+  private var subscribed = false
+  
   private func runAuthFlow() {
     let coordinator = coordinatorFactory.makeAuthCoordinatorBox(router: router)
     coordinator.finishFlow = { [weak self, weak coordinator] in
-      isAuthorized = true
       self?.removeDependency(coordinator)
       self?.start()
     }
@@ -55,12 +67,6 @@ final class ApplicationCoordinator: BaseCoordinator {
   
   private func runMainFlow() {
     let (coordinator, module) = coordinatorFactory.makeTabbarCoordinator()
-//    coordinator.cancelFlow = { [weak self] in
-//      isAuthorized = false
-//      self?.removeDependency(coordinator)
-//      self?.start()
-//    }
-    store.subscribe(self)
     addDependency(coordinator)
     router.setRootModule(module, hideBar: true)
     coordinator.start()
@@ -70,12 +76,7 @@ final class ApplicationCoordinator: BaseCoordinator {
 extension ApplicationCoordinator: StoreSubscriber {
   
   func newState(state: AppState) {
-    if case .none = state.authState.loginStatus {
-      store.unsubscribe(self)
-      childCoordinators.forEach { removeDependency($0) }
-      isAuthorized = false
-      start()
-    }
+    instructor = LaunchInstructor.configure(state: state)
   }
   
 }

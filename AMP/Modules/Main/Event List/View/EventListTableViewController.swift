@@ -9,10 +9,13 @@
 import UIKit
 
 class EventListTableViewController: UITableViewController, EventListView {
- 
+  
+  @IBAction func userDidRefreshTable(_ sender: UIRefreshControl) {
+    viewModel.onRefreshTableView?()
+  }
+  
   var viewModel: EventListViewModel! {
     didSet {
-//      print (viewModel)
       viewModelRendered = false
       view.setNeedsLayout()
     }
@@ -25,9 +28,8 @@ class EventListTableViewController: UITableViewController, EventListView {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    tableView.estimatedRowHeight = tableView.rowHeight
+    tableView.estimatedRowHeight = 193
     tableView.rowHeight = UITableViewAutomaticDimension
-    
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -53,8 +55,28 @@ class EventListTableViewController: UITableViewController, EventListView {
       viewModel.onDidLoad?()
       firstViewModelRendered = true
     }
+    switch viewModel.spinner {
+    case .none: topSpinner(isRefreshing: false); bottomSpinner(isRefreshing: false)
+    case .top: topSpinner(isRefreshing: true); bottomSpinner(isRefreshing: false)
+    case .bottom: topSpinner(isRefreshing: false); bottomSpinner(isRefreshing: true)
+    }
     tableView.reloadData()
   }
+  
+  private func topSpinner(isRefreshing: Bool) {
+    if isRefreshing && tableView.refreshControl?.isRefreshing == false {
+      tableView.refreshControl?.beginRefreshing()
+    } else {
+      if tableView.refreshControl?.isRefreshing == true {
+        tableView.refreshControl?.endRefreshing()
+      }
+    }
+  }
+  
+  private func bottomSpinner(isRefreshing: Bool) {
+    //
+  }
+
   
   override func numberOfSections(in tableView: UITableView) -> Int {
     return 1
@@ -69,5 +91,7 @@ class EventListTableViewController: UITableViewController, EventListView {
     cell.renderUI(event: viewModel.events[indexPath.row])
     return cell
   }
+  
+  
   
 }

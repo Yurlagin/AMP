@@ -36,6 +36,7 @@ class SettingsTableViewController: UITableViewController, BaseView {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    tableView.refreshControl?.beginRefreshing() 
     setApperarence()
   }
   

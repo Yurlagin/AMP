@@ -30,42 +30,44 @@ class EventListTableViewCell: UITableViewCell {
   @IBAction func commentPressed(_ sender: UIButton) {
   }
   
-  override func awakeFromNib() {
-    super.awakeFromNib()
-    // Initialization code
-  }
-  
-  override func setSelected(_ selected: Bool, animated: Bool) {
-    super.setSelected(selected, animated: animated)
-    
-    // Configure the view for the selected state
-  }
-  
-  
   func renderUI(event: Event) {
     
     userNameLabel.text = event.userName
     avatarImageView.kf.setImage(with: URL(string: event.avatarUrl!))
     addressLabel.text = event.address
-    
-    let dateFormatter = DateFormatter()
-    if event.created.timeIntervalSinceNow > 24 * 60 * 60 {
-      dateFormatter.dateStyle = .short
-    } else {
-      dateFormatter.timeStyle = .short
-    }
-    
-    createdLabel.text = dateFormatter.string(from: event.created)
-    messageTextView.text = event.message
+    createdLabel.text = event.created.shortDayTimeString
+    messageTextView.text = event.message?.stringByTrimingWhitespace()
     likesButton.setTitle(String(event.likes), for: .normal)
     dislikesButton.setTitle(String(event.dislikes), for: .normal)
     dislikesButton.setTitle(String(event.commentsCount), for: .normal)
-
   }
   
+}
+
+extension Date {
   
+  var beginOfDay: Date {
+    return Calendar.current.date(bySettingHour: 0, minute: 0, second: 0, of: self)!
+  }
   
-  
-  
+  var shortDayTimeString: String {
+    let now = Date()
+    let dateFormatter = DateFormatter()
+    
+    guard now.timeIntervalSince(self) > 0 else {
+      dateFormatter.dateStyle = .short
+      return dateFormatter.string(from: self)
+    }
+    
+    if now.beginOfDay == self.beginOfDay {
+      dateFormatter.timeStyle = .short
+    } else if now.timeIntervalSince(self) < 7 * 24 * 60 * 60 {
+      dateFormatter.dateFormat = "E"
+    } else {
+      dateFormatter.dateStyle = .short
+    }
+    
+    return dateFormatter.string(from: self)
+  }
   
 }

@@ -21,6 +21,7 @@ struct EventListViewModel {
   let events: [Event]
   let spinner: SpinnerType
   let onDidLoad: (()->())?
+  let onRefreshTableView: (()->())?
   
   enum SpinnerType {
     case none
@@ -34,12 +35,13 @@ struct EventListViewModel {
   
     spinner = state.request.getSpinnerType()
     
-    onDidLoad = {
-      
+    func refresh() {
       let filter = EventService.EventListRequest.Filter(exclude: [], helps: true, founds: true, chats: true, witness: true, gibdds: true, alerts: true, news: true, questions: true, onlyactive: true, lat: 0, lon: 0)
       
       store.dispatch({ (state, store) -> Action? in
-        guard case .loggedIn(let user, let logout) = state.authState.loginStatus, case .none = logout else { return nil }
+        guard case .loggedIn(let user, let logout) = state.authState.loginStatus,
+          case .none = logout,
+          !state.eventListState.request.isRefreshing() else { return nil }
         let events = state.eventListState.list?.events
         let maxId = events?.first?.id
         let offset = events?.count
@@ -51,13 +53,23 @@ struct EventListViewModel {
         }
         return RequestEventList()
       })
-      
     }
+    
+    
+    onDidLoad = {
+      refresh()
+    }
+    
+    onRefreshTableView = {
+      refresh()
+    }
+
   }
 }
 
 
 extension EventListState.RequestStatus {
+  
   func getSpinnerType() -> EventListViewModel.SpinnerType {
     if case .request(let type) = self {
       switch type {
@@ -67,5 +79,10 @@ extension EventListState.RequestStatus {
     } else {
       return .none
     }
+  }
+  
+  func isRefreshing() -> Bool {
+    if case .top = getSpinnerType() { return true }
+    return false
   }
 }
