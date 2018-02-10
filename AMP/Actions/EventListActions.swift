@@ -9,8 +9,6 @@
 import ReSwift
 import CoreLocation
 
-struct RequestEventList: Action { }
-
 struct AppendEventsToList: Action {
   let events: [Event]
   init (_ events: [Event]) {
@@ -28,5 +26,10 @@ struct SetEventListError: Action {
   init (_ error: Error) {
     self.error = error
   }
+}
+
+struct SetEventListRequestStatus: Action {
+  let status: EventListState.RequestStatus
+  init (_ status: EventListState.RequestStatus) { self.status = status }
 }
 

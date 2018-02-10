@@ -41,8 +41,8 @@ func authReducer(action: Action, state: AuthState?) -> AuthState {
     break
   }
   
-  print ("§§§ auth Action: \(action)\n")
-  print ("§§§ new auth state: \(state)\n")
+//  print ("§§§ auth Action: \(action)\n")
+//  print ("§§§ new auth state: \(state)\n")
 
   return state
 }

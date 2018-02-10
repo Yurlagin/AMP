@@ -1,5 +1,9 @@
 import ReSwift
 
+struct WillShowEventAtIndex: Action {
+  let index: Int
+}
+
 struct RequestSmsAction: Action {
   let phone: String
 }

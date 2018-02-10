@@ -7,12 +7,15 @@
 //
 
 import UIKit
+import DeepDiff
 
 class EventListTableViewController: UITableViewController, EventListView {
   
   @IBAction func userDidRefreshTable(_ sender: UIRefreshControl) {
     viewModel.onRefreshTableView?()
   }
+  @IBOutlet weak var footerView: UIView!
+  @IBOutlet weak var bottomSpinner: UIActivityIndicatorView!
   
   var viewModel: EventListViewModel! {
     didSet {
@@ -21,7 +24,10 @@ class EventListTableViewController: UITableViewController, EventListView {
     }
   }
   
-  private var firstViewModelRendered = false
+  var rowHeights = [Int: CGFloat]()
+  
+  var events = [Event]()
+  
   private var viewModelRendered = false
   
   var onSelectItem: ((Int) -> ())?
@@ -34,7 +40,7 @@ class EventListTableViewController: UITableViewController, EventListView {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    store.subscribe(self) { $0.select { $0.eventListState } }
+    store.subscribe(self)
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -51,16 +57,16 @@ class EventListTableViewController: UITableViewController, EventListView {
   }
   
   private func render(viewModel: EventListViewModel) {
-    if !firstViewModelRendered {
-      viewModel.onDidLoad?()
-      firstViewModelRendered = true
-    }
+    let changes = diff(old: events, new: viewModel.events)
+    events = viewModel.events
+    tableView.reload(changes: changes, completion: { _ in })
+    
     switch viewModel.spinner {
     case .none: topSpinner(isRefreshing: false); bottomSpinner(isRefreshing: false)
     case .top: topSpinner(isRefreshing: true); bottomSpinner(isRefreshing: false)
     case .bottom: topSpinner(isRefreshing: false); bottomSpinner(isRefreshing: true)
     }
-    tableView.reloadData()
+    
   }
   
   private func topSpinner(isRefreshing: Bool) {
@@ -83,15 +89,27 @@ class EventListTableViewController: UITableViewController, EventListView {
   }
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return viewModel.events.count
+    return events.count
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "Event Cell", for: indexPath) as! EventListTableViewCell
-    cell.renderUI(event: viewModel.events[indexPath.row])
+    cell.renderUI(event: events[indexPath.row])
     return cell
   }
   
+  override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    viewModel.willDisplayCellAtIndex?(indexPath.row)
+    if rowHeights[indexPath.row] == nil {
+      rowHeights[indexPath.row] = cell.frame.height
+    }
+  }
   
+  override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    return rowHeights[indexPath.row] ?? 198.5
+  }
+  
+
+
   
 }

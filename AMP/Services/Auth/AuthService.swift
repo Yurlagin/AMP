@@ -102,7 +102,7 @@ struct AuthService: AuthServiceProtocol {
           error(authError!)
           return
         }
-        print ("Got verificationId: \(verificationId!)")
+//        print ("Got verificationId: \(verificationId!)")
         fulfill(verificationId!)
       }
     }, {

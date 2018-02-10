@@ -60,7 +60,7 @@ enum Parser {
     return Promise(resolvers: { (resolve, error) in
       do {
         let answer = try JSONDecoder().decode(EventListAnswer.self, from: data)
-        print ("Answer: \(answer)")
+//        print ("Answer: \(answer)")
         if let events = answer.events {
           resolve(events)
         } else {

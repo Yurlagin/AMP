@@ -14,6 +14,6 @@ target 'AMP' do
 	pod 'PromiseKit/Alamofire', '~> 4.0'
 	pod "PromiseKit/CoreLocation"
 	pod 'Kingfisher', '~> 4.0'
-	pod 'SwiftyJSON'
 	pod 'Locksmith'
+	pod 'DeepDiff'
 end

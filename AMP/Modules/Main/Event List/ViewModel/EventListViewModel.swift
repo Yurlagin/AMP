@@ -7,10 +7,11 @@
 //
 
 import ReSwift
+import CoreLocation
 
 extension EventListTableViewController: StoreSubscriber {
   
-  func newState(state: EventListState) {
+  func newState(state: AppState) {
     viewModel = EventListViewModel(state: state)
   }
   
@@ -18,10 +19,10 @@ extension EventListTableViewController: StoreSubscriber {
 
 struct EventListViewModel {
   
-  let events: [Event]
+  var events = [Event]()
   let spinner: SpinnerType
-  let onDidLoad: (()->())?
   let onRefreshTableView: (()->())?
+  let willDisplayCellAtIndex: ((Int)->())?
   
   enum SpinnerType {
     case none
@@ -29,41 +30,86 @@ struct EventListViewModel {
     case bottom
   }
   
-  init (state: EventListState) {
-   
-    self.events = state.list?.events ?? []
   
-    spinner = state.request.getSpinnerType()
-    
-    func refresh() {
-      let filter = EventService.EventListRequest.Filter(exclude: [], helps: true, founds: true, chats: true, witness: true, gibdds: true, alerts: true, news: true, questions: true, onlyactive: true, lat: 0, lon: 0)
-      
-      store.dispatch({ (state, store) -> Action? in
-        guard case .loggedIn(let user, let logout) = state.authState.loginStatus,
-          case .none = logout,
-          !state.eventListState.request.isRefreshing() else { return nil }
-        let events = state.eventListState.list?.events
-        let maxId = events?.first?.id
-        let offset = events?.count
-        EventService.getEventsList(parameters: EventService.EventListRequest(filter: filter, token: user.token, maxId: maxId, limit: 20, offset: offset ?? 0))
+  init (state: AppState) {
+   
+    events = state.eventListState.list?.events ?? []
+    spinner = state.eventListState.request.getSpinnerType()
+  
+    let refresh = {
+      store.dispatch({ (appState, store) -> Action? in
+        guard let token = state.authState.loginStatus.getUserCredentials()?.token else { return nil } // TODO: изменить состоение на неавторизованное
+        switch appState.eventListState.request {
+        case .request:
+          return nil
+        default: break
+        }
+        
+        let settings = state.eventListState.settings
+        var location: CLLocation?
+        
+        EventService.makeEventListRequest(
+          radius: settings.radius,
+          limit: settings.pageLimit,
+          offset: 0,
+          maxId: 0,
+          onlyActive: settings.onlyActive,
+          onlyMine: settings.onlyMine,
+          excludingIds: [],
+          excludingTypes: settings.excludeIds,
+          token: token)
+          .then { loc, request in
+            location = loc
+            return EventService.getEventsList(request: request)
+          }
           .then {
-            store.dispatch(RefreshEventsList(location: $0.0, events: $0.1))
+            store.dispatch(RefreshEventsList(location: location!, events: $0))
           }.catch {
             store.dispatch(SetEventListError($0))
         }
-        return RequestEventList()
+        return SetEventListRequestStatus(.request(.refresh))
       })
     }
     
+    onRefreshTableView = refresh
     
-    onDidLoad = {
-      refresh()
+    willDisplayCellAtIndex = { index in
+      
+      store.dispatch({ (appState, store) -> Action? in
+        guard let events = appState.eventListState.list?.events, index == events.count - 1 else { return nil }
+        guard let location = appState.eventListState.list?.location else { return nil }
+       
+        switch appState.eventListState.request {
+        case .request:
+          return nil
+        default: break
+        }
+        
+        guard let token = state.authState.loginStatus.getUserCredentials()?.token else { return SetLoginState(.none) }  // TODO: изменить состоение на неавторизованное
+        let settings = state.eventListState.settings
+        
+        EventService.makeEventListRequest(
+          location: location,
+          radius: settings.radius,
+          limit: settings.pageLimit,
+          offset: events.count,
+          maxId: events.first?.id,
+          onlyActive: settings.onlyActive,
+          onlyMine: settings.onlyMine,
+          excludingIds: [],
+          excludingTypes: settings.excludeIds,
+          token: token)
+          .then (on: DispatchQueue.global(qos: .userInitiated)){
+            EventService.getEventsList(request: $1)}
+          .then {
+            store.dispatch(AppendEventsToList($0))
+          }.catch {
+            store.dispatch(SetEventListError($0))
+        }
+        return SetEventListRequestStatus(.request(.loadMore))
+      })
     }
     
-    onRefreshTableView = {
-      refresh()
-    }
-
   }
 }
 

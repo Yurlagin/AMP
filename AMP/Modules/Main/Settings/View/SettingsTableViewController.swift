@@ -120,7 +120,7 @@ struct SettingsViewModel {
   let didTapLogout: (()->())?
   
   init? (state: AppState) {
-    print (state)
+//    print (state)
     guard let user = state.authState.loginStatus.getUserCredentials() else { return nil }
     avatarURL = user.avaurl
     userName = user.name

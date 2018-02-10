@@ -13,6 +13,7 @@ struct EventListState: StateType {
   
   var list: (location: CLLocation, events: [Event])?
   var isEndOfListReached: Bool
+  var settings: Settings
 
   var request: RequestStatus
   
@@ -20,12 +21,25 @@ struct EventListState: StateType {
     case none
     case request(RequestType)
     case error(Error)
-    case success([Event])
     
     enum RequestType {
       case refresh
       case loadMore
     }
+  }
+  
+//  enum UpdateType {
+//    case refresh
+//    case loadMore
+//  }
+
+  
+  struct Settings {
+    var radius = 20
+    var excludeIds: Set<Event.EventType> = []
+    var onlyActive = false
+    var onlyMine = false
+    var pageLimit = 20
   }
 }
 
@@ -49,7 +63,7 @@ struct Event: Codable {
   let visible: Bool // visible=показывается всем pended= на премодерации и показывается только автору
   
   enum EventType: String, Codable {
-    case events
+    case questions
     case helps
     case founds
     case chats
@@ -133,5 +147,21 @@ extension Event {
   }
 }
 
+extension Event: Equatable {
+  static func ==(lhs: Event, rhs: Event) -> Bool {
+    return lhs.id == rhs.id
+  }
+}
 
+extension Event: Hashable {
+  var hashValue: Int {
+    return id.hashValue +
+      commentsCount.hashValue +
+      dislikes.hashValue +
+      likes.hashValue +
+      like.hashValue +
+      dislike.hashValue +
+      visible.hashValue
+  }
+}
 

@@ -10,6 +10,7 @@ import UIKit
 import Kingfisher
 
 class EventListTableViewCell: UITableViewCell {
+  
   @IBOutlet weak var userNameLabel: UILabel!
   @IBOutlet weak var avatarImageView: UIImageView!
   @IBOutlet weak var addressLabel: UILabel!
@@ -31,6 +32,7 @@ class EventListTableViewCell: UITableViewCell {
   }
   
   func renderUI(event: Event) {
+    
     
     userNameLabel.text = event.userName
     avatarImageView.kf.setImage(with: URL(string: event.avatarUrl!))
