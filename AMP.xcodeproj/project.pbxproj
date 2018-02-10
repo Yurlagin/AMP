@@ -17,6 +17,7 @@
 		34356F8A2012F9A8001EE568 /* CoordinatorFactoryImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34356F892012F9A8001EE568 /* CoordinatorFactoryImp.swift */; };
 		34356F8D2013026B001EE568 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34356F8C2013026B001EE568 /* AppState.swift */; };
 		34356F8F201302A7001EE568 /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34356F8E201302A7001EE568 /* AuthState.swift */; };
+		344E3247202F06040062F5D2 /* EventListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344E3246202F06040062F5D2 /* EventListViewModelTests.swift */; };
 		344E57822025630A00C5CF39 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 344E57812025630A00C5CF39 /* GoogleService-Info.plist */; };
 		344E57842025653800C5CF39 /* MockAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344E57832025653800C5CF39 /* MockAuthService.swift */; };
 		344E57872025BF4000C5CF39 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344E57862025BF4000C5CF39 /* Parser.swift */; };
@@ -111,6 +112,7 @@
 		34356F892012F9A8001EE568 /* CoordinatorFactoryImp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinatorFactoryImp.swift; sourceTree = "<group>"; };
 		34356F8C2013026B001EE568 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		34356F8E201302A7001EE568 /* AuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthState.swift; sourceTree = "<group>"; };
+		344E3246202F06040062F5D2 /* EventListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListViewModelTests.swift; sourceTree = "<group>"; };
 		344E57812025630A00C5CF39 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		344E57832025653800C5CF39 /* MockAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthService.swift; sourceTree = "<group>"; };
 		344E57862025BF4000C5CF39 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
@@ -240,6 +242,14 @@
 				34ADF3D5202AF4DB00FA1F06 /* Auth  */,
 			);
 			path = State;
+			sourceTree = "<group>";
+		};
+		344E3245202F05DA0062F5D2 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				344E3246202F06040062F5D2 /* EventListViewModelTests.swift */,
+			);
+			path = Tests;
 			sourceTree = "<group>";
 		};
 		344E57852025B94600C5CF39 /* CoreComponents */ = {
@@ -540,6 +550,7 @@
 			isa = PBXGroup;
 			children = (
 				34C6DB1320270C1700F7FF2C /* EventListViewModel.swift */,
+				344E3245202F05DA0062F5D2 /* Tests */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -951,6 +962,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				34745CC6200593CE00D19835 /* AMPTests.swift in Sources */,
+				344E3247202F06040062F5D2 /* EventListViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1140,7 +1152,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9J4YF85S53;
-				INFOPLIST_FILE = AMPTests/Info.plist;
+				INFOPLIST_FILE = AMP/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.usefulness.AMPTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1157,7 +1169,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9J4YF85S53;
-				INFOPLIST_FILE = AMPTests/Info.plist;
+				INFOPLIST_FILE = AMP/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.usefulness.AMPTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

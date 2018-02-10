@@ -56,7 +56,7 @@ struct EventListViewModel {
           onlyActive: settings.onlyActive,
           onlyMine: settings.onlyMine,
           excludingIds: [],
-          excludingTypes: settings.excludeIds,
+          excludingTypes: settings.excludingTypes,
           token: token)
           .then { loc, request in
             location = loc
@@ -75,21 +75,17 @@ struct EventListViewModel {
     
     willDisplayCellAtIndex = { index in
       
-      store.dispatch({ (appState, store) -> Action? in
-        guard let events = appState.eventListState.list?.events, index == events.count - 1 else { return nil }
-        guard let location = appState.eventListState.list?.location else { return nil }
-       
-        switch appState.eventListState.request {
-        case .request:
-          return nil
-        default: break
-        }
-        
-        guard let token = state.authState.loginStatus.getUserCredentials()?.token else { return SetLoginState(.none) }  // TODO: изменить состоение на неавторизованное
+      store.dispatch{ (appState, store) -> Action? in
+        guard let events = appState.eventListState.list?.events,
+          index == events.count - 1,
+          !appState.eventListState.request.isActive(),
+          !appState.eventListState.isEndOfListReached else { return nil }
+        guard let token = state.authState.loginStatus.getUserCredentials()?.token else { return SetLoginState(.none) }
+
         let settings = state.eventListState.settings
         
         EventService.makeEventListRequest(
-          location: location,
+          location: appState.eventListState.list!.location,
           radius: settings.radius,
           limit: settings.pageLimit,
           offset: events.count,
@@ -97,7 +93,7 @@ struct EventListViewModel {
           onlyActive: settings.onlyActive,
           onlyMine: settings.onlyMine,
           excludingIds: [],
-          excludingTypes: settings.excludeIds,
+          excludingTypes: settings.excludingTypes,
           token: token)
           .then (on: DispatchQueue.global(qos: .userInitiated)){
             EventService.getEventsList(request: $1)}
@@ -107,7 +103,7 @@ struct EventListViewModel {
             store.dispatch(SetEventListError($0))
         }
         return SetEventListRequestStatus(.request(.loadMore))
-      })
+      }
     }
     
   }
@@ -125,6 +121,11 @@ extension EventListState.RequestStatus {
     } else {
       return .none
     }
+  }
+  
+  func isActive() -> Bool {
+    if case .none = getSpinnerType() { return false }
+    return true
   }
   
   func isRefreshing() -> Bool {

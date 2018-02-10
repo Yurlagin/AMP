@@ -26,7 +26,7 @@ struct EventService {
       var exclude : [String] = []
       var sort = "create"
       var tzone: String = "+07:00"
-      var onlyactive: Bool = false
+      var onlyactive: Bool = true
       var text: String = ""
       var onlymine = false
 

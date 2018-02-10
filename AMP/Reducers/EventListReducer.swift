@@ -10,32 +10,30 @@ import ReSwift
 
 func eventListReducer(action: Action, state: EventListState?) -> EventListState {
   
-  var newState = state ?? EventListState(list: nil, isEndOfListReached: false, settings: EventListState.Settings(), request: .none)
-
+  var state = state ?? EventListState(list: nil, isEndOfListReached: false, settings: EventListState.Settings(), request: .none)
+  
   switch action {
     
   case _ as ReSwiftInit:
     break
     
   case let action as SetEventListRequestStatus:
-    newState.request = action.status
+    state.request = action.status
     
   case let action as RefreshEventsList:
-    newState.list = (action.location, action.events)
-    newState.request = .none
+    state.list = (action.location, action.events)
+    state.request = .none
+    state.isEndOfListReached = action.events.count < state.settings.pageLimit
     
   case let action as AppendEventsToList:
-    newState.list?.events.append(contentsOf: action.events)
-    newState.request = .none
+    state.list?.events.append(contentsOf: action.events)
+    state.request = .none
+    state.isEndOfListReached = action.events.count < state.settings.pageLimit
 
-    
   default :
     break
     
   }
   
-//  print ("§§§ action: \(action)")
-//  print ("§§§ new state: \(state)\n\n")
-  
-  return newState
+  return state
 }

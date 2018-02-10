@@ -121,14 +121,62 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "AMP/Modules/Main/Event List/View/EventListTableViewController.swift"
-            timestampString = "539920055.553919"
+            filePath = "AMP/Modules/Main/Event List/ViewModel/EventListViewModel.swift"
+            timestampString = "539954792.502257"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
-            landmarkName = "topSpinner(isRefreshing:)"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
+            landmarkName = "init(state:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; () in AMP.EventListViewModel.init(state: AMP.AppState) -&gt; AMP.EventListViewModel"
+                  moduleName = "AMP"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/dimonster/Documents/iOS%20Projects/AMP/AMP/Modules/Main/Event%20List/ViewModel/EventListViewModel.swift"
+                  timestampString = "539948235.0881079"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "40"
+                  endingLineNumber = "40"
+                  offsetFromSymbolStart = "581">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (AMP.AppState, ReSwift.Store&lt;AMP.AppState&gt;) -&gt; Swift.Optional&lt;ReSwift.Action&gt; in closure #1 () -&gt; () in AMP.EventListViewModel.init(state: AMP.AppState) -&gt; AMP.EventListViewModel"
+                  moduleName = "AMP"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/dimonster/Documents/iOS%20Projects/AMP/AMP/Modules/Main/Event%20List/ViewModel/EventListViewModel.swift"
+                  timestampString = "539948235.091372"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "41"
+                  endingLineNumber = "41"
+                  offsetFromSymbolStart = "1400">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AMP/Modules/Main/Event List/View/EventListTableViewController.swift"
+            timestampString = "539954792.50235"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "viewModel"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

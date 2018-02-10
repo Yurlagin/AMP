@@ -28,18 +28,12 @@ struct EventListState: StateType {
     }
   }
   
-//  enum UpdateType {
-//    case refresh
-//    case loadMore
-//  }
-
-  
   struct Settings {
     var radius = 20
-    var excludeIds: Set<Event.EventType> = []
+    var excludingTypes: Set<Event.EventType> = []
     var onlyActive = false
     var onlyMine = false
-    var pageLimit = 20
+    var pageLimit = 10
   }
 }
 
