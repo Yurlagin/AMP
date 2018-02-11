@@ -48,10 +48,10 @@ class EventListTableViewController: UITableViewController, EventListView {
   
   
   private func topSpinner(isRefreshing: Bool) {
-    if isRefreshing {
+    if isRefreshing, !refreshControl!.isRefreshing{
       setRefreshingContentOffset()
       refreshControl!.beginRefreshing()
-    } else {
+    } else if refreshControl!.isRefreshing {
         refreshControl!.endRefreshing()
     }
   }
@@ -140,6 +140,7 @@ class EventListTableViewController: UITableViewController, EventListView {
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "Event Cell", for: indexPath) as! EventListTableViewCell
     cell.renderUI(event: events[indexPath.row])
+    store.subscribe(cell) { $0.select {$0.locationState} }
     return cell
   }
   
@@ -152,9 +153,15 @@ class EventListTableViewController: UITableViewController, EventListView {
   }
   
   
+  override func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    store.unsubscribe(cell as! EventListTableViewCell)
+  }
+  
+  
   override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
     return rowHeights[indexPath.row] ?? 193
   }
 
+  
   
 }

@@ -7,11 +7,14 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
 
   var cancelFlow: (() -> ())?
 
+  private let locationTracker = LocationTracker()
   
   init(tabbarView: TabbarView, coordinatorFactory: CoordinatorFactory) {
     self.tabbarView = tabbarView
     self.coordinatorFactory = coordinatorFactory
+    locationTracker.startForegroundTracking()
   }
+  
   
   override func start() {
     tabbarView.onViewDidLoad = runEventListFlow()
@@ -21,6 +24,7 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
     tabbarView.onFavoritesFlowSelect = runFavoritesFlow()
     tabbarView.onSettingsFlowSelect = runSettingsFlow()
   }
+  
   
   private func runEventListFlow() -> ((UINavigationController) -> ()) {
     return { navController in
@@ -32,6 +36,7 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
     }
   }
   
+  
   private func runEventMapFlow() -> ((UINavigationController) -> ()) {
     return { navController in
       if navController.viewControllers.isEmpty == true {
@@ -41,6 +46,7 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
       }
     }
   }
+  
   
   private func runCreateEventFlow() -> ((UINavigationController) -> ()) {
     return { navController in
@@ -52,6 +58,7 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
     }
   }
   
+  
   private func runFavoritesFlow() -> ((UINavigationController) -> ()) {
     return { navController in
       if navController.viewControllers.isEmpty == true {
@@ -61,6 +68,7 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
       }
     }
   }
+  
   
   private func runSettingsFlow() -> ((UINavigationController) -> ()) {
     return { navController in

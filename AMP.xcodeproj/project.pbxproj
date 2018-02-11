@@ -18,6 +18,7 @@
 		34356F8D2013026B001EE568 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34356F8C2013026B001EE568 /* AppState.swift */; };
 		34356F8F201302A7001EE568 /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34356F8E201302A7001EE568 /* AuthState.swift */; };
 		344E3247202F06040062F5D2 /* EventListViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344E3246202F06040062F5D2 /* EventListViewModelTests.swift */; };
+		344E3249202F10B30062F5D2 /* LocationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344E3248202F10B30062F5D2 /* LocationState.swift */; };
 		344E57822025630A00C5CF39 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 344E57812025630A00C5CF39 /* GoogleService-Info.plist */; };
 		344E57842025653800C5CF39 /* MockAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344E57832025653800C5CF39 /* MockAuthService.swift */; };
 		344E57872025BF4000C5CF39 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344E57862025BF4000C5CF39 /* Parser.swift */; };
@@ -58,6 +59,9 @@
 		34996F252005B9FC00D53875 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34996F202005B9FC00D53875 /* UIViewControllerExtension.swift */; };
 		34996F262005B9FC00D53875 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34996F212005B9FC00D53875 /* UIViewExtensions.swift */; };
 		34ADF3D7202AF50200FA1F06 /* InitialAuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34ADF3D6202AF50200FA1F06 /* InitialAuthState.swift */; };
+		34B9EF5C202FB22F00F31CB0 /* LocationReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B9EF5B202FB22F00F31CB0 /* LocationReducer.swift */; };
+		34B9EF5E202FB41300F31CB0 /* LocationActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B9EF5D202FB41300F31CB0 /* LocationActions.swift */; };
+		34B9EF60202FB64200F31CB0 /* LocationTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B9EF5F202FB64200F31CB0 /* LocationTracker.swift */; };
 		34BFAE32201C06BC0079D566 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BFAE31201C06BC0079D566 /* AuthService.swift */; };
 		34BFAE37201C105C0079D566 /* CreateMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BFAE34201C105C0079D566 /* CreateMiddleware.swift */; };
 		34BFAE38201C105C0079D566 /* InjectService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BFAE35201C105C0079D566 /* InjectService.swift */; };
@@ -113,6 +117,7 @@
 		34356F8C2013026B001EE568 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		34356F8E201302A7001EE568 /* AuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthState.swift; sourceTree = "<group>"; };
 		344E3246202F06040062F5D2 /* EventListViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListViewModelTests.swift; sourceTree = "<group>"; };
+		344E3248202F10B30062F5D2 /* LocationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationState.swift; sourceTree = "<group>"; };
 		344E57812025630A00C5CF39 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		344E57832025653800C5CF39 /* MockAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthService.swift; sourceTree = "<group>"; };
 		344E57862025BF4000C5CF39 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
@@ -156,6 +161,9 @@
 		34996F212005B9FC00D53875 /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		349CF547201C04130011BDD5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		34ADF3D6202AF50200FA1F06 /* InitialAuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialAuthState.swift; sourceTree = "<group>"; };
+		34B9EF5B202FB22F00F31CB0 /* LocationReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationReducer.swift; sourceTree = "<group>"; };
+		34B9EF5D202FB41300F31CB0 /* LocationActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationActions.swift; sourceTree = "<group>"; };
+		34B9EF5F202FB64200F31CB0 /* LocationTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTracker.swift; sourceTree = "<group>"; };
 		34BFAE31201C06BC0079D566 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		34BFAE34201C105C0079D566 /* CreateMiddleware.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateMiddleware.swift; sourceTree = "<group>"; };
 		34BFAE35201C105C0079D566 /* InjectService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InjectService.swift; sourceTree = "<group>"; };
@@ -256,6 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				344E57862025BF4000C5CF39 /* Parser.swift */,
+				34B9EF5F202FB64200F31CB0 /* LocationTracker.swift */,
 			);
 			path = CoreComponents;
 			sourceTree = "<group>";
@@ -327,6 +336,7 @@
 			children = (
 				348D69EE20145B950051E4B5 /* AuthActions.swift */,
 				340D90FE2026EC0400B1B90A /* EventListActions.swift */,
+				34B9EF5D202FB41300F31CB0 /* LocationActions.swift */,
 			);
 			path = Actions;
 			sourceTree = "<group>";
@@ -336,6 +346,7 @@
 			children = (
 				348D69EC20145B5F0051E4B5 /* AuthReducer.swift */,
 				340D90FC2026B36900B1B90A /* EventListReducer.swift */,
+				34B9EF5B202FB22F00F31CB0 /* LocationReducer.swift */,
 			);
 			path = Reducers;
 			sourceTree = "<group>";
@@ -496,6 +507,7 @@
 				34356F8E201302A7001EE568 /* AuthState.swift */,
 				34ADF3D6202AF50200FA1F06 /* InitialAuthState.swift */,
 				340D90FA2026AE7B00B1B90A /* EventListState.swift */,
+				344E3248202F10B30062F5D2 /* LocationState.swift */,
 			);
 			path = "Auth ";
 			sourceTree = "<group>";
@@ -889,9 +901,11 @@
 				34996F192005B88700D53875 /* AuthModuleFactory.swift in Sources */,
 				34996EFE2005B36D00D53875 /* Coordinator.swift in Sources */,
 				34996F162005B85400D53875 /* SignInView.swift in Sources */,
+				34B9EF60202FB64200F31CB0 /* LocationTracker.swift in Sources */,
 				34996F142005B85400D53875 /* AuthCoordinator.swift in Sources */,
 				34996F262005B9FC00D53875 /* UIViewExtensions.swift in Sources */,
 				34DA41F1201DBE3A00DDB0D7 /* SettingsModuleFactory.swift in Sources */,
+				34B9EF5C202FB22F00F31CB0 /* LocationReducer.swift in Sources */,
 				34DA41EF201DBDFB00DDB0D7 /* FavouritesModuleFactory.swift in Sources */,
 				34996F132005B85400D53875 /* AuthCoordinatorOutput.swift in Sources */,
 				34DA4202201DC01500DDB0D7 /* EventsMapViewController.swift in Sources */,
@@ -902,6 +916,7 @@
 				340D90FD2026B36900B1B90A /* EventListReducer.swift in Sources */,
 				34996F022005B36D00D53875 /* RouterImp.swift in Sources */,
 				34DA41E3201DBA1800DDB0D7 /* EventListView.swift in Sources */,
+				34B9EF5E202FB41300F31CB0 /* LocationActions.swift in Sources */,
 				34BFAE37201C105C0079D566 /* CreateMiddleware.swift in Sources */,
 				349954CF2012C53B006CFD87 /* SignInViewController.swift in Sources */,
 				348D69EF20145B950051E4B5 /* AuthActions.swift in Sources */,
@@ -935,6 +950,7 @@
 				34996F232005B9FC00D53875 /* String+Whitespace.swift in Sources */,
 				34996F012005B36D00D53875 /* Router.swift in Sources */,
 				34DA41E7201DBB7900DDB0D7 /* EventMapView.swift in Sources */,
+				344E3249202F10B30062F5D2 /* LocationState.swift in Sources */,
 				34996F1B2005B91500D53875 /* ModuleFactoryImp.swift in Sources */,
 				34DA41FC201DBF8900DDB0D7 /* CreateEventViewController.swift in Sources */,
 				34996F242005B9FC00D53875 /* UIImage+Hex.swift in Sources */,

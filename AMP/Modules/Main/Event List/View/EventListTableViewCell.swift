@@ -8,6 +8,8 @@
 
 import UIKit
 import Kingfisher
+import ReSwift
+import CoreLocation
 
 class EventListTableViewCell: UITableViewCell {
   
@@ -31,9 +33,11 @@ class EventListTableViewCell: UITableViewCell {
   @IBAction func commentPressed(_ sender: UIButton) {
   }
   
+  private var event: Event!
+  
   func renderUI(event: Event) {
     
-    
+    self.event = event
     userNameLabel.text = event.userName
     avatarImageView.kf.setImage(with: URL(string: event.avatarUrl!))
     addressLabel.text = event.address
@@ -42,6 +46,19 @@ class EventListTableViewCell: UITableViewCell {
     likesButton.setTitle(String(event.likes), for: .normal)
     dislikesButton.setTitle(String(event.dislikes), for: .normal)
     dislikesButton.setTitle(String(event.commentsCount), for: .normal)
+  }
+  
+  
+  
+}
+
+extension EventListTableViewCell: StoreSubscriber {
+  
+  func newState(state: LocationState) {
+    guard let userLocation = state.location else { return }
+    let eventLocation = CLLocation(latitude: event.latitude, longitude: event.longitude)
+    let distance = eventLocation.distance(from: userLocation) / 1000
+    fromMeLabel.text = String(format: "%.1f км.", arguments: [distance])
   }
   
 }
