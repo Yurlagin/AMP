@@ -28,6 +28,7 @@ struct EventListAnswer: Decodable {
   let maxId: Int?
 }
 
+
 enum Parser {
   
   static func ampUser(data: Data) -> Promise<UserCredentials> {

@@ -8,6 +8,7 @@
 
 import PromiseKit
 import CoreLocation
+import Alamofire
 
 struct EventService {
   
@@ -51,12 +52,10 @@ struct EventService {
   }
   
   
-  static private func makeURLRequest(parameters: EventListRequest) throws -> URLRequest {
+  static private func makeURLRequest<T: Encodable>(parameters: T) throws -> URLRequest {
     var urlRequest = try URLRequest(url: baseURL, method: .post)
     let body = try JSONEncoder().encode(parameters)
     urlRequest.httpBody = body
-//    let string = String(data: body, encoding: .utf8)!
-//    print ("request json: \(string.debugDescription)")
     return urlRequest
   }
   
@@ -119,8 +118,56 @@ struct EventService {
     }
   }
   
+  
+  static func send(_ request: LikeRequest) -> (Promise<Event>, Cancel) {
+    
+    let urlRequest = try! makeURLRequest(parameters: request)
+    
+    let task = Alamofire.request(urlRequest)
+    
+    var canceled = false
+    
+    let cancel = {
+      task.cancel()
+      canceled = true
+    }
+    
+    return (
+      Promise { (fulfill, error) in
+        Alamofire.request(urlRequest).responseData()
+          .then { Parser.parseEventList(data: $0) }
+          .then { events -> () in
+            guard !canceled else { return }
+            guard let event = events.first else {
+              error (NSError(domain: "EventService", code: 2, userInfo: ["reason": "unexpected answer"]))
+              return
+            }
+            fulfill(event)
+        }
+      },
+      cancel)
+    
+  }
+  
+
+  struct LikeRequest: Encodable {
+    let token: String
+    let action: RequestType
+    let eventid: Int
+    
+    enum RequestType: String, Encodable {
+      case addLike
+      case removeLike
+      case addDisLike
+      case removeDisLike
+    }
+  }
+
+  
 }
 
+protocol LikeRequestProtocol {
+}
 
 extension EventService.EventListRequest: CustomStringConvertible {
  
