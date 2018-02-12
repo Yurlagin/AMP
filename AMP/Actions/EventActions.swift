@@ -33,3 +33,16 @@ struct SetEventListRequestStatus: Action {
   init (_ status: EventListState.RequestStatus) { self.status = status }
 }
 
+struct LikeInvertAction: Action {
+  let eventId: Int
+  let cancelTask: (()->())?
+}
+
+struct DislikeInvertAction: Action {
+  let eventId: Int
+}
+
+struct UpdateEvent: Action {
+  let event: Event
+  init (_ event: Event) {self.event = event}
+}

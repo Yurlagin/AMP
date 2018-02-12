@@ -96,6 +96,7 @@ class EventListTableViewController: UITableViewController, EventListView {
     store.subscribe(self)
   }
   
+  
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     if !firstViewModelRendered {

@@ -153,7 +153,7 @@ struct EventService {
   struct LikeRequest: Encodable {
     let token: String
     let action: RequestType
-    let eventid: Int
+    let eventId: Int
     
     enum RequestType: String, Encodable {
       case addLike

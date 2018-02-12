@@ -21,8 +21,11 @@ struct EventListViewModel {
   
   var events = [Event]()
   let spinner: SpinnerType
+  
   let onRefreshTableView: (()->())?
   let willDisplayCellAtIndex: ((Int)->())?
+  
+  let likeTappedClosure: ((_ eventId: Int)->())?
   
   enum SpinnerType {
     case none
@@ -106,6 +109,25 @@ struct EventListViewModel {
       }
     }
     
+    likeTappedClosure = { eventId in
+      store.dispatch { (state, store) -> Action? in
+        var cancelTask: Cancel?
+        if let cancelLikeRequest = state.apiRequestsState.likeRequests[eventId]?.0 {
+          cancelLikeRequest()
+        } else {
+          let index = state.eventListState.list!.events.index { $0.id == eventId }!
+          let event = state.eventListState.list!.events[index]
+          guard let token = state.authState.loginStatus.getUserCredentials()?.token else {  return SetLoginState(.none)  }
+          let likeRequest = event.like ? EventService.LikeRequest(token: token, action: .removeLike, eventId: eventId) : EventService.LikeRequest(token: token, action: .addLike, eventId: eventId)
+          let (eventPromise, cancel) = EventService.send(likeRequest)
+          cancelTask = cancel
+          eventPromise
+            .then { store.dispatch(UpdateEvent($0)) }
+            .catch { _ in store.dispatch(LikeInvertAction(eventId: eventId, cancelTask: nil)) }
+        }
+        return LikeInvertAction(eventId: eventId, cancelTask: cancelTask)
+      }
+    }
   }
 }
 
