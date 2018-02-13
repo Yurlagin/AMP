@@ -94,6 +94,7 @@
 		34DA420C201EA1E400DDB0D7 /* CreateEventCoordinatorOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DA420B201EA1E400DDB0D7 /* CreateEventCoordinatorOutput.swift */; };
 		34EBBB912031A284000FF513 /* ApiRequestsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EBBB902031A284000FF513 /* ApiRequestsState.swift */; };
 		34EBBB932031A548000FF513 /* ApiRequestsReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EBBB922031A548000FF513 /* ApiRequestsReducer.swift */; };
+		34EE683520326C6A004D2D1A /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EE683420326C6A004D2D1A /* UIColor.swift */; };
 		34F1A6D820286268009B18B2 /* EventListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F1A6D720286268009B18B2 /* EventListTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -199,6 +200,7 @@
 		34DB65E2202553D5000D3BDC /* AMP.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AMP.entitlements; sourceTree = "<group>"; };
 		34EBBB902031A284000FF513 /* ApiRequestsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiRequestsState.swift; sourceTree = "<group>"; };
 		34EBBB922031A548000FF513 /* ApiRequestsReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiRequestsReducer.swift; sourceTree = "<group>"; };
+		34EE683420326C6A004D2D1A /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		34F1A6D720286268009B18B2 /* EventListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListTableViewCell.swift; sourceTree = "<group>"; };
 		7F9EF6C0E6E1A0E5898FBC39 /* Pods_AMP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AMP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8ABDD09D50E1C2C239E644CF /* Pods-AMP.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AMP.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AMP/Pods-AMP.debug.xcconfig"; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 		34745CAF200593CE00D19835 /* AMP */ = {
 			isa = PBXGroup;
 			children = (
+				34EE683320326C50004D2D1A /* Extentions */,
 				34693CDF202B010500E4EE8E /* Realm Models */,
 				34DB65E2202553D5000D3BDC /* AMP.entitlements */,
 				34BFAE3A201C12DB0079D566 /* SideEffects */,
@@ -682,6 +685,14 @@
 			path = "Create Event";
 			sourceTree = "<group>";
 		};
+		34EE683320326C50004D2D1A /* Extentions */ = {
+			isa = PBXGroup;
+			children = (
+				34EE683420326C6A004D2D1A /* UIColor.swift */,
+			);
+			path = Extentions;
+			sourceTree = "<group>";
+		};
 		BD5CFF43695F66E3CCCB4492 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -960,6 +971,7 @@
 				34996EFF2005B36D00D53875 /* DeepLinkOption.swift in Sources */,
 				34DA41E1201DB8F300DDB0D7 /* EventListFactory.swift in Sources */,
 				34745CB1200593CE00D19835 /* AppDelegate.swift in Sources */,
+				34EE683520326C6A004D2D1A /* UIColor.swift in Sources */,
 				34996F0B2005B66700D53875 /* CoordinatorFactory.swift in Sources */,
 				34356F8D2013026B001EE568 /* AppState.swift in Sources */,
 				34356640202B63E90039B051 /* TabbarCoordinatorOutput.swift in Sources */,

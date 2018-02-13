@@ -118,12 +118,14 @@ struct EventListViewModel {
           let index = state.eventListState.list!.events.index { $0.id == eventId }!
           let event = state.eventListState.list!.events[index]
           guard let token = state.authState.loginStatus.getUserCredentials()?.token else {  return SetLoginState(.none)  }
-          let likeRequest = event.like ? EventService.LikeRequest(token: token, action: .removeLike, eventId: eventId) : EventService.LikeRequest(token: token, action: .addLike, eventId: eventId)
+          let likeRequest = event.like ? EventService.LikeRequest(token: token, action: .removeLike, eventid: eventId) : EventService.LikeRequest(token: token, action: .addLike, eventid: eventId)
           let (eventPromise, cancel) = EventService.send(likeRequest)
           cancelTask = cancel
           eventPromise
             .then { store.dispatch(UpdateEvent($0)) }
-            .catch { _ in store.dispatch(LikeInvertAction(eventId: eventId, cancelTask: nil)) }
+            .catch { _ in
+              store.dispatch(LikeInvertAction(eventId: eventId, cancelTask: nil))
+          }
         }
         return LikeInvertAction(eventId: eventId, cancelTask: cancelTask)
       }

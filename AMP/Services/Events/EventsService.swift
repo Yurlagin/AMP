@@ -143,6 +143,9 @@ struct EventService {
               return
             }
             fulfill(event)
+          }.catch {
+            error($0)
+            print ($0)
         }
       },
       cancel)
@@ -153,7 +156,7 @@ struct EventService {
   struct LikeRequest: Encodable {
     let token: String
     let action: RequestType
-    let eventId: Int
+    let eventid: Int
     
     enum RequestType: String, Encodable {
       case addLike

@@ -17,6 +17,13 @@ func apiRequestsReducer(action: Action, state: ApiRequestsState?) -> ApiRequests
   case _ as ReSwiftInit:
     break
     
+  case let action as LikeInvertAction:
+    if var cancelTasks = state.likeRequests[action.eventId] {
+      cancelTasks.like = action.cancelTask
+      state.likeRequests[action.eventId] = cancelTasks
+    } else {
+      state.likeRequests[action.eventId] = (like: action.cancelTask, dislike: nil)
+    }
     
   default :
     break

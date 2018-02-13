@@ -49,10 +49,10 @@ struct Event: Codable {
   let howlong: TimeInterval
   let changed: Date?
   let commentsCount: Int
-  let dislikes: Int
-  let likes: Int
-  let like: Bool
-  let dislike: Bool
+  var dislikes: Int
+  var likes: Int
+  var like: Bool
+  var dislike: Bool
   let address: String?
   let visible: Bool // visible=показывается всем pended= на премодерации и показывается только автору
   

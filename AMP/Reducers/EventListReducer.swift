@@ -29,6 +29,26 @@ func eventListReducer(action: Action, state: EventListState?) -> EventListState 
     state.list?.events.append(contentsOf: action.events)
     state.request = .none
     state.isEndOfListReached = action.events.count < state.settings.pageLimit
+    
+  case let action as UpdateEvent:
+    if let index = state.list?.events.index(of: action.event) {
+      state.list?.events[index] = action.event
+    }
+    
+  case let action as LikeInvertAction:
+    if let index = state.list?.events.index(where: {$0.id == action.eventId}) {
+      var event = state.list!.events[index]
+      if event.like {
+        event.likes -= 1
+      } else {
+        event.likes += 1
+      }
+      event.like = !event.like
+      state.list?.events[index] = event
+    }
+
+    
+
 
   default :
     break

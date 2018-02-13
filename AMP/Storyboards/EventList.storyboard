@@ -15,7 +15,7 @@
         <scene sceneID="bg0-Lr-1YX">
             <objects>
                 <tableViewController storyboardIdentifier="EventListTableViewController" title="Список" id="jFV-Gm-2mu" customClass="EventListTableViewController" customModule="AMP" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="vo7-0Z-iiO">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" delaysContentTouches="NO" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="vo7-0Z-iiO">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
@@ -130,23 +130,23 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="xDV-8l-2N0" userLabel="Buttons StackView">
                                             <rect key="frame" x="20" y="201.5" width="335" height="25"/>
                                             <subviews>
-                                                <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rh9-IQ-0Pr">
+                                                <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rh9-IQ-0Pr">
                                                     <rect key="frame" x="0.0" y="0.0" width="111.5" height="25"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                    <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="0.35471960616438358" colorSpace="calibratedRGB"/>
                                                     <inset key="titleEdgeInsets" minX="6" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                     <state key="normal" title="25" image="Like-50">
-                                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     </state>
                                                     <state key="highlighted" image="Like Filled-50"/>
                                                     <connections>
                                                         <action selector="likePressed:" destination="SaH-MX-5ha" eventType="touchUpInside" id="wP8-MY-SE8"/>
                                                     </connections>
                                                 </button>
-                                                <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wfH-Sk-b2f">
+                                                <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wfH-Sk-b2f">
                                                     <rect key="frame" x="111.5" y="0.0" width="112" height="25"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                    <color key="tintColor" white="0.0" alpha="0.34789704623287671" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <inset key="titleEdgeInsets" minX="6" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                     <state key="normal" title="4" image="Dislike-50">
                                                         <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -156,10 +156,10 @@
                                                         <action selector="dislikePressed:" destination="SaH-MX-5ha" eventType="touchUpInside" id="An9-Jp-sdT"/>
                                                     </connections>
                                                 </button>
-                                                <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sfc-Yp-v11">
+                                                <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sfc-Yp-v11">
                                                     <rect key="frame" x="223.5" y="0.0" width="111.5" height="25"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                                    <color key="tintColor" red="0.6470588235294118" green="1" blue="0.59607843137254901" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <inset key="titleEdgeInsets" minX="6" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                     <state key="normal" title="11" image="Comments-50">
                                                         <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>

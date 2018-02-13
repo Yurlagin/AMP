@@ -22,16 +22,22 @@ class EventListTableViewCell: UITableViewCell {
   @IBOutlet weak var dislikesButton: UIButton!
   @IBOutlet weak var commentsButton: UIButton!
   @IBOutlet weak var fromMeLabel: UILabel!
-  @IBOutlet weak var mapImageView: UIImageView!
   
   @IBAction func likePressed(_ sender: UIButton) {
+    likePressed?(event.id)
   }
   
   @IBAction func dislikePressed(_ sender: UIButton) {
+    dislikePressed?(event.id)
   }
   
   @IBAction func commentPressed(_ sender: UIButton) {
+    commentPressed?()
   }
+  
+  var likePressed: ((_ eventId: Int)->())?
+  var dislikePressed: ((_ eventId: Int)->())?
+  var commentPressed: (()->())?
   
   private var event: Event!
   
@@ -43,12 +49,14 @@ class EventListTableViewCell: UITableViewCell {
     addressLabel.text = event.address
     createdLabel.text = event.created.shortDayTimeString
     messageTextView.text = event.message?.stringByTrimingWhitespace()
+
+    likesButton.tintColor = UIColor(red: 1, green: 0, blue: 0, alpha: event.like ? 1.0 : 0.35)
+    dislikesButton.tintColor = UIColor(red: 0, green: 0, blue: 0, alpha: event.dislike ? 1.0 : 0.35)
+    
     likesButton.setTitle(String(event.likes), for: .normal)
     dislikesButton.setTitle(String(event.dislikes), for: .normal)
-    dislikesButton.setTitle(String(event.commentsCount), for: .normal)
+    commentsButton.setTitle(String(event.commentsCount), for: .normal)
   }
-  
-  
   
 }
 
