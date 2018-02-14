@@ -356,8 +356,8 @@
 			isa = PBXGroup;
 			children = (
 				348D69EC20145B5F0051E4B5 /* AuthReducer.swift */,
-				340D90FC2026B36900B1B90A /* EventListReducer.swift */,
 				34B9EF5B202FB22F00F31CB0 /* LocationReducer.swift */,
+				340D90FC2026B36900B1B90A /* EventListReducer.swift */,
 				34EBBB922031A548000FF513 /* ApiRequestsReducer.swift */,
 			);
 			path = Reducers;

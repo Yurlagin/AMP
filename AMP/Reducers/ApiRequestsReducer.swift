@@ -21,10 +21,14 @@ func apiRequestsReducer(action: Action, state: ApiRequestsState?) -> ApiRequests
     if var cancelTasks = state.likeRequests[action.eventId] {
       cancelTasks.like = action.cancelTask
       state.likeRequests[action.eventId] = cancelTasks
-    } else {
-      state.likeRequests[action.eventId] = (like: action.cancelTask, dislike: nil)
+    } else if let cancelFunction = action.cancelTask {
+      state.likeRequests[action.eventId] = (like: cancelFunction, dislike: nil)
     }
     
+  case let action as UpdateEvent:
+    if action.removeLikeTask, let _ = state.likeRequests[action.event.id] {
+      state.likeRequests[action.event.id]?.like = nil
+    }
   default :
     break
     

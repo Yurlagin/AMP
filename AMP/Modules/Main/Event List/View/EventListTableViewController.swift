@@ -35,9 +35,28 @@ class EventListTableViewController: UITableViewController, EventListView {
   
   
   private func render(viewModel: EventListViewModel) {
+
     let changes = diff(old: events, new: viewModel.events)
+    
     events = viewModel.events
-    tableView.reload(changes: changes, completion: { _ in })
+    
+    let insertionsSet = Set(changes.flatMap{$0.insert?.index})
+    let deletionsSet = Set(changes.flatMap{$0.delete?.index})
+    let reloadsSet = deletionsSet.intersection(insertionsSet)
+    
+    let insertions = Array(insertionsSet.filter{!reloadsSet.contains($0)}.map{IndexPath(row: $0, section: 0)})
+    let deletions = Array(deletionsSet.filter{!reloadsSet.contains($0)}.map{IndexPath(row: $0, section: 0)})
+    
+    reloadsSet.forEach {
+      if let cell = tableView.cellForRow(at: IndexPath(row: $0, section: 0)) as? EventListTableViewCell {
+        cell.renderUI(event: events[$0])
+      }
+    }
+    
+    tableView.beginUpdates()
+    tableView.deleteRows(at: deletions, with: .automatic)
+    tableView.insertRows(at: insertions, with: .automatic)
+    tableView.endUpdates()
     
     switch viewModel.spinner {
     case .none: topSpinner(isRefreshing: false); bottomSpinner(isRefreshing: false)
@@ -114,6 +133,7 @@ class EventListTableViewController: UITableViewController, EventListView {
   
   override func viewWillLayoutSubviews() {
     super.viewWillLayoutSubviews()
+    
     if !viewModelRendered {
       render(viewModel: viewModel)
       viewModelRendered = true
@@ -164,6 +184,5 @@ class EventListTableViewController: UITableViewController, EventListView {
     return rowHeights[indexPath.row] ?? 193
   }
 
-  
-  
 }
+

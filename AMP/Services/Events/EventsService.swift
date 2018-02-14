@@ -120,6 +120,7 @@ struct EventService {
   
   
   static func send(_ request: LikeRequest) -> (Promise<Event>, Cancel) {
+    print ("send request: \(request)")
     
     let urlRequest = try! makeURLRequest(parameters: request)
     
@@ -134,7 +135,7 @@ struct EventService {
     
     return (
       Promise { (fulfill, error) in
-        Alamofire.request(urlRequest).responseData()
+        task.responseData()
           .then { Parser.parseEventList(data: $0) }
           .then { events -> () in
             guard !canceled else { return }
@@ -142,6 +143,7 @@ struct EventService {
               error (NSError(domain: "EventService", code: 2, userInfo: ["reason": "unexpected answer"]))
               return
             }
+            print ("\(event.like), \(event.likes)")
             fulfill(event)
           }.catch {
             error($0)

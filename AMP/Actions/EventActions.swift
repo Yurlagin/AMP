@@ -44,5 +44,5 @@ struct DislikeInvertAction: Action {
 
 struct UpdateEvent: Action {
   let event: Event
-  init (_ event: Event) {self.event = event}
+  let removeLikeTask: Bool
 }

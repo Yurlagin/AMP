@@ -8,6 +8,7 @@
 
 import ReSwift
 import CoreLocation
+import PromiseKit
 
 extension EventListTableViewController: StoreSubscriber {
   
@@ -112,7 +113,7 @@ struct EventListViewModel {
     likeTappedClosure = { eventId in
       store.dispatch { (state, store) -> Action? in
         var cancelTask: Cancel?
-        if let cancelLikeRequest = state.apiRequestsState.likeRequests[eventId]?.0 {
+        if let cancelLikeRequest = state.apiRequestsState.likeRequests[eventId]?.like {
           cancelLikeRequest()
         } else {
           let index = state.eventListState.list!.events.index { $0.id == eventId }!
@@ -122,13 +123,15 @@ struct EventListViewModel {
           let (eventPromise, cancel) = EventService.send(likeRequest)
           cancelTask = cancel
           eventPromise
-            .then { store.dispatch(UpdateEvent($0)) }
+            .then {
+              store.dispatch(UpdateEvent(event: $0, removeLikeTask: true))
+            }
             .catch { _ in
               store.dispatch(LikeInvertAction(eventId: eventId, cancelTask: nil))
           }
         }
         return LikeInvertAction(eventId: eventId, cancelTask: cancelTask)
-      }
+      } 
     }
   }
 }

@@ -47,9 +47,6 @@ func eventListReducer(action: Action, state: EventListState?) -> EventListState 
       state.list?.events[index] = event
     }
 
-    
-
-
   default :
     break
     
