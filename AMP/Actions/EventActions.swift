@@ -43,8 +43,19 @@ struct DislikeInvertAction: Action {
   let cancelTask: (()->())?
 }
 
-struct UpdateEvent: Action {
+struct LikeEventSent: Action {
   let event: Event
-  let removeLikeTask: Bool
-  let removeDislikeTask: Bool
 }
+
+struct DislikeEventSent: Action {
+  let event: Event
+}
+
+//
+//
+//struct UpdateEvent: Action {
+//  let event: Event
+//  let removeLikeTask: Bool
+//  let removeDislikeTask: Bool
+//}
+

@@ -33,15 +33,27 @@ func apiRequestsReducer(action: Action, state: ApiRequestsState?) -> ApiRequests
       state.likeRequests[action.eventId] = (like: cancelFunction, dislike: nil)
     }
     
-  case let action as UpdateEvent:
+//  case let action as UpdateEvent:
+//    if let _ = state.likeRequests[action.event.id] {
+//      if action.removeLikeTask {
+//        state.likeRequests[action.event.id]?.like = nil
+//      }
+//      if action.removeDislikeTask {
+//        state.likeRequests[action.event.id]?.dislike = nil
+//      }
+//    }
+    
+  case let action as LikeEventSent:
     if let _ = state.likeRequests[action.event.id] {
-      if action.removeLikeTask {
-        state.likeRequests[action.event.id]?.like = nil
-      }
-      if action.removeDislikeTask {
-        state.likeRequests[action.event.id]?.dislike = nil
-      }
+      state.likeRequests[action.event.id]?.like = nil
     }
+    
+  case let action as DislikeEventSent:
+    if let _ = state.likeRequests[action.event.id] {
+      state.likeRequests[action.event.id]?.dislike = nil
+    }
+
+    
     
   default :
     break

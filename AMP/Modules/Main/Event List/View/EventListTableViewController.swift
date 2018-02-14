@@ -12,6 +12,7 @@ import DeepDiff
 class EventListTableViewController: UITableViewController, EventListView {
   
   @IBAction func userDidRefreshTable(_ sender: UIRefreshControl) {
+    print ("refresh started manually")
     viewModel.onRefreshTableView?()
   }
   @IBOutlet weak var footerView: UIView!
@@ -68,10 +69,12 @@ class EventListTableViewController: UITableViewController, EventListView {
   
   private func topSpinner(isRefreshing: Bool) {
     if isRefreshing, !refreshControl!.isRefreshing{
-      setRefreshingContentOffset()
       refreshControl!.beginRefreshing()
+      print ("refresh started")
+      setRefreshingContentOffset()
     } else if refreshControl!.isRefreshing {
-        refreshControl!.endRefreshing()
+      print ("refresh stopped")
+      refreshControl!.endRefreshing()
     }
   }
   

@@ -126,7 +126,10 @@ struct EventListViewModel {
           cancelTask = cancel
           eventPromise
             .then {
-              store.dispatch(UpdateEvent(event: $0, removeLikeTask: true, removeDislikeTask: false))
+              store.dispatch(
+                LikeEventSent(event: $0)
+//                UpdateEvent(event: $0, removeLikeTask: true, removeDislikeTask: false)
+              )
             }
             .catch { _ in
               store.dispatch(LikeInvertAction(eventId: eventId, cancelTask: nil))
@@ -150,7 +153,10 @@ struct EventListViewModel {
           cancelTask = cancel
           eventPromise
             .then {
-              store.dispatch(UpdateEvent(event: $0, removeLikeTask: false, removeDislikeTask: true))
+              store.dispatch(
+              DislikeEventSent(event: $0)
+//                UpdateEvent(event: $0, removeLikeTask: false, removeDislikeTask: true)
+              )
             }.catch { _ in
               store.dispatch(DislikeInvertAction(eventId: eventId, cancelTask: nil))
           }

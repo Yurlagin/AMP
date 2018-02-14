@@ -12,6 +12,12 @@ func eventListReducer(action: Action, state: EventListState?) -> EventListState 
   
   var state = state ?? EventListState(list: nil, isEndOfListReached: false, settings: EventListState.Settings(), request: .none)
   
+  func updateEvent(_ event: Event) {
+    if let index = state.list?.events.index(of: event) {
+      state.list?.events[index] = event
+    }
+  }
+  
   switch action {
     
   case _ as ReSwiftInit:
@@ -30,10 +36,13 @@ func eventListReducer(action: Action, state: EventListState?) -> EventListState 
     state.request = .none
     state.isEndOfListReached = action.events.count < state.settings.pageLimit
     
-  case let action as UpdateEvent:
-    if let index = state.list?.events.index(of: action.event) {
-      state.list?.events[index] = action.event
-    }
+    
+  case let action as LikeEventSent:
+    updateEvent(action.event)
+
+  case let action as DislikeEventSent:
+    updateEvent(action.event)
+
     
   case let action as LikeInvertAction:
     if let index = state.list?.events.index(where: {$0.id == action.eventId}) {

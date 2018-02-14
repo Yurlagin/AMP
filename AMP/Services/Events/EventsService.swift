@@ -120,7 +120,6 @@ struct EventService {
   
   
   static func send(_ request: LikeRequest) -> (Promise<Event>, Cancel) {
-    print ("send request: \(request)")
     
     let urlRequest = try! makeURLRequest(parameters: request)
     
@@ -143,11 +142,9 @@ struct EventService {
               error (NSError(domain: "EventService", code: 2, userInfo: ["reason": "unexpected answer"]))
               return
             }
-            print ("\(event.like), \(event.likes)")
             fulfill(event)
           }.catch {
             error($0)
-            print ($0)
         }
       },
       cancel)
