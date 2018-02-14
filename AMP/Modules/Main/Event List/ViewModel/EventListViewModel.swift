@@ -26,7 +26,9 @@ struct EventListViewModel {
   let onRefreshTableView: (()->())?
   let willDisplayCellAtIndex: ((Int)->())?
   
-  let likeTappedClosure: ((_ eventId: Int)->())?
+  let didTapLike: ((_ eventId: Int)->())?
+  let didTapDislike: ((_ eventId: Int)->())?
+
   
   enum SpinnerType {
     case none
@@ -110,7 +112,7 @@ struct EventListViewModel {
       }
     }
     
-    likeTappedClosure = { eventId in
+    didTapLike = { eventId in
       store.dispatch { (state, store) -> Action? in
         var cancelTask: Cancel?
         if let cancelLikeRequest = state.apiRequestsState.likeRequests[eventId]?.like {
@@ -124,7 +126,7 @@ struct EventListViewModel {
           cancelTask = cancel
           eventPromise
             .then {
-              store.dispatch(UpdateEvent(event: $0, removeLikeTask: true))
+              store.dispatch(UpdateEvent(event: $0, removeLikeTask: true, removeDislikeTask: false))
             }
             .catch { _ in
               store.dispatch(LikeInvertAction(eventId: eventId, cancelTask: nil))
@@ -132,6 +134,29 @@ struct EventListViewModel {
         }
         return LikeInvertAction(eventId: eventId, cancelTask: cancelTask)
       } 
+    }
+    
+    didTapDislike = { eventId in
+      store.dispatch { (state, store) -> Action? in
+        var cancelTask: Cancel?
+        if let cancelDislikeRequest = state.apiRequestsState.likeRequests[eventId]?.dislike {
+          cancelDislikeRequest()
+        } else {
+          let index = state.eventListState.list!.events.index { $0.id == eventId }!
+          let event = state.eventListState.list!.events[index]
+          guard let token = state.authState.loginStatus.getUserCredentials()?.token else {  return SetLoginState(.none)  }
+          let dislikeRequest = event.dislike ? EventService.LikeRequest(token: token, action: .removeDisLike, eventid: eventId) : EventService.LikeRequest(token: token, action: .addDisLike, eventid: eventId)
+          let (eventPromise, cancel) = EventService.send(dislikeRequest)
+          cancelTask = cancel
+          eventPromise
+            .then {
+              store.dispatch(UpdateEvent(event: $0, removeLikeTask: false, removeDislikeTask: true))
+            }.catch { _ in
+              store.dispatch(DislikeInvertAction(eventId: eventId, cancelTask: nil))
+          }
+        }
+        return DislikeInvertAction(eventId: eventId, cancelTask: cancelTask)
+      }
     }
   }
 }

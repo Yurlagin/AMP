@@ -46,6 +46,19 @@ func eventListReducer(action: Action, state: EventListState?) -> EventListState 
       event.like = !event.like
       state.list?.events[index] = event
     }
+    
+  case let action as DislikeInvertAction:
+    if let index = state.list?.events.index(where: {$0.id == action.eventId}) {
+      var event = state.list!.events[index]
+      if event.dislike {
+        event.dislikes -= 1
+      } else {
+        event.dislikes += 1
+      }
+      event.dislike = !event.dislike
+      state.list?.events[index] = event
+    }
+
 
   default :
     break

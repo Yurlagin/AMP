@@ -161,7 +161,8 @@ class EventListTableViewController: UITableViewController, EventListView {
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "Event Cell", for: indexPath) as! EventListTableViewCell
     cell.renderUI(event: events[indexPath.row])
-    cell.likePressed = viewModel.likeTappedClosure
+    cell.didTapLike = viewModel.didTapLike
+    cell.didTapDislike = viewModel.didTapDislike
     store.subscribe(cell) { $0.select {$0.locationState} }
     return cell
   }

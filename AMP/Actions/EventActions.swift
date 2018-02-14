@@ -40,9 +40,11 @@ struct LikeInvertAction: Action {
 
 struct DislikeInvertAction: Action {
   let eventId: Int
+  let cancelTask: (()->())?
 }
 
 struct UpdateEvent: Action {
   let event: Event
   let removeLikeTask: Bool
+  let removeDislikeTask: Bool
 }

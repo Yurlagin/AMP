@@ -24,19 +24,19 @@ class EventListTableViewCell: UITableViewCell {
   @IBOutlet weak var fromMeLabel: UILabel!
   
   @IBAction func likePressed(_ sender: UIButton) {
-    likePressed?(event.id)
+    didTapLike?(event.id)
   }
   
   @IBAction func dislikePressed(_ sender: UIButton) {
-    dislikePressed?(event.id)
+    didTapDislike?(event.id)
   }
   
   @IBAction func commentPressed(_ sender: UIButton) {
     commentPressed?()
   }
   
-  var likePressed: ((_ eventId: Int)->())?
-  var dislikePressed: ((_ eventId: Int)->())?
+  var didTapLike: ((_ eventId: Int)->())?
+  var didTapDislike: ((_ eventId: Int)->())?
   var commentPressed: (()->())?
   
   private var event: Event!
