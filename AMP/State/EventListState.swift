@@ -33,7 +33,8 @@ struct EventListState: StateType {
     var excludingTypes: Set<Event.EventType> = []
     var onlyActive = false
     var onlyMine = false
-    var pageLimit = 10
+    var pageLimit = 20
+    let mapBaseURL = "https://usefulness.club/amp/staticmap.php?zoom=15&"
   }
 }
 

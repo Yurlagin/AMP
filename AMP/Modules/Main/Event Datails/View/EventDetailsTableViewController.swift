@@ -23,9 +23,11 @@ class EventDetailsTableViewController: UITableViewController {
   @IBOutlet weak var fromMeLabel: UILabel!
   
   @IBAction func likePressed(_ sender: UIButton) {
+    eventViewModel.didTapLike()
   }
   
   @IBAction func dislikePressed(_ sender: UIButton) {
+    eventViewModel.didTapDislike()
   }
   
   @IBAction func commentPressed(_ sender: UIButton) {
@@ -60,6 +62,10 @@ class EventDetailsTableViewController: UITableViewController {
     addressLabel.text = event.address
     createdLabel.text = event.created.shortDayTimeString
     fromMeLabel.text = viewModel.distance
+    
+    let mapSize = mapImageView.frame.size
+    mapImageView.kf.setImage(with: viewModel.getMapURL(mapSize.width, mapSize.height))
+    
     messageTextView.text = event.message?.stringByTrimingWhitespace()
     
     likesButton.tintColor = UIColor(red: 1, green: 0, blue: 0, alpha: event.like ? 1.0 : 0.35)
@@ -73,15 +79,11 @@ class EventDetailsTableViewController: UITableViewController {
   
   override func viewWillLayoutSubviews() {
     super.viewWillLayoutSubviews()
+    
     if !eventViewModelRendered {
       render(viewModel: eventViewModel)
       eventViewModelRendered = true
     }
-  }
-  
-  
-  override open func viewDidLayoutSubviews() {
-    super.viewDidLayoutSubviews()
     
     if let headerView = tableView.tableHeaderView {
       let height = headerView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
@@ -101,10 +103,15 @@ class EventDetailsTableViewController: UITableViewController {
     store.subscribe(self)
   }
   
+  
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
     store.unsubscribe(self)
   }
+  
+  override var supportedInterfaceOrientations: UIInterfaceOrientationMask { return [.portrait] }
+  override var shouldAutorotate: Bool { return false }
+  
 }
 
 

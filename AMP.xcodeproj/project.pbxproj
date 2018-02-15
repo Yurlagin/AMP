@@ -24,6 +24,7 @@
 		344E57872025BF4000C5CF39 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344E57862025BF4000C5CF39 /* Parser.swift */; };
 		344EB9CC20351357009DDC65 /* EventDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344EB9CB20351357009DDC65 /* EventDetailsTableViewController.swift */; };
 		344EB9D120352D40009DDC65 /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344EB9D020352D40009DDC65 /* EventViewModel.swift */; };
+		344EB9D32035C42E009DDC65 /* UINavigationControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344EB9D22035C42E009DDC65 /* UINavigationControllerExtensions.swift */; };
 		34693CE1202B012800E4EE8E /* RLMSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34693CE0202B012800E4EE8E /* RLMSettings.swift */; };
 		34745CB1200593CE00D19835 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34745CB0200593CE00D19835 /* AppDelegate.swift */; };
 		34745CB6200593CE00D19835 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34745CB4200593CE00D19835 /* Main.storyboard */; };
@@ -128,6 +129,7 @@
 		344E57862025BF4000C5CF39 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		344EB9CB20351357009DDC65 /* EventDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsTableViewController.swift; sourceTree = "<group>"; };
 		344EB9D020352D40009DDC65 /* EventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
+		344EB9D22035C42E009DDC65 /* UINavigationControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtensions.swift; sourceTree = "<group>"; };
 		34693CE0202B012800E4EE8E /* RLMSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RLMSettings.swift; sourceTree = "<group>"; };
 		34745CAD200593CE00D19835 /* AMP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AMP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34745CB0200593CE00D19835 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -530,6 +532,7 @@
 				34996F1F2005B9FC00D53875 /* UIImage+Hex.swift */,
 				34996F202005B9FC00D53875 /* UIViewControllerExtension.swift */,
 				34996F212005B9FC00D53875 /* UIViewExtensions.swift */,
+				344EB9D22035C42E009DDC65 /* UINavigationControllerExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -998,6 +1001,7 @@
 				34EE683520326C6A004D2D1A /* UIColor.swift in Sources */,
 				34996F0B2005B66700D53875 /* CoordinatorFactory.swift in Sources */,
 				34356F8D2013026B001EE568 /* AppState.swift in Sources */,
+				344EB9D32035C42E009DDC65 /* UINavigationControllerExtensions.swift in Sources */,
 				34356640202B63E90039B051 /* TabbarCoordinatorOutput.swift in Sources */,
 				34BFAE3E201C1F650079D566 /* SideEffects.swift in Sources */,
 				34BFAE38201C105C0079D566 /* InjectService.swift in Sources */,

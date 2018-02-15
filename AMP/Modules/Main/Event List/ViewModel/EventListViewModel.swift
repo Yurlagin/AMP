@@ -82,10 +82,12 @@ struct EventListViewModel {
     willDisplayCellAtIndex = { index in
       
       store.dispatch{ (appState, store) -> Action? in
+        
         guard let events = appState.eventListState.list?.events,
-          index == events.count - 1,
+          events.count - 1 - index <= appState.eventListState.settings.pageLimit / 2 ,
           !appState.eventListState.request.isActive(),
           !appState.eventListState.isEndOfListReached else { return nil }
+        
         guard let token = state.authState.loginStatus.getUserCredentials()?.token else { return SetLoginState(.none) }
 
         let settings = state.eventListState.settings
@@ -108,6 +110,7 @@ struct EventListViewModel {
           }.catch {
             store.dispatch(SetEventListError($0))
         }
+        
         return SetEventListRequestStatus(.request(.loadMore))
       }
     }
@@ -121,22 +124,15 @@ struct EventListViewModel {
           let index = state.eventListState.list!.events.index { $0.id == eventId }!
           let event = state.eventListState.list!.events[index]
           guard let token = state.authState.loginStatus.getUserCredentials()?.token else {  return SetLoginState(.none)  }
-          let likeRequest = event.like ? EventService.LikeRequest(token: token, action: .removeLike, eventid: eventId) : EventService.LikeRequest(token: token, action: .addLike, eventid: eventId)
+          let likeRequest = EventService.LikeRequest(token: token, action: event.like ? .removeLike : .addLike , eventid: eventId)
           let (eventPromise, cancel) = EventService.send(likeRequest)
           cancelTask = cancel
           eventPromise
-            .then {
-              store.dispatch(
-                LikeEventSent(event: $0)
-//                UpdateEvent(event: $0, removeLikeTask: true, removeDislikeTask: false)
-              )
-            }
-            .catch { _ in
-              store.dispatch(LikeInvertAction(eventId: eventId, cancelTask: nil))
-          }
+            .then { store.dispatch(LikeEventSent(event: $0)) }
+            .catch { _ in store.dispatch(LikeInvertAction(eventId: eventId, cancelTask: nil)) }
         }
         return LikeInvertAction(eventId: eventId, cancelTask: cancelTask)
-      } 
+      }
     }
     
     didTapDislike = { eventId in
@@ -148,18 +144,12 @@ struct EventListViewModel {
           let index = state.eventListState.list!.events.index { $0.id == eventId }!
           let event = state.eventListState.list!.events[index]
           guard let token = state.authState.loginStatus.getUserCredentials()?.token else {  return SetLoginState(.none)  }
-          let dislikeRequest = event.dislike ? EventService.LikeRequest(token: token, action: .removeDisLike, eventid: eventId) : EventService.LikeRequest(token: token, action: .addDisLike, eventid: eventId)
+          let dislikeRequest = EventService.LikeRequest(token: token, action: event.dislike ? .removeDisLike : .addDisLike, eventid: eventId)
           let (eventPromise, cancel) = EventService.send(dislikeRequest)
           cancelTask = cancel
           eventPromise
-            .then {
-              store.dispatch(
-              DislikeEventSent(event: $0)
-//                UpdateEvent(event: $0, removeLikeTask: false, removeDislikeTask: true)
-              )
-            }.catch { _ in
-              store.dispatch(DislikeInvertAction(eventId: eventId, cancelTask: nil))
-          }
+            .then {  store.dispatch( DislikeEventSent(event: $0) )}
+            .catch { _ in store.dispatch(DislikeInvertAction(eventId: eventId, cancelTask: nil)) }
         }
         return DislikeInvertAction(eventId: eventId, cancelTask: cancelTask)
       }

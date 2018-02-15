@@ -230,10 +230,10 @@
             </objects>
             <point key="canvasLocation" x="5.5999999999999996" y="125.4872563718141"/>
         </scene>
-        <!--Event Details Table View Controller-->
+        <!--Детали-->
         <scene sceneID="4sO-bL-mVO">
             <objects>
-                <tableViewController storyboardIdentifier="EventDetailsTableViewController" id="b9r-31-qaY" customClass="EventDetailsTableViewController" customModule="AMP" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="EventDetailsTableViewController" title="Детали" id="b9r-31-qaY" customClass="EventDetailsTableViewController" customModule="AMP" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="tVd-W1-18N">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -316,17 +316,17 @@
                                     <rect key="frame" x="0.0" y="53" width="375" height="187.5"/>
                                     <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
-                                        <constraint firstAttribute="width" secondItem="Ynp-ch-svW" secondAttribute="height" multiplier="2:1" id="Kit-px-fBh"/>
                                         <constraint firstAttribute="height" constant="187.5" id="Tsr-IR-KPE"/>
                                     </constraints>
                                 </imageView>
-                                <textView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" verticalHuggingPriority="220" verticalCompressionResistancePriority="740" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q4d-yk-Wf2">
+                                <textView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="220" verticalCompressionResistancePriority="740" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q4d-yk-Wf2">
                                     <rect key="frame" x="20" y="241.5" width="335" height="160.5"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <gestureRecognizers/>
                                     <string key="text">выаыаываsf kjshdfl jashfl sjhflk asjhfl ksjhfl kjshlf kjshalfjhsljfhlasjhfl sakjhfl ksajhfl ksjhfl ksajhfl ksajhfl ksjhfl kashjflk ahslkfjhsalkf lksahf lksahjfkshf hfkjshfkjsahflkjshflkjhsafasfasf asf sf saf sf s</string>
                                     <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
                                 </textView>
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="La3-Vu-fc6" userLabel="Buttons StackView">
                                     <rect key="frame" x="20" y="419" width="335" height="25"/>
@@ -437,7 +437,7 @@
                         <outlet property="fromMeLabel" destination="HM7-U9-uZF" id="WfX-Hi-nNS"/>
                         <outlet property="likesButton" destination="FYI-4H-6F5" id="iSR-65-M9M"/>
                         <outlet property="mapImageView" destination="Ynp-ch-svW" id="XoN-dJ-Uhj"/>
-                        <outlet property="messageTextView" destination="Q4d-yk-Wf2" id="Z55-nx-C06"/>
+                        <outlet property="messageTextView" destination="Q4d-yk-Wf2" id="FWb-Dc-3jk"/>
                         <outlet property="userNameLabel" destination="7Je-Or-ACw" id="OZ4-i6-iw8"/>
                     </connections>
                 </tableViewController>

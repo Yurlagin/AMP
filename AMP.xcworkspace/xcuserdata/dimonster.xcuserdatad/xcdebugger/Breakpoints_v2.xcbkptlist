@@ -106,7 +106,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Modules/Main/Event List/ViewModel/EventListViewModel.swift"
-            timestampString = "540358566.7311569"
+            timestampString = "540394859.747535"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "43"
@@ -218,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Modules/Main/Event List/ViewModel/EventListViewModel.swift"
-            timestampString = "540358566.731339"
+            timestampString = "540394859.747745"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
             landmarkName = "init(state:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -234,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Modules/Main/Event List/ViewModel/EventListViewModel.swift"
-            timestampString = "540358566.731425"
+            timestampString = "540394859.7478369"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "134"
+            endingLineNumber = "134"
             landmarkName = "init(state:)"
             landmarkType = "7">
          </BreakpointContent>

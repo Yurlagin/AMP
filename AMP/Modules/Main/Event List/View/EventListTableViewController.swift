@@ -195,5 +195,9 @@ class EventListTableViewController: UITableViewController, EventListView {
       detailsVC.eventId = events[indexPath.row].id
     }
   }
+  
+  override var supportedInterfaceOrientations: UIInterfaceOrientationMask { return [.portrait, .landscape] }
+  override var shouldAutorotate: Bool { return true }
+
 }
 
