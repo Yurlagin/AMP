@@ -186,13 +186,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Reducers/EventListReducer.swift"
-            timestampString = "540299448.47544"
+            timestampString = "540347889.450116"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "53"
             endingLineNumber = "53"
-            landmarkName = "eventListReducer(action:state:)"
-            landmarkType = "9">
+            landmarkName = "unknown"
+            landmarkType = "0">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
@@ -256,22 +256,6 @@
             startingLineNumber = "138"
             endingLineNumber = "138"
             landmarkName = "init(state:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "AMP/Modules/Main/Event List/View/EventListTableViewController.swift"
-            timestampString = "540299448.475965"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "render(viewModel:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
