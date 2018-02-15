@@ -22,6 +22,8 @@
 		344E57822025630A00C5CF39 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 344E57812025630A00C5CF39 /* GoogleService-Info.plist */; };
 		344E57842025653800C5CF39 /* MockAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344E57832025653800C5CF39 /* MockAuthService.swift */; };
 		344E57872025BF4000C5CF39 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344E57862025BF4000C5CF39 /* Parser.swift */; };
+		344EB9CC20351357009DDC65 /* EventDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344EB9CB20351357009DDC65 /* EventDetailsTableViewController.swift */; };
+		344EB9D120352D40009DDC65 /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344EB9D020352D40009DDC65 /* EventViewModel.swift */; };
 		34693CE1202B012800E4EE8E /* RLMSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34693CE0202B012800E4EE8E /* RLMSettings.swift */; };
 		34745CB1200593CE00D19835 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34745CB0200593CE00D19835 /* AppDelegate.swift */; };
 		34745CB6200593CE00D19835 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34745CB4200593CE00D19835 /* Main.storyboard */; };
@@ -124,6 +126,8 @@
 		344E57812025630A00C5CF39 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		344E57832025653800C5CF39 /* MockAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthService.swift; sourceTree = "<group>"; };
 		344E57862025BF4000C5CF39 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		344EB9CB20351357009DDC65 /* EventDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsTableViewController.swift; sourceTree = "<group>"; };
+		344EB9D020352D40009DDC65 /* EventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
 		34693CE0202B012800E4EE8E /* RLMSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RLMSettings.swift; sourceTree = "<group>"; };
 		34745CAD200593CE00D19835 /* AMP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AMP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34745CB0200593CE00D19835 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -277,6 +281,23 @@
 				34B9EF5F202FB64200F31CB0 /* LocationTracker.swift */,
 			);
 			path = CoreComponents;
+			sourceTree = "<group>";
+		};
+		344EB9CE2035138F009DDC65 /* Event Datails */ = {
+			isa = PBXGroup;
+			children = (
+				344EB9CF203513A8009DDC65 /* View */,
+			);
+			path = "Event Datails";
+			sourceTree = "<group>";
+		};
+		344EB9CF203513A8009DDC65 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				344EB9CB20351357009DDC65 /* EventDetailsTableViewController.swift */,
+				344EB9D020352D40009DDC65 /* EventViewModel.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		34693CDF202B010500E4EE8E /* Realm Models */ = {
@@ -627,6 +648,7 @@
 			isa = PBXGroup;
 			children = (
 				34DA41F5201DBEBB00DDB0D7 /* Event List */,
+				344EB9CE2035138F009DDC65 /* Event Datails */,
 				34DA41F8201DBEE200DDB0D7 /* Create Event */,
 				34DA41F6201DBECE00DDB0D7 /* Favourites */,
 				34DA41F4201DBEB700DDB0D7 /* Events Map */,
@@ -914,6 +936,7 @@
 				34996F142005B85400D53875 /* AuthCoordinator.swift in Sources */,
 				34996F262005B9FC00D53875 /* UIViewExtensions.swift in Sources */,
 				34DA41F1201DBE3A00DDB0D7 /* SettingsModuleFactory.swift in Sources */,
+				344EB9CC20351357009DDC65 /* EventDetailsTableViewController.swift in Sources */,
 				34B9EF5C202FB22F00F31CB0 /* LocationReducer.swift in Sources */,
 				34EBBB932031A548000FF513 /* ApiRequestsReducer.swift in Sources */,
 				34DA41EF201DBDFB00DDB0D7 /* FavouritesModuleFactory.swift in Sources */,
@@ -954,6 +977,7 @@
 				34DA41E9201DBC8400DDB0D7 /* CreateEventView.swift in Sources */,
 				34996F082005B43E00D53875 /* ApplicationCoordinator.swift in Sources */,
 				34DA41D6201DB0B100DDB0D7 /* TabbarCoordinator.swift in Sources */,
+				344EB9D120352D40009DDC65 /* EventViewModel.swift in Sources */,
 				344E57842025653800C5CF39 /* MockAuthService.swift in Sources */,
 				34F1A6D820286268009B18B2 /* EventListTableViewCell.swift in Sources */,
 				34DA41EB201DBD5000DDB0D7 /* FavouritesView.swift in Sources */,

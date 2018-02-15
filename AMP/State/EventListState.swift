@@ -37,6 +37,13 @@ struct EventListState: StateType {
   }
 }
 
+extension EventListState {
+  func getEventBy(id: Int) -> Event? {
+    guard let index = list?.events.index(where: {$0.id == id }) else { return nil }
+    return list?.events[index]
+  }
+}
+
 struct Event: Codable {
   let id: Int
   let userName: String?

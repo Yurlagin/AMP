@@ -187,5 +187,13 @@ class EventListTableViewController: UITableViewController, EventListView {
     return rowHeights[indexPath.row] ?? 193
   }
 
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if let detailsVC = segue.destination as? EventDetailsTableViewController,
+      let cell = sender as? EventListTableViewCell,
+      let indexPath = tableView.indexPath(for: cell) {
+      detailsVC.eventId = events[indexPath.row].id
+    }
+  }
 }
 
