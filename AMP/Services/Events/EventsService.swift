@@ -12,6 +12,8 @@ import Alamofire
 
 struct EventService {
   
+  private static let bgq = DispatchQueue.global(qos: .userInitiated)
+  
   private static let baseURL = "https://usefulness.club/amp/sitebackend/0"
   
   struct EventListRequest: Codable {
@@ -112,7 +114,7 @@ struct EventService {
     do {
       let urlRequest = try makeURLRequest(parameters: request)
       return Alamofire.request(urlRequest).responseData()
-        .then { Parser.parseEventList(data: $0) }
+        .then (on: bgq) { Parser.parseEventList(data: $0) }
     } catch let error {
       return Promise(error: error)
     }
@@ -135,7 +137,7 @@ struct EventService {
     return (
       Promise { (fulfill, error) in
         task.responseData()
-          .then { Parser.parseEventList(data: $0) }
+          .then (on: bgq) { Parser.parseEventList(data: $0) }
           .then { events -> () in
             guard !canceled else { return }
             guard let event = events.first else {

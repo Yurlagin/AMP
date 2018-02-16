@@ -9,6 +9,8 @@
 import UIKit
 import DeepDiff
 
+typealias ScreenId = String
+
 class EventListTableViewController: UITableViewController, EventListView {
   
   @IBAction func userDidRefreshTable(_ sender: UIRefreshControl) {
@@ -23,6 +25,8 @@ class EventListTableViewController: UITableViewController, EventListView {
       view.setNeedsLayout()
     }
   }
+  
+  let screenId: ScreenId = UUID().uuidString
   
   var rowHeights = [Int: CGFloat]()
   

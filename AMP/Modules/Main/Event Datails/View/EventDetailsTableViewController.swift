@@ -63,9 +63,6 @@ class EventDetailsTableViewController: UITableViewController {
     createdLabel.text = event.created.shortDayTimeString
     fromMeLabel.text = viewModel.distance
     
-    let mapSize = mapImageView.frame.size
-    mapImageView.kf.setImage(with: viewModel.getMapURL(mapSize.width, mapSize.height))
-    
     messageTextView.text = event.message?.stringByTrimingWhitespace()
     
     likesButton.tintColor = UIColor(red: 1, green: 0, blue: 0, alpha: event.like ? 1.0 : 0.35)
@@ -95,6 +92,13 @@ class EventDetailsTableViewController: UITableViewController {
         tableView.tableHeaderView = headerView
       }
     }
+  }
+  
+  
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    let mapSize = mapImageView.frame.size
+    mapImageView.kf.setImage(with: eventViewModel.getMapURL(mapSize.width, mapSize.height))
   }
   
   

@@ -39,19 +39,19 @@ struct EventListViewModel {
   
   init (state: AppState) {
    
-    events = state.eventListState.list?.events ?? []
-    spinner = state.eventListState.request.getSpinnerType()
+    events = state.eventsState.list?.events ?? []
+    spinner = state.eventsState.request.getSpinnerType()
   
     let refresh = {
       store.dispatch({ (appState, store) -> Action? in
         guard let token = state.authState.loginStatus.getUserCredentials()?.token else { return nil } // TODO: изменить состоение на неавторизованное
-        switch appState.eventListState.request {
+        switch appState.eventsState.request {
         case .request:
           return nil
         default: break
         }
         
-        let settings = state.eventListState.settings
+        let settings = state.eventsState.settings
         var location: CLLocation?
         
         EventService.makeEventListRequest(
@@ -83,17 +83,17 @@ struct EventListViewModel {
       
       store.dispatch{ (appState, store) -> Action? in
         
-        guard let events = appState.eventListState.list?.events,
-          events.count - 1 - index <= appState.eventListState.settings.pageLimit / 2 ,
-          !appState.eventListState.request.isActive(),
-          !appState.eventListState.isEndOfListReached else { return nil }
+        guard let events = appState.eventsState.list?.events,
+          events.count - 1 - index <= appState.eventsState.settings.pageLimit / 2 ,
+          !appState.eventsState.request.isActive(),
+          !appState.eventsState.isEndOfListReached else { return nil }
         
         guard let token = state.authState.loginStatus.getUserCredentials()?.token else { return SetLoginState(.none) }
 
-        let settings = state.eventListState.settings
+        let settings = state.eventsState.settings
         
         EventService.makeEventListRequest(
-          location: appState.eventListState.list!.location,
+          location: appState.eventsState.list!.location,
           radius: settings.radius,
           limit: settings.pageLimit,
           offset: events.count,
@@ -121,8 +121,8 @@ struct EventListViewModel {
         if let cancelLikeRequest = state.apiRequestsState.likeRequests[eventId]?.like {
           cancelLikeRequest()
         } else {
-          let index = state.eventListState.list!.events.index { $0.id == eventId }!
-          let event = state.eventListState.list!.events[index]
+          let index = state.eventsState.list!.events.index { $0.id == eventId }!
+          let event = state.eventsState.list!.events[index]
           guard let token = state.authState.loginStatus.getUserCredentials()?.token else {  return SetLoginState(.none)  }
           let likeRequest = EventService.LikeRequest(token: token, action: event.like ? .removeLike : .addLike , eventid: eventId)
           let (eventPromise, cancel) = EventService.send(likeRequest)
@@ -141,8 +141,8 @@ struct EventListViewModel {
         if let cancelDislikeRequest = state.apiRequestsState.likeRequests[eventId]?.dislike {
           cancelDislikeRequest()
         } else {
-          let index = state.eventListState.list!.events.index { $0.id == eventId }!
-          let event = state.eventListState.list!.events[index]
+          let index = state.eventsState.list!.events.index { $0.id == eventId }!
+          let event = state.eventsState.list!.events[index]
           guard let token = state.authState.loginStatus.getUserCredentials()?.token else {  return SetLoginState(.none)  }
           let dislikeRequest = EventService.LikeRequest(token: token, action: event.dislike ? .removeDisLike : .addDisLike, eventid: eventId)
           let (eventPromise, cancel) = EventService.send(dislikeRequest)
@@ -158,7 +158,7 @@ struct EventListViewModel {
 }
 
 
-extension EventListState.RequestStatus {
+extension EventsState.RequestStatus {
   
   func getSpinnerType() -> EventListViewModel.SpinnerType {
     if case .request(let type) = self {

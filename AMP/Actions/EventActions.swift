@@ -29,8 +29,8 @@ struct SetEventListError: Action {
 }
 
 struct SetEventListRequestStatus: Action {
-  let status: EventListState.RequestStatus
-  init (_ status: EventListState.RequestStatus) { self.status = status }
+  let status: EventsState.RequestStatus
+  init (_ status: EventsState.RequestStatus) { self.status = status }
 }
 
 struct LikeInvertAction: Action {
@@ -50,12 +50,4 @@ struct LikeEventSent: Action {
 struct DislikeEventSent: Action {
   let event: Event
 }
-
-//
-//
-//struct UpdateEvent: Action {
-//  let event: Event
-//  let removeLikeTask: Bool
-//  let removeDislikeTask: Bool
-//}
 

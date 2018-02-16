@@ -10,7 +10,7 @@ import ReSwift
 
 struct AppState: StateType {
   let authState: AuthState
-  let eventListState: EventListState
+  let eventsState: EventsState
   let locationState: LocationState
   let apiRequestsState: ApiRequestsState
 }
@@ -18,7 +18,7 @@ struct AppState: StateType {
 func appReducer(action: Action, state: AppState?) -> AppState {
   return AppState(
     authState: authReducer(action: action, state: state?.authState),
-    eventListState: eventListReducer(action: action, state: state?.eventListState),
+    eventsState: eventsReducer(action: action, state: state?.eventsState),
     locationState: locationReducer(action: action, state: state?.locationState),
     apiRequestsState: apiRequestsReducer(action: action, state: state?.apiRequestsState)
   )

@@ -8,9 +8,9 @@
 
 import ReSwift
 
-func eventListReducer(action: Action, state: EventListState?) -> EventListState {
+func eventsReducer(action: Action, state: EventsState?) -> EventsState {
   
-  var state = state ?? EventListState(list: nil, isEndOfListReached: false, settings: EventListState.Settings(), request: .none)
+  var state = state ?? EventsState(list: nil, isEndOfListReached: false, settings: EventsState.Settings(), commentScreens: [:], request: .none)
   
   func updateEvent(_ event: Event) {
     if let index = state.list?.events.index(of: event) {

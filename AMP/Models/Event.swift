@@ -1,49 +1,12 @@
 //
-//  EventListState.swift
+//  Event.swift
 //  AMP
 //
-//  Created by Dmitry Yurlagin on 04.02.18.
+//  Created by Dmitry Yurlagin on 16.02.18.
 //  Copyright © 2018 Dmitry Yurlagin. All rights reserved.
 //
 
-import ReSwift
-import CoreLocation
-
-struct EventListState: StateType {
-  
-  var list: (location: CLLocation, events: [Event])?
-  var isEndOfListReached: Bool
-  var settings: Settings
-
-  var request: RequestStatus
-  
-  enum RequestStatus {
-    case none
-    case request(RequestType)
-    case error(Error)
-    
-    enum RequestType {
-      case refresh
-      case loadMore
-    }
-  }
-  
-  struct Settings {
-    var radius = 20
-    var excludingTypes: Set<Event.EventType> = []
-    var onlyActive = false
-    var onlyMine = false
-    var pageLimit = 20
-    let mapBaseURL = "https://usefulness.club/amp/staticmap.php?zoom=15&"
-  }
-}
-
-extension EventListState {
-  func getEventBy(id: Int) -> Event? {
-    guard let index = list?.events.index(where: {$0.id == id }) else { return nil }
-    return list?.events[index]
-  }
-}
+import Foundation
 
 struct Event: Codable {
   let id: Int
@@ -111,7 +74,7 @@ extension Event {
     commentsCount = try values.decode(Int.self, forKey: .commentsCount)
     likes = try values.decode(Int.self, forKey: .likes)
     dislikes = try values.decode(Int.self, forKey: .dislikes)
-
+    
     let lat = try values.decode(String.self, forKey: .latitude)
     let lon = try values.decode(String.self, forKey: .longitude)
     let typeRaw = try values.decode(String.self, forKey: .type)
@@ -137,7 +100,7 @@ extension Event {
     self.longitude = longitude
     self.type = type
     self.created = created
-    self.changed = changedString == nil ? nil : dateFormatter.date(from: changedString!)    
+    self.changed = changedString == nil ? nil : dateFormatter.date(from: changedString!)
     self.like = likeInt > 0
     self.dislike = dislikeInt > 0
     self.visible = visible == "visible"
@@ -148,6 +111,8 @@ extension Event {
     case error
   }
 }
+
+
 
 extension Event: Equatable {
   static func ==(lhs: Event, rhs: Event) -> Bool {
@@ -166,5 +131,3 @@ extension Event: Hashable {
       visible.hashValue
   }
 }
-
-
