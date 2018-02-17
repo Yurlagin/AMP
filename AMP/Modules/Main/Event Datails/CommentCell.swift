@@ -32,8 +32,12 @@ class CommentCell: UITableViewCell {
   private func render(_ comment: Comment) {
     avatarImageView.kf.setImage(with: URL(string: comment.avatarURL))
     createdLabel.text = comment.created.shortDayTimeString
+    if comment.likes > 0 {
+      createdLabel.text! += " | Отметок нравится: \(comment.likes)"
+    }
     likeButton.setTitle(String(comment.likes), for: .normal)
     likeButton.tintColor = UIColor(red: 1, green: 0, blue: 0, alpha: comment.like ? 1.0 : 0.35)
+    assert(!comment.like)
     
     let signedMessage = NSMutableAttributedString(string: comment.userName + " " + comment.message)
     signedMessage.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .subheadline), range: signedMessage.mutableString.range(of: signedMessage.string))
@@ -47,6 +51,7 @@ class CommentCell: UITableViewCell {
   override func awakeFromNib() {
     super.awakeFromNib()
     messageTextView.textContainerInset = .zero
-    messageTextView.
+    messageTextView.offset
+    messageTextView.textContainer.lineFragmentPadding = .leastNonzeroMagnitude
   }
 }
