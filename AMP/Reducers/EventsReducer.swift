@@ -36,14 +36,12 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     state.request = .none
     state.isEndOfListReached = action.events.count < state.settings.pageLimit
     
-    
   case let action as LikeEventSent:
     updateEvent(action.event)
 
   case let action as DislikeEventSent:
     updateEvent(action.event)
 
-    
   case let action as LikeInvertAction:
     if let index = state.list?.events.index(where: {$0.id == action.eventId}) {
       var event = state.list!.events[index]
@@ -68,7 +66,20 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
       state.list?.events[index] = event
     }
 
+  case let action as CreateCommentsScreen:
+    guard state.commentScreens[action.screenId] == nil else { break }
+    let comments = state.getEventBy(id: action.eventId)?.comments ?? []
+    state.commentScreens[action.screenId] = EventsState.Comments(
+      eventId: action.eventId,
+      comments: comments,
+      visibleCount: comments.count,
+      isEndReached: false, // TODO: здесь должна быть настоящая проверочка
+      request: .none)
 
+  case let action as RemoveCommentsScreen:
+    state.commentScreens[action.screenId] = nil
+
+    
   default :
     break
     

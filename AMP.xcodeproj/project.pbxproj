@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		24512AF1A112C52893F320FB /* Pods_AMP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9EF6C0E6E1A0E5898FBC39 /* Pods_AMP.framework */; };
 		340D90FB2026AE7B00B1B90A /* EventsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340D90FA2026AE7B00B1B90A /* EventsState.swift */; };
-		340D90FD2026B36900B1B90A /* EventListReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340D90FC2026B36900B1B90A /* EventListReducer.swift */; };
+		340D90FD2026B36900B1B90A /* EventsReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340D90FC2026B36900B1B90A /* EventsReducer.swift */; };
 		340D90FF2026EC0400B1B90A /* EventActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340D90FE2026EC0400B1B90A /* EventActions.swift */; };
 		340D91042026F2E500B1B90A /* EventsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340D91032026F2E500B1B90A /* EventsService.swift */; };
 		3422E5ED201B38A200DAF175 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3422E5EC201B38A200DAF175 /* SignInViewModel.swift */; };
@@ -39,6 +39,7 @@
 		3484C29420367514002F3A10 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3484C29320367514002F3A10 /* Comment.swift */; };
 		3484C2962036761D002F3A10 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3484C2952036761D002F3A10 /* Event.swift */; };
 		3484C29820367F59002F3A10 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3484C29720367F59002F3A10 /* Date.swift */; };
+		3484C29D2037B7AD002F3A10 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3484C29C2037B7AD002F3A10 /* CommentCell.swift */; };
 		348D69ED20145B5F0051E4B5 /* AuthReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348D69EC20145B5F0051E4B5 /* AuthReducer.swift */; };
 		348D69EF20145B950051E4B5 /* AuthActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348D69EE20145B950051E4B5 /* AuthActions.swift */; };
 		349954CF2012C53B006CFD87 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349954CE2012C53B006CFD87 /* SignInViewController.swift */; };
@@ -117,7 +118,7 @@
 /* Begin PBXFileReference section */
 		173F7410D3731CE3736E6927 /* Pods-AMP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AMP.release.xcconfig"; path = "Pods/Target Support Files/Pods-AMP/Pods-AMP.release.xcconfig"; sourceTree = "<group>"; };
 		340D90FA2026AE7B00B1B90A /* EventsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsState.swift; sourceTree = "<group>"; };
-		340D90FC2026B36900B1B90A /* EventListReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListReducer.swift; sourceTree = "<group>"; };
+		340D90FC2026B36900B1B90A /* EventsReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsReducer.swift; sourceTree = "<group>"; };
 		340D90FE2026EC0400B1B90A /* EventActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventActions.swift; sourceTree = "<group>"; };
 		340D91032026F2E500B1B90A /* EventsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsService.swift; sourceTree = "<group>"; };
 		3422E5EC201B38A200DAF175 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
@@ -149,6 +150,7 @@
 		3484C29320367514002F3A10 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		3484C2952036761D002F3A10 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		3484C29720367F59002F3A10 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		3484C29C2037B7AD002F3A10 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		348D69EC20145B5F0051E4B5 /* AuthReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthReducer.swift; sourceTree = "<group>"; };
 		348D69EE20145B950051E4B5 /* AuthActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthActions.swift; sourceTree = "<group>"; };
 		349954CE2012C53B006CFD87 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -294,18 +296,11 @@
 		344EB9CE2035138F009DDC65 /* Event Datails */ = {
 			isa = PBXGroup;
 			children = (
-				344EB9CF203513A8009DDC65 /* View */,
-			);
-			path = "Event Datails";
-			sourceTree = "<group>";
-		};
-		344EB9CF203513A8009DDC65 /* View */ = {
-			isa = PBXGroup;
-			children = (
 				344EB9CB20351357009DDC65 /* EventDetailsTableViewController.swift */,
 				344EB9D020352D40009DDC65 /* EventViewModel.swift */,
+				3484C29C2037B7AD002F3A10 /* CommentCell.swift */,
 			);
-			path = View;
+			path = "Event Datails";
 			sourceTree = "<group>";
 		};
 		34693CDF202B010500E4EE8E /* Realm Models */ = {
@@ -396,7 +391,7 @@
 			children = (
 				348D69EC20145B5F0051E4B5 /* AuthReducer.swift */,
 				34B9EF5B202FB22F00F31CB0 /* LocationReducer.swift */,
-				340D90FC2026B36900B1B90A /* EventListReducer.swift */,
+				340D90FC2026B36900B1B90A /* EventsReducer.swift */,
 				34EBBB922031A548000FF513 /* ApiRequestsReducer.swift */,
 			);
 			path = Reducers;
@@ -591,24 +586,6 @@
 			path = SideEffects;
 			sourceTree = "<group>";
 		};
-		34C6DB1120270BBD00F7FF2C /* View */ = {
-			isa = PBXGroup;
-			children = (
-				34DA41F9201DBF5100DDB0D7 /* EventListTableViewController.swift */,
-				34F1A6D720286268009B18B2 /* EventListTableViewCell.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		34C6DB1220270BC300F7FF2C /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				34C6DB1320270C1700F7FF2C /* EventListViewModel.swift */,
-				344E3245202F05DA0062F5D2 /* Tests */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
 		34DA41CE201DAFFC00DDB0D7 /* Tab bar */ = {
 			isa = PBXGroup;
 			children = (
@@ -697,8 +674,10 @@
 		34DA41F5201DBEBB00DDB0D7 /* Event List */ = {
 			isa = PBXGroup;
 			children = (
-				34C6DB1120270BBD00F7FF2C /* View */,
-				34C6DB1220270BC300F7FF2C /* ViewModel */,
+				34DA41F9201DBF5100DDB0D7 /* EventListTableViewController.swift */,
+				34F1A6D720286268009B18B2 /* EventListTableViewCell.swift */,
+				34C6DB1320270C1700F7FF2C /* EventListViewModel.swift */,
+				344E3245202F05DA0062F5D2 /* Tests */,
 			);
 			path = "Event List";
 			sourceTree = "<group>";
@@ -951,6 +930,7 @@
 				34693CE1202B012800E4EE8E /* RLMSettings.swift in Sources */,
 				34996F192005B88700D53875 /* AuthModuleFactory.swift in Sources */,
 				34996EFE2005B36D00D53875 /* Coordinator.swift in Sources */,
+				3484C29D2037B7AD002F3A10 /* CommentCell.swift in Sources */,
 				34996F162005B85400D53875 /* SignInView.swift in Sources */,
 				34B9EF60202FB64200F31CB0 /* LocationTracker.swift in Sources */,
 				34996F142005B85400D53875 /* AuthCoordinator.swift in Sources */,
@@ -968,7 +948,7 @@
 				34DA4204201DC2B900DDB0D7 /* EventsMapCoordinator.swift in Sources */,
 				34DA4206201DC32900DDB0D7 /* CreateEventCoordinator.swift in Sources */,
 				34996F052005B39E00D53875 /* BaseCoordinator.swift in Sources */,
-				340D90FD2026B36900B1B90A /* EventListReducer.swift in Sources */,
+				340D90FD2026B36900B1B90A /* EventsReducer.swift in Sources */,
 				34996F022005B36D00D53875 /* RouterImp.swift in Sources */,
 				34DA41E3201DBA1800DDB0D7 /* EventListView.swift in Sources */,
 				34B9EF5E202FB41300F31CB0 /* LocationActions.swift in Sources */,

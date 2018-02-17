@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -414,13 +415,63 @@
                             </constraints>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="CommentCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CommentCell" id="j2Q-qy-4Qj">
-                                <rect key="frame" x="0.0" y="480" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Sent Comment Cell" rowHeight="97" id="hqa-Hg-EbG" customClass="CommentCell" customModule="AMA" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="480" width="375" height="97"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="j2Q-qy-4Qj" id="aJK-vW-Vxg">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" tableViewCell="hqa-Hg-EbG" id="Ihf-6Z-a5s">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="96.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mnS-ZT-Bbi" userLabel="Avatar Image View">
+                                            <rect key="frame" x="20" y="15" width="34" height="34"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="mnS-ZT-Bbi" secondAttribute="height" multiplier="1:1" id="90h-Rb-fCL"/>
+                                                <constraint firstAttribute="width" constant="34" id="Eoa-Df-tkZ"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jXO-DP-vF2">
+                                            <rect key="frame" x="62" y="59" width="27" height="16"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="252" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qww-du-SYz">
+                                            <rect key="frame" x="322" y="20.5" width="25" height="20"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="20" id="sT9-HY-tIR"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                                            <state key="normal" image="Like-50">
+                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <state key="highlighted" image="Like Filled-50"/>
+                                        </button>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" delaysContentTouches="NO" editable="NO" text="Текст комментария" translatesAutoresizingMaskIntoConstraints="NO" id="i7t-cH-SIc">
+                                            <rect key="frame" x="62" y="15" width="252" height="36"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                                        </textView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="jXO-DP-vF2" secondAttribute="bottom" constant="10" id="6gt-IK-Mdf"/>
+                                        <constraint firstItem="qww-du-SYz" firstAttribute="top" secondItem="Ihf-6Z-a5s" secondAttribute="topMargin" constant="9" id="HQX-D6-5Yq"/>
+                                        <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="mnS-ZT-Bbi" secondAttribute="bottom" constant="10" id="NKP-U9-uuh"/>
+                                        <constraint firstItem="i7t-cH-SIc" firstAttribute="top" secondItem="mnS-ZT-Bbi" secondAttribute="top" id="QFc-Fe-7wc"/>
+                                        <constraint firstItem="jXO-DP-vF2" firstAttribute="top" secondItem="i7t-cH-SIc" secondAttribute="bottom" constant="8" symbolic="YES" id="S3W-e0-lc5"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="qww-du-SYz" secondAttribute="trailing" constant="12" id="bHg-5W-qU9"/>
+                                        <constraint firstItem="i7t-cH-SIc" firstAttribute="leading" secondItem="mnS-ZT-Bbi" secondAttribute="trailing" constant="8" symbolic="YES" id="ciA-GG-4uY"/>
+                                        <constraint firstItem="qww-du-SYz" firstAttribute="leading" secondItem="i7t-cH-SIc" secondAttribute="trailing" constant="8" symbolic="YES" id="ehd-V3-l4H"/>
+                                        <constraint firstItem="jXO-DP-vF2" firstAttribute="leading" secondItem="mnS-ZT-Bbi" secondAttribute="trailing" constant="8" symbolic="YES" id="fe4-Kc-B1v"/>
+                                        <constraint firstItem="mnS-ZT-Bbi" firstAttribute="leading" secondItem="Ihf-6Z-a5s" secondAttribute="leading" constant="20" symbolic="YES" id="lww-j9-b7H"/>
+                                        <constraint firstItem="mnS-ZT-Bbi" firstAttribute="top" secondItem="Ihf-6Z-a5s" secondAttribute="top" constant="15" id="unA-zD-CcQ"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <inset key="separatorInset" minX="60" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <connections>
+                                    <outlet property="avatarImageView" destination="mnS-ZT-Bbi" id="Vbe-UT-qiz"/>
+                                    <outlet property="createdLabel" destination="jXO-DP-vF2" id="OVu-R4-aas"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

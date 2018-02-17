@@ -12,9 +12,10 @@ struct Event: Codable {
   let id: Int
   let userName: String?
   let avatarUrl: String?
-  let message: String?
   let latitude: Double
   let longitude: Double
+  let address: String?
+  let message: String?
   let type: EventType
   let created: Date
   let howlong: TimeInterval
@@ -24,8 +25,8 @@ struct Event: Codable {
   var likes: Int
   var like: Bool
   var dislike: Bool
-  let address: String?
   let visible: Bool // visible=показывается всем pended= на премодерации и показывается только автору
+  var comments: [Comment]?
   
   enum EventType: String, Codable {
     case questions
@@ -56,6 +57,7 @@ struct Event: Codable {
     case dislikes
     case commentsCount = "commentsnum"
     case visible = "status"
+    case comments
   }
 }
 
@@ -104,7 +106,7 @@ extension Event {
     self.like = likeInt > 0
     self.dislike = dislikeInt > 0
     self.visible = visible == "visible"
-    
+    self.comments = try values.decodeIfPresent([Comment].self, forKey: .comments)
   }
   
   enum EventDecodingError: Error {

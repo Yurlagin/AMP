@@ -11,10 +11,13 @@ import ReSwift
 
 struct EventViewModel {
   let event: Event
+  let getCommentsForScreen: (String) -> ([Comment])
+  let onLoadScreen: (ScreenId, EventId) -> ()
+  let onDeinitScreen: (ScreenId) -> ()
   let distance: String
   let getMapURL: (CGFloat, CGFloat) -> (URL?)
-  let didTapLike: ()->()
-  let didTapDislike: ()->()
+  let didTapLike: () -> ()
+  let didTapDislike: () -> ()
   
   init? (eventId: Int, state: AppState) {
     
@@ -69,9 +72,24 @@ struct EventViewModel {
       }
     }
     
+    
     self.getMapURL = { width, height in
       return URL(string: state.eventsState.settings.mapBaseURL + "size=\(width)x\(height)&center=\(event.latitude),\(event.longitude)&markers=\(event.latitude),\(event.longitude)")
     }
     
+    
+    self.getCommentsForScreen = { screenId in
+      return state.eventsState.commentScreens[screenId]?.comments ?? []
+    }
+    
+    
+    self.onLoadScreen = {
+      store.dispatch(CreateCommentsScreen(screenId: $0, eventId: $1))
+    }
+    
+    
+    self.onDeinitScreen = {
+      store.dispatch(RemoveCommentsScreen(screenId: $0))
+    }
   }
 }

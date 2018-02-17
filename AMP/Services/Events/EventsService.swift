@@ -114,7 +114,8 @@ struct EventService {
     do {
       let urlRequest = try makeURLRequest(parameters: request)
       return Alamofire.request(urlRequest).responseData()
-        .then (on: bgq) { Parser.parseEventList(data: $0) }
+        .then (on: bgq) {
+          Parser.parseEventList(data: $0) }
     } catch let error {
       return Promise(error: error)
     }

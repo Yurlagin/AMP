@@ -51,3 +51,11 @@ struct DislikeEventSent: Action {
   let event: Event
 }
 
+struct CreateCommentsScreen: Action {
+  let screenId: ScreenId
+  let eventId: EventId
+}
+
+struct RemoveCommentsScreen: Action {
+  let screenId: ScreenId
+}

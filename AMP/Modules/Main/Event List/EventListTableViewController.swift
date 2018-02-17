@@ -10,6 +10,7 @@ import UIKit
 import DeepDiff
 
 typealias ScreenId = String
+typealias EventId = Int
 
 class EventListTableViewController: UITableViewController, EventListView {
   
@@ -73,8 +74,8 @@ class EventListTableViewController: UITableViewController, EventListView {
   private func topSpinner(isRefreshing: Bool) {
     if isRefreshing {
       if !refreshControl!.isRefreshing{
-        refreshControl!.beginRefreshing()
         setRefreshingContentOffset()
+        refreshControl!.beginRefreshing()
       }
     } else if refreshControl!.isRefreshing {
       refreshControl!.endRefreshing()

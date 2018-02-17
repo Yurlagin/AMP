@@ -33,29 +33,39 @@ class EventDetailsTableViewController: UITableViewController {
   @IBAction func commentPressed(_ sender: UIButton) {
   }
   
+  
+  var eventId: Int!
+  private let screenId = UUID().uuidString
+  private var comments = [Comment]()
+  
+  private var eventViewModelRendered = false
+  private var isFirstViewModelReceived = false
+  
+  fileprivate var eventViewModel: EventViewModel! {
+    didSet {
+      eventViewModelRendered = false
+      view.setNeedsLayout()
+    }
+  }
+  
+  var didTapLike: ((_ eventId: Int)->())?
+  var didTapDislike: ((_ eventId: Int)->())?
+  
+  
   override func viewDidLoad() {
     tableView.estimatedRowHeight = 120
     tableView.rowHeight = UITableViewAutomaticDimension
     tableView.tableFooterView = UIView()
   }
-
   
-  var eventId: Int!
-  
-  private var eventViewModelRendered = false
-  
-  fileprivate var eventViewModel: EventViewModel! {
-    didSet {
-      eventViewModelRendered = false
-      render(viewModel: eventViewModel)
-    }
-  }
-
-  var didTapLike: ((_ eventId: Int)->())?
-  var didTapDislike: ((_ eventId: Int)->())?
-
   
   func render(viewModel: EventViewModel) {
+    
+    if !isFirstViewModelReceived {
+      viewModel.onLoadScreen(screenId, eventId)
+      isFirstViewModelReceived = true
+    }
+    
     let event = viewModel.event
     userNameLabel.text = event.userName
     avatarImageView.kf.setImage(with: URL(string: event.avatarUrl!))
@@ -115,6 +125,10 @@ class EventDetailsTableViewController: UITableViewController {
   
   override var supportedInterfaceOrientations: UIInterfaceOrientationMask { return [.portrait] }
   override var shouldAutorotate: Bool { return false }
+  
+  deinit {
+    eventViewModel?.onDeinitScreen(screenId)
+  }
   
 }
 
