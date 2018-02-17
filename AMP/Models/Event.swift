@@ -20,7 +20,7 @@ struct Event: Codable {
   let created: Date
   let howlong: TimeInterval
   let changed: Date?
-  let commentsCount: Int
+  var commentsCount: Int
   var dislikes: Int
   var likes: Int
   var like: Bool

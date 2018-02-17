@@ -51,6 +51,10 @@ class EventDetailsTableViewController: UITableViewController {
   var didTapLike: ((_ eventId: Int)->())?
   var didTapDislike: ((_ eventId: Int)->())?
   
+  // TODO: make it work
+  override var supportedInterfaceOrientations: UIInterfaceOrientationMask { return [.portrait] }
+  override var shouldAutorotate: Bool { return false }
+
   
   override func viewDidLoad() {
     tableView.estimatedRowHeight = 120
@@ -63,8 +67,13 @@ class EventDetailsTableViewController: UITableViewController {
     
     if !isFirstViewModelReceived {
       viewModel.onLoadScreen(screenId, eventId)
+      comments = viewModel.event.comments ?? []
       isFirstViewModelReceived = true
+    } else {
+      comments = viewModel.getCommentsForScreen(screenId)
     }
+    tableView.reloadData()
+
     
     let event = viewModel.event
     userNameLabel.text = event.userName
@@ -81,6 +90,7 @@ class EventDetailsTableViewController: UITableViewController {
     likesButton.setTitle(String(event.likes), for: .normal)
     dislikesButton.setTitle(String(event.dislikes), for: .normal)
     commentsButton.setTitle(String(event.commentsCount), for: .normal)
+    
   }
   
   
@@ -123,11 +133,26 @@ class EventDetailsTableViewController: UITableViewController {
     store.unsubscribe(self)
   }
   
-  override var supportedInterfaceOrientations: UIInterfaceOrientationMask { return [.portrait] }
-  override var shouldAutorotate: Bool { return false }
   
   deinit {
     eventViewModel?.onDeinitScreen(screenId)
+  }
+  
+  
+  override func numberOfSections(in tableView: UITableView) -> Int {
+    return 1
+  }
+  
+  
+  override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    return comments.count
+  }
+  
+  
+  override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as! CommentCell
+    cell.comment = comments[indexPath.row]
+    return cell
   }
   
 }

@@ -12,9 +12,15 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
   
   var state = state ?? EventsState(list: nil, isEndOfListReached: false, settings: EventsState.Settings(), commentScreens: [:], request: .none)
   
-  func updateEvent(_ event: Event) {
+  func updateEventCounters(fromNewEvent event: Event) {
     if let index = state.list?.events.index(of: event) {
-      state.list?.events[index] = event
+      var oldEvent = state.list!.events[index]
+      oldEvent.like = event.like
+      oldEvent.likes = event.likes
+      oldEvent.dislike = event.dislike
+      oldEvent.dislikes = event.dislikes
+      oldEvent.commentsCount = event.commentsCount
+      state.list!.events[index] = oldEvent
     }
   }
   
@@ -37,10 +43,10 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     state.isEndOfListReached = action.events.count < state.settings.pageLimit
     
   case let action as LikeEventSent:
-    updateEvent(action.event)
+    updateEventCounters(fromNewEvent: action.event)
 
   case let action as DislikeEventSent:
-    updateEvent(action.event)
+    updateEventCounters(fromNewEvent: action.event)
 
   case let action as LikeInvertAction:
     if let index = state.list?.events.index(where: {$0.id == action.eventId}) {

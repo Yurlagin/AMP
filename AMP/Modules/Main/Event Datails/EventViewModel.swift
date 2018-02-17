@@ -11,7 +11,7 @@ import ReSwift
 
 struct EventViewModel {
   let event: Event
-  let getCommentsForScreen: (String) -> ([Comment])
+  let getCommentsForScreen: (ScreenId) -> ([Comment])
   let onLoadScreen: (ScreenId, EventId) -> ()
   let onDeinitScreen: (ScreenId) -> ()
   let distance: String
