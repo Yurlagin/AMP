@@ -282,11 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Services/Events/EventsService.swift"
-            timestampString = "540521815.1316"
+            timestampString = "540702173.041674"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "120"
-            endingLineNumber = "120"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
             landmarkName = "getEventsList(request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -298,11 +298,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Services/Events/EventsService.swift"
-            timestampString = "540521815.131686"
+            timestampString = "540702173.041757"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "118"
-            endingLineNumber = "118"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
             landmarkName = "getEventsList(request:)"
             landmarkType = "7">
             <Locations>
@@ -378,11 +378,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Modules/Main/Event Datails/EventDetailsTableViewController.swift"
-            timestampString = "540554649.733278"
+            timestampString = "540702173.041886"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
             landmarkName = "eventViewModel"
             landmarkType = "24">
          </BreakpointContent>

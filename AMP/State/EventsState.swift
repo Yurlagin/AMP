@@ -41,16 +41,17 @@ struct EventsState: StateType {
   
   
   struct Comments {
-    var eventId: Int
     var comments: [Comment]
+    var eventId: Int
     var visibleCount: Int
     var isEndReached: Bool
-    var request: Request
     let pageLimit = 10
+    var request: Request
     
     enum Request {
       case none
-      case running
+      case showLoadMore
+      case run
       case error(Error)
     }
     

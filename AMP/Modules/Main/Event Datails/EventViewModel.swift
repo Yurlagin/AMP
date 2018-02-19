@@ -12,12 +12,19 @@ import ReSwift
 struct EventViewModel {
   let event: Event
   let getCommentsForScreen: (ScreenId) -> ([Comment])
-  let onLoadScreen: (ScreenId, EventId) -> ()
+  let loadMoreButtonState: LoadMoreState = .none
+//  let onLoadScreen: (ScreenId, EventId) -> ()
   let onDeinitScreen: (ScreenId) -> ()
   let distance: String
   let getMapURL: (CGFloat, CGFloat) -> (URL?)
   let didTapLike: () -> ()
   let didTapDislike: () -> ()
+  
+  enum LoadMoreState {
+    case none
+    case showButton
+    case showLoading
+  }
   
   init? (eventId: Int, state: AppState) {
     
@@ -40,8 +47,8 @@ struct EventViewModel {
           let index = state.eventsState.list!.events.index { $0.id == eventId }!
           let event = state.eventsState.list!.events[index]
           guard let token = state.authState.loginStatus.getUserCredentials()?.token else { return SetLoginState(.none) }
-          let likeRequest = EventService.LikeRequest(token: token, action: event.like ? .removeLike : .addLike , eventid: eventId) 
-          let (eventPromise, cancel) = EventService.send(likeRequest)
+          let likeRequest = LikeEventRequest(token: token, action: event.like ? .removeLike : .addLike , eventid: eventId)
+          let (eventPromise, cancel) = EventsService.send(likeRequest)
           cancelTask = cancel
           eventPromise
             .then { store.dispatch(LikeEventSent(event: $0)) }
@@ -61,8 +68,8 @@ struct EventViewModel {
           let index = state.eventsState.list!.events.index { $0.id == eventId }!
           let event = state.eventsState.list!.events[index]
           guard let token = state.authState.loginStatus.getUserCredentials()?.token else {  return SetLoginState(.none)  }
-          let dislikeRequest = EventService.LikeRequest(token: token, action: event.dislike ? .removeDisLike : .addDisLike, eventid: eventId)
-          let (eventPromise, cancel) = EventService.send(dislikeRequest)
+          let dislikeRequest = LikeEventRequest(token: token, action: event.dislike ? .removeDisLike : .addDisLike, eventid: eventId)
+          let (eventPromise, cancel) = EventsService.send(dislikeRequest)
           cancelTask = cancel
           eventPromise
             .then {  store.dispatch( DislikeEventSent(event: $0) )}
@@ -83,9 +90,9 @@ struct EventViewModel {
     }
     
     
-    self.onLoadScreen = {
-      store.dispatch(CreateCommentsScreen(screenId: $0, eventId: $1))
-    }
+//    self.onLoadScreen = {
+//      store.dispatch(CreateCommentsScreen(screenId: $0, eventId: $1))
+//    }
     
     
     self.onDeinitScreen = {

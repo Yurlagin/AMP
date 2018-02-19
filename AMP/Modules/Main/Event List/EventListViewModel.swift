@@ -54,7 +54,7 @@ struct EventListViewModel {
         let settings = state.eventsState.settings
         var location: CLLocation?
         
-        EventService.makeEventListRequest(
+        EventsService.makeEventListRequest(
           radius: settings.radius,
           limit: settings.pageLimit,
           offset: 0,
@@ -66,7 +66,7 @@ struct EventListViewModel {
           token: token)
           .then { loc, request in
             location = loc
-            return EventService.getEventsList(request: request)
+            return EventsService.getEventsList(request: request)
           }
           .then {
             store.dispatch(RefreshEventsList(location: location!, events: $0))
@@ -92,7 +92,7 @@ struct EventListViewModel {
 
         let settings = state.eventsState.settings
         
-        EventService.makeEventListRequest(
+        EventsService.makeEventListRequest(
           location: appState.eventsState.list!.location,
           radius: settings.radius,
           limit: settings.pageLimit,
@@ -104,7 +104,7 @@ struct EventListViewModel {
           excludingTypes: settings.excludingTypes,
           token: token)
           .then (on: DispatchQueue.global(qos: .userInitiated)){
-            EventService.getEventsList(request: $1)}
+            EventsService.getEventsList(request: $1)}
           .then {
             store.dispatch(AppendEventsToList($0))
           }.catch {
@@ -124,8 +124,8 @@ struct EventListViewModel {
           let index = state.eventsState.list!.events.index { $0.id == eventId }!
           let event = state.eventsState.list!.events[index]
           guard let token = state.authState.loginStatus.getUserCredentials()?.token else {  return SetLoginState(.none)  }
-          let likeRequest = EventService.LikeRequest(token: token, action: event.like ? .removeLike : .addLike , eventid: eventId)
-          let (eventPromise, cancel) = EventService.send(likeRequest)
+          let likeRequest = LikeEventRequest(token: token, action: event.like ? .removeLike : .addLike , eventid: eventId)
+          let (eventPromise, cancel) = EventsService.send(likeRequest)
           cancelTask = cancel
           eventPromise
             .then { store.dispatch(LikeEventSent(event: $0)) }
@@ -144,8 +144,8 @@ struct EventListViewModel {
           let index = state.eventsState.list!.events.index { $0.id == eventId }!
           let event = state.eventsState.list!.events[index]
           guard let token = state.authState.loginStatus.getUserCredentials()?.token else {  return SetLoginState(.none)  }
-          let dislikeRequest = EventService.LikeRequest(token: token, action: event.dislike ? .removeDisLike : .addDisLike, eventid: eventId)
-          let (eventPromise, cancel) = EventService.send(dislikeRequest)
+          let dislikeRequest = LikeEventRequest(token: token, action: event.dislike ? .removeDisLike : .addDisLike, eventid: eventId)
+          let (eventPromise, cancel) = EventsService.send(dislikeRequest)
           cancelTask = cancel
           eventPromise
             .then {  store.dispatch( DislikeEventSent(event: $0) )}

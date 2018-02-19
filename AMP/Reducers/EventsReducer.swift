@@ -76,14 +76,26 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     guard state.commentScreens[action.screenId] == nil else { break }
     let comments = state.getEventBy(id: action.eventId)?.comments ?? []
     state.commentScreens[action.screenId] = EventsState.Comments(
+      comments: [],
       eventId: action.eventId,
-      comments: comments,
       visibleCount: comments.count,
       isEndReached: false, // TODO: здесь должна быть настоящая проверочка
       request: .none)
 
   case let action as RemoveCommentsScreen:
     state.commentScreens[action.screenId] = nil
+    
+  case let action as NewComments:
+    guard var screen = state.commentScreens[action.screenId] else { break }
+    
+    switch action.action {
+    case .append: screen.comments.insert(contentsOf: action.comments, at: 0)
+    case .replace: screen.comments = action.comments
+    }
+    
+    screen.isEndReached = action.comments.count < screen.pageLimit
+   
+    state.commentScreens[action.screenId] = screen
 
     
   default :

@@ -10,48 +10,17 @@ import PromiseKit
 import CoreLocation
 import Alamofire
 
-struct EventService {
+
+protocol EventsServiceProtocol {
+  func makeRequest(_ commentsRequest: CommentsRequest) -> Promise<[Comment]>
+}
+
+struct EventsService: EventsServiceProtocol {
   
   private static let bgq = DispatchQueue.global(qos: .userInitiated)
   
   private static let baseURL = "https://usefulness.club/amp/sitebackend/0"
   
-  struct EventListRequest: Codable {
-  
-    let action = "getEventsList"
-    var filter: Filter
-    let token: String
-    
-    struct Filter: Codable {
-      var lat: Double
-      var lon: Double
-      var eventsradius: Int = 20
-      var exclude : [String] = []
-      var sort = "create"
-      var tzone: String = "+07:00"
-      var onlyactive: Bool = true
-      var text: String = ""
-      var onlymine = false
-
-      var helps: Bool = true
-      var founds: Bool = true
-      var chats: Bool = true
-      var witness: Bool = true
-      var gibdds: Bool = true
-      var alerts: Bool = true
-      var news: Bool = true
-      var questions: Bool = true
-      
-      var maxId: Int?
-      var limit: Int = 0
-      var offset: Int = 0
-      
-      init(lat: Double, lon: Double) {
-        self.lat = lat
-        self.lon = lon
-      }
-    }
-  }
   
   
   static private func makeURLRequest<T: Encodable>(parameters: T) throws -> URLRequest {
@@ -122,7 +91,7 @@ struct EventService {
   }
   
   
-  static func send(_ request: LikeRequest) -> (Promise<Event>, Cancel) {
+  static func send(_ request: LikeEventRequest) -> (Promise<Event>, Cancel) {
     
     let urlRequest = try! makeURLRequest(parameters: request)
     
@@ -153,33 +122,32 @@ struct EventService {
       cancel)
     
   }
-  
 
-  struct LikeRequest: Encodable {
-    let token: String
-    let action: RequestType
-    let eventid: Int
-    
-    enum RequestType: String, Encodable {
-      case addLike
-      case removeLike
-      case addDisLike
-      case removeDisLike
+  
+  
+  func makeRequest(_ commentsRequest: CommentsRequest) -> Promise<[Comment]> {
+    do {
+      let commentsRequest = try EventsService.makeURLRequest(parameters: commentsRequest)
+      return Alamofire.request(commentsRequest).responseData()
+        .then (on: EventsService.bgq) {
+          let commentsResponse = try JSONDecoder().decode(CommentsResponse.self, from: $0)
+          if commentsResponse.answer == "getComments" {
+            return Promise(value: commentsResponse.comments ?? [])
+          } else {
+            throw EventsServiceError.unexpectedAnswer
+          }
+      }
+    } catch let error {
+      return Promise(error: error)
     }
   }
-
   
-}
-
-protocol LikeRequestProtocol {
-}
-
-extension EventService.EventListRequest: CustomStringConvertible {
- 
-  var description: String {
-    let mirror = Mirror(reflecting: self)
-    return mirror.description
+  enum EventsServiceError: Error {
+    case unexpectedAnswer
   }
   
-  
 }
+
+
+
+

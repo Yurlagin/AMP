@@ -2,8 +2,10 @@ import UIKit
 import ReSwift
 import Firebase
 
-let sideEffects = injectService(service: AuthService(), receivers: authServiceSideEffects)
-let middleware = createMiddleware(items: sideEffects)
+let authSideEffects = injectService(service: AuthService(), receivers: authServiceSideEffects)
+let eventsSideEffects = injectService(service: EventsService(), receivers: eventsServiceSideEffects)
+
+let middleware = createMiddleware(items: authSideEffects + eventsSideEffects)
 
 let store = Store (
   reducer: appReducer,

@@ -59,3 +59,19 @@ struct CreateCommentsScreen: Action {
 struct RemoveCommentsScreen: Action {
   let screenId: ScreenId
 }
+
+struct NewComments: Action {
+  let screenId: ScreenId
+  let comments: [Comment]
+  let action: ActionType
+  
+  enum ActionType {
+    case append
+    case replace
+  }
+}
+
+struct GetCommentsError: Action {
+  let screenId: ScreenId
+}
+

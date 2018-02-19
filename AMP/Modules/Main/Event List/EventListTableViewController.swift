@@ -74,8 +74,8 @@ class EventListTableViewController: UITableViewController, EventListView {
   private func topSpinner(isRefreshing: Bool) {
     if isRefreshing {
       if !refreshControl!.isRefreshing{
-        setRefreshingContentOffset()
         refreshControl!.beginRefreshing()
+        setRefreshingContentOffset()
       }
     } else if refreshControl!.isRefreshing {
       refreshControl!.endRefreshing()
@@ -112,6 +112,7 @@ class EventListTableViewController: UITableViewController, EventListView {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    topSpinner(isRefreshing: true)
     tableView.estimatedRowHeight = 193
     tableView.rowHeight = UITableViewAutomaticDimension
   }
@@ -197,7 +198,11 @@ class EventListTableViewController: UITableViewController, EventListView {
     if let detailsVC = segue.destination as? EventDetailsTableViewController,
       let cell = sender as? EventListTableViewCell,
       let indexPath = tableView.indexPath(for: cell) {
-      detailsVC.eventId = events[indexPath.row].id
+      let screenId = UUID().uuidString
+      let eventId = events[indexPath.row].id
+      detailsVC.eventId = eventId
+      detailsVC.screenId = screenId
+      store.dispatch(CreateCommentsScreen(screenId: screenId, eventId: eventId))
     }
   }
   

@@ -21,6 +21,8 @@ class EventDetailsTableViewController: UITableViewController {
   @IBOutlet weak var dislikesButton: UIButton!
   @IBOutlet weak var commentsButton: UIButton!
   @IBOutlet weak var fromMeLabel: UILabel!
+  @IBOutlet weak var loadMoreButton: UIButton!
+  @IBOutlet weak var loadingStackView: UIStackView!
   
   @IBAction func likePressed(_ sender: UIButton) {
     eventViewModel.didTapLike()
@@ -33,9 +35,13 @@ class EventDetailsTableViewController: UITableViewController {
   @IBAction func commentPressed(_ sender: UIButton) {
   }
   
+  @IBAction func loadMorePressed(_ sender: UIButton) {
+    
+  }
   
   var eventId: Int!
-  private let screenId = UUID().uuidString
+  var screenId: ScreenId!
+  
   private var comments = [Comment]()
   
   private var eventViewModelRendered = false
@@ -65,15 +71,8 @@ class EventDetailsTableViewController: UITableViewController {
   
   func render(viewModel: EventViewModel) {
     
-    if !isFirstViewModelReceived {
-      viewModel.onLoadScreen(screenId, eventId)
-      comments = viewModel.event.comments ?? []
-      isFirstViewModelReceived = true
-    } else {
-      comments = viewModel.getCommentsForScreen(screenId)
-    }
+    comments = viewModel.getCommentsForScreen(screenId)
     tableView.reloadData()
-
     
     let event = viewModel.event
     userNameLabel.text = event.userName
@@ -91,6 +90,17 @@ class EventDetailsTableViewController: UITableViewController {
     dislikesButton.setTitle(String(event.dislikes), for: .normal)
     commentsButton.setTitle(String(event.commentsCount), for: .normal)
     
+    switch viewModel.loadMoreButtonState {
+    case .none:
+      loadMoreButton.isHidden = true
+      loadingStackView.isHidden = true
+    case .showButton:
+      loadMoreButton.isHidden = false
+      loadingStackView.isHidden = true
+    case .showLoading:
+      loadMoreButton.isHidden = true
+      loadingStackView.isHidden = false
+    }
   }
   
   
