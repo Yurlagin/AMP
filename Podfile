@@ -10,10 +10,14 @@ target 'AMP' do
 	pod 'MBProgressHUD', '~> 1.1.0'
 	pod 'ReSwift'
 	pod 'Firebase/Auth'
-	pod "PromiseKit", "~> 4.4"
+	pod 'PromiseKit', '~> 4.4'
 	pod 'PromiseKit/Alamofire', '~> 4.0'
 	pod "PromiseKit/CoreLocation"
 	pod 'Kingfisher', '~> 4.0'
 	pod 'Locksmith'
 	pod 'DeepDiff'
+end
+
+target 'AMPTests' do
+    pod 'Firebase'
 end

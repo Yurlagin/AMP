@@ -24,25 +24,51 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
+## DeepDiff
+
+Licensed under the **MIT** license
+
+> Copyright (c) 2015 Khoa Pham
+>
+> Permission is hereby granted, free of charge, to any person obtaining
+> a copy of this software and associated documentation files (the
+> "Software"), to deal in the Software without restriction, including
+> without limitation the rights to use, copy, modify, merge, publish,
+> distribute, sublicense, and/or sell copies of the Software, and to
+> permit persons to whom the Software is furnished to do so, subject to
+> the following conditions:
+>
+> The above copyright notice and this permission notice shall be
+> included in all copies or substantial portions of the Software.
+>
+> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+> EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+> MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+> IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+> CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+> TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+> SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
 ## Firebase
 
-Copyright 2017 Google
+Copyright 2018 Google
 
 ## FirebaseAnalytics
 
-Copyright 2017 Google
+Copyright 2018 Google
 
 ## FirebaseAuth
 
-Copyright 2017 Google
+Copyright 2018 Google
 
 ## FirebaseCore
 
-Copyright 2017 Google
+Copyright 2018 Google
 
 ## FirebaseInstanceID
 
-Copyright 2017 Google
+Copyright 2018 Google
 
 ## GTMSessionFetcher
 
@@ -460,7 +486,7 @@ Copyright 2017 Google
 
 The MIT License (MIT)
 
-Copyright (c) 2017 Wei Wang
+Copyright (c) 2018 Wei Wang
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -1254,31 +1280,6 @@ __3.13.4__ This Agreement, and all disputes arising out of or related thereto, s
 If you have any questions about this License Agreement, or if you want to contact the Company for any reason, please direct all mail correspondence to: Itty Bitty Apps Pty. Ltd. Level 2, 27 Hardware Lane, Melbourne, Victoria, Australia, 3000, or electronic correspondence to info@ittybittyapps.com.
 
 Do you agree to be bound by the terms of this agreement?
-
-
-## SwiftyJSON
-
-The MIT License (MIT)
-
-Copyright (c) 2017 Ruoyu Fu
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
 
 
 ## nanopb
