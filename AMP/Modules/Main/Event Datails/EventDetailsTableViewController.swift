@@ -8,6 +8,7 @@
 
 import UIKit
 import ReSwift
+import DeepDiff
 
 class EventDetailsTableViewController: UITableViewController {
  
@@ -36,7 +37,7 @@ class EventDetailsTableViewController: UITableViewController {
   }
   
   @IBAction func loadMorePressed(_ sender: UIButton) {
-    
+    eventViewModel.didTapLoadMore()
   }
   
   var eventId: Int!
@@ -57,6 +58,7 @@ class EventDetailsTableViewController: UITableViewController {
   var didTapLike: ((_ eventId: Int)->())?
   var didTapDislike: ((_ eventId: Int)->())?
   
+  
   // TODO: make it work
   override var supportedInterfaceOrientations: UIInterfaceOrientationMask { return [.portrait] }
   override var shouldAutorotate: Bool { return false }
@@ -71,8 +73,9 @@ class EventDetailsTableViewController: UITableViewController {
   
   func render(viewModel: EventViewModel) {
     
-    comments = viewModel.getCommentsForScreen(screenId)
-    tableView.reloadData()
+    let changes = diff(old: comments, new: viewModel.comments)
+    comments = viewModel.comments
+    tableView.reload(changes: changes) { (_) in }
     
     let event = viewModel.event
     userNameLabel.text = event.userName
@@ -94,13 +97,14 @@ class EventDetailsTableViewController: UITableViewController {
     case .none:
       loadMoreButton.isHidden = true
       loadingStackView.isHidden = true
-    case .showButton:
+    case .showButton, .showButtonWithError: //TODO: Add error alert..
       loadMoreButton.isHidden = false
       loadingStackView.isHidden = true
     case .showLoading:
       loadMoreButton.isHidden = true
       loadingStackView.isHidden = false
     }
+    
   }
   
   
@@ -144,11 +148,6 @@ class EventDetailsTableViewController: UITableViewController {
   }
   
   
-  deinit {
-    eventViewModel?.onDeinitScreen(screenId)
-  }
-  
-  
   override func numberOfSections(in tableView: UITableView) -> Int {
     return 1
   }
@@ -165,13 +164,19 @@ class EventDetailsTableViewController: UITableViewController {
     return cell
   }
   
+  
+  deinit {
+    eventViewModel?.onDeinitScreen(screenId)
+  }
+
+  
 }
 
 
 extension EventDetailsTableViewController: StoreSubscriber {
   
   func newState(state: AppState) {
-    if let eventViewModel = EventViewModel(eventId: eventId, state: state) {
+    if let eventViewModel = EventViewModel(eventId: eventId, screenId: screenId, state: state) {
       self.eventViewModel = eventViewModel
     }
   }

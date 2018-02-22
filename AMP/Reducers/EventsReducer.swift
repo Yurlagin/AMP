@@ -29,24 +29,30 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
   case _ as ReSwiftInit:
     break
     
+    
   case let action as SetEventListRequestStatus:
     state.request = action.status
+    
     
   case let action as RefreshEventsList:
     state.list = (action.location, action.events)
     state.request = .none
     state.isEndOfListReached = action.events.count < state.settings.pageLimit
     
+    
   case let action as AppendEventsToList:
     state.list?.events.append(contentsOf: action.events)
     state.request = .none
     state.isEndOfListReached = action.events.count < state.settings.pageLimit
     
+    
   case let action as LikeEventSent:
     updateEventCounters(fromNewEvent: action.event)
+    
 
   case let action as DislikeEventSent:
     updateEventCounters(fromNewEvent: action.event)
+    
 
   case let action as LikeInvertAction:
     if let index = state.list?.events.index(where: {$0.id == action.eventId}) {
@@ -60,6 +66,7 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
       state.list?.events[index] = event
     }
     
+    
   case let action as DislikeInvertAction:
     if let index = state.list?.events.index(where: {$0.id == action.eventId}) {
       var event = state.list!.events[index]
@@ -71,19 +78,39 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
       event.dislike = !event.dislike
       state.list?.events[index] = event
     }
+    
 
   case let action as CreateCommentsScreen:
     guard state.commentScreens[action.screenId] == nil else { break }
-    let comments = state.getEventBy(id: action.eventId)?.comments ?? []
     state.commentScreens[action.screenId] = EventsState.Comments(
       comments: [],
       eventId: action.eventId,
-      visibleCount: comments.count,
       isEndReached: false, // TODO: здесь должна быть настоящая проверочка
-      request: .none)
+      request: .run)
+    
+    
+  case let action as GetCommentsPage:
+    state.commentScreens[action.screenId]?.request = .run
+    print(action)
+    
+    
+  case let action as GetCommentsError:
+    state.commentScreens[action.screenId]?.request = .error(action.error)
+
 
   case let action as RemoveCommentsScreen:
     state.commentScreens[action.screenId] = nil
+    
+    
+  case let action as GotEvent:
+    if let index = state.list?.events.index(of: action.event) {
+      state.list?.events[index] = action.event
+    }
+    
+    
+    state.commentScreens[action.screenId]?.comments = action.event.comments ?? []
+    state.commentScreens[action.screenId]?.request = .none
+    state.commentScreens[action.screenId]?.isEndReached = (action.event.comments?.count ?? 0) == action.event.commentsCount
     
   case let action as NewComments:
     guard var screen = state.commentScreens[action.screenId] else { break }
@@ -93,8 +120,9 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     case .replace: screen.comments = action.comments
     }
     
-    screen.isEndReached = action.comments.count < screen.pageLimit
-   
+    screen.isEndReached = action.comments.count < state.settings.commentPageLimit
+    screen.request = .none
+    
     state.commentScreens[action.screenId] = screen
 
     

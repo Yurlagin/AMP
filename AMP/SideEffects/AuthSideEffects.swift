@@ -63,25 +63,4 @@ func logIn(authService: AuthServiceProtocol) -> MiddlewareItem {
 
 
 
-func getComments(eventsService: EventsServiceProtocol) -> MiddlewareItem {
-  return { (action: Action, dispatch: @escaping DispatchFunction) in
-    
-    switch action {
-      
-    case let action as CreateCommentsScreen:
-      guard let token = store.state.authState.loginStatus.getUserCredentials()?.token else { return }
-      eventsService.makeRequest(CommentsRequest(eventid: action.eventId, token: token, filter: CommentsRequest.CommentsFilter(limit: 10, offset: 0, maxid: nil)))
-        .then {
-          dispatch(NewComments(screenId: action.screenId, comments: $0, action: .replace)) }
-        .catch { _ in
-          dispatch(GetCommentsError(screenId: action.screenId)) }
-      
-    default:
-      break
-      
-    }
-    
-  }
-  
-}
 

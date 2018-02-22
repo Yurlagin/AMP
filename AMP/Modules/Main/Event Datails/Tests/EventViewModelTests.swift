@@ -13,7 +13,6 @@ import ReSwift
 @testable import AMP
 
 class EventViewModelTests: XCTestCase {
-      
   
   override func setUp() {
     super.setUp()

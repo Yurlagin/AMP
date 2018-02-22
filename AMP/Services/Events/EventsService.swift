@@ -13,6 +13,7 @@ import Alamofire
 
 protocol EventsServiceProtocol {
   func makeRequest(_ commentsRequest: CommentsRequest) -> Promise<[Comment]>
+  func makeRequest(_ commentsRequest: EventRequest) -> Promise<Event>
 }
 
 struct EventsService: EventsServiceProtocol {
@@ -131,6 +132,7 @@ struct EventsService: EventsServiceProtocol {
       return Alamofire.request(commentsRequest).responseData()
         .then (on: EventsService.bgq) {
           let commentsResponse = try JSONDecoder().decode(CommentsResponse.self, from: $0)
+          print ("ccc")
           if commentsResponse.answer == "getComments" {
             return Promise(value: commentsResponse.comments ?? [])
           } else {
@@ -141,6 +143,27 @@ struct EventsService: EventsServiceProtocol {
       return Promise(error: error)
     }
   }
+  
+  
+  
+  func makeRequest(_ eventRequest: EventRequest) -> Promise<Event> {
+    do {
+      let request = try EventsService.makeURLRequest(parameters: eventRequest)
+      return Alamofire.request(request).responseData()
+        .then (on: EventsService.bgq) {
+          let response = try JSONDecoder().decode(EventListAnswer.self, from: $0)
+          if response.answer == "getEvent", let event = response.events?.first {
+            return Promise(value: event)
+          } else {
+            throw EventsServiceError.unexpectedAnswer
+          }
+      }
+    } catch let error {
+      return Promise(error: error)
+    }
+  }
+
+  
   
   enum EventsServiceError: Error {
     case unexpectedAnswer

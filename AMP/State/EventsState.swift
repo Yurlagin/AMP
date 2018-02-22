@@ -36,6 +36,7 @@ struct EventsState: StateType {
     var onlyActive = false
     var onlyMine = false
     var pageLimit = 20
+    var commentPageLimit = 10
     let mapBaseURL = "https://usefulness.club/amp/staticmap.php?zoom=15&"
   }
   
@@ -43,14 +44,11 @@ struct EventsState: StateType {
   struct Comments {
     var comments: [Comment]
     var eventId: Int
-    var visibleCount: Int
     var isEndReached: Bool
-    let pageLimit = 10
     var request: Request
     
     enum Request {
       case none
-      case showLoadMore
       case run
       case error(Error)
     }

@@ -12,10 +12,10 @@ struct Comment: Codable {
   
   var id: Int
   var userId: Int
-  var userName: String
-  var avatarURL: String
+  var userName: String?
+  var avatarURL: String?
   var created: Date
-  var message: String
+  var message: String?
   var like: Bool
   var likes: Int
   var replyToId: Int?
@@ -47,14 +47,14 @@ extension Comment {
     
     id = try values.decode(Int.self, forKey: .id)
     userId = try values.decode(Int.self, forKey: .userId)
-    userName = try values.decode(String.self, forKey: .userName)
-    avatarURL = try values.decode(String.self, forKey: .avatarURL)
+    userName = try values.decodeIfPresent(String.self, forKey: .userName)
+    avatarURL = try values.decodeIfPresent(String.self, forKey: .avatarURL)
     
     let createdString = try values.decode(String.self, forKey: .created)
     guard let created = Date(ampDateString: createdString) else { throw CommentDecodingError.error }
     self.created = created
     
-    message = try values.decode(String.self, forKey: .message)
+    message = try values.decodeIfPresent(String.self, forKey: .message)
     
     let likeInt = try values.decode(Int.self, forKey: .like)
     self.like = likeInt > 0
@@ -63,4 +63,16 @@ extension Comment {
     replyToId = try values.decodeIfPresent(Int.self, forKey: .likes)
     
   }
+}
+
+extension Comment: Equatable, Hashable {
+  var hashValue: Int {
+    return self.id.hashValue + self.like.hashValue + self.likes.hashValue
+  }
+  
+  static func ==(lhs: Comment, rhs: Comment) -> Bool {
+    return lhs.id == rhs.id
+  }
+  
+  
 }

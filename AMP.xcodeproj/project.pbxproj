@@ -106,6 +106,7 @@
 		34F1A6D820286268009B18B2 /* EventListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F1A6D720286268009B18B2 /* EventListTableViewCell.swift */; };
 		709567E7118BE802D9CAB548 /* Pods_AMPTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A78FE235F0607F04560E22 /* Pods_AMPTests.framework */; };
 		84045BC2203E686800BC230C /* EventViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84045BC1203E686800BC230C /* EventViewModelTests.swift */; };
+		84045BC4203E7D7E00BC230C /* EventSideEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84045BC3203E7D7E00BC230C /* EventSideEffects.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -224,6 +225,7 @@
 		43A78FE235F0607F04560E22 /* Pods_AMPTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AMPTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F9EF6C0E6E1A0E5898FBC39 /* Pods_AMP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AMP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		84045BC1203E686800BC230C /* EventViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModelTests.swift; sourceTree = "<group>"; };
+		84045BC3203E7D7E00BC230C /* EventSideEffects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventSideEffects.swift; sourceTree = "<group>"; };
 		8ABDD09D50E1C2C239E644CF /* Pods-AMP.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AMP.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AMP/Pods-AMP.debug.xcconfig"; sourceTree = "<group>"; };
 		950995ABCCB2D091CAEA13AF /* Pods-AMPTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AMPTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AMPTests/Pods-AMPTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -306,10 +308,10 @@
 		344EB9CE2035138F009DDC65 /* Event Datails */ = {
 			isa = PBXGroup;
 			children = (
-				84045BC0203E678600BC230C /* Tests */,
 				344EB9CB20351357009DDC65 /* EventDetailsTableViewController.swift */,
 				3484C29C2037B7AD002F3A10 /* CommentCell.swift */,
 				344EB9D020352D40009DDC65 /* EventViewModel.swift */,
+				84045BC0203E678600BC230C /* Tests */,
 			);
 			path = "Event Datails";
 			sourceTree = "<group>";
@@ -593,6 +595,7 @@
 			children = (
 				34BFAE3D201C1F650079D566 /* SideEffects.swift */,
 				34BFAE3B201C12FF0079D566 /* AuthSideEffects.swift */,
+				84045BC3203E7D7E00BC230C /* EventSideEffects.swift */,
 			);
 			path = SideEffects;
 			sourceTree = "<group>";
@@ -1075,6 +1078,7 @@
 				340D91042026F2E500B1B90A /* EventsService.swift in Sources */,
 				34996EFF2005B36D00D53875 /* DeepLinkOption.swift in Sources */,
 				34DA41E1201DB8F300DDB0D7 /* EventListFactory.swift in Sources */,
+				84045BC4203E7D7E00BC230C /* EventSideEffects.swift in Sources */,
 				34745CB1200593CE00D19835 /* AppDelegate.swift in Sources */,
 				34EE683520326C6A004D2D1A /* UIColor.swift in Sources */,
 				34996F0B2005B66700D53875 /* CoordinatorFactory.swift in Sources */,
@@ -1247,7 +1251,7 @@
 				CODE_SIGN_ENTITLEMENTS = AMP/AMP.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 9J4YF85S53;
 				INFOPLIST_FILE = AMP/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1268,7 +1272,7 @@
 				CODE_SIGN_ENTITLEMENTS = AMP/AMP.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 9J4YF85S53;
 				INFOPLIST_FILE = AMP/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

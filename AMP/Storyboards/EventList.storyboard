@@ -328,7 +328,7 @@
                                     </constraints>
                                 </view>
                                 <textView clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="220" verticalCompressionResistancePriority="740" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" canCancelContentTouches="NO" bouncesZoom="NO" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Q4d-yk-Wf2">
-                                    <rect key="frame" x="20" y="241.5" width="335" height="107"/>
+                                    <rect key="frame" x="20" y="241.5" width="335" height="97"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <gestureRecognizers/>
                                     <string key="text">выаыаываsf kjshdfl jashfl sjhflk asjhfl ksjhfl kjshlf kjshalfjhsljfhlasjhfl sakjhfl ksajhfl ksjhfl ksajhfl ksajhfl ksjhfl kashjflk ahslkfjhsalkf lksahf lksahjfkshf hfkjshfkjsahflkjshflkjhsafasfasf asf sf saf sf s</string>
@@ -337,14 +337,14 @@
                                     <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES" address="YES" calendarEvent="YES"/>
                                 </textView>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W47-HU-OyZ" userLabel="Bottom Separator">
-                                    <rect key="frame" x="20" y="356.5" width="335" height="1"/>
+                                    <rect key="frame" x="20" y="346.5" width="335" height="1"/>
                                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="1" id="da7-tn-hMe"/>
                                     </constraints>
                                 </view>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="X4I-9T-Cjd">
-                                    <rect key="frame" x="20" y="365" width="335" height="115"/>
+                                    <rect key="frame" x="20" y="355" width="335" height="125"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="La3-Vu-fc6" userLabel="Buttons StackView">
                                             <rect key="frame" x="0.0" y="0.0" width="335" height="25"/>
@@ -399,18 +399,21 @@
                                             </connections>
                                         </button>
                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Ywk-rT-k8j">
-                                            <rect key="frame" x="121.5" y="95" width="92" height="20"/>
+                                            <rect key="frame" x="121.5" y="95" width="92" height="30"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Загрузка" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dl5-V1-mgU">
-                                                    <rect key="frame" x="0.0" y="1" width="64" height="18"/>
+                                                    <rect key="frame" x="0.0" y="6" width="64" height="18"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="aUB-12-Fjb">
-                                                    <rect key="frame" x="72" y="0.0" width="20" height="20"/>
+                                                    <rect key="frame" x="72" y="5" width="20" height="20"/>
                                                 </activityIndicatorView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="height" priority="750" constant="30" id="lSv-IT-ZUs"/>
+                                            </constraints>
                                         </stackView>
                                     </subviews>
                                     <constraints>

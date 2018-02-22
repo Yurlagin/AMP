@@ -26,6 +26,7 @@ struct EventListAnswer: Decodable {
   let answer: String
   let events: [Event]?
   let maxId: Int?
+  let maxCommentId: Int?
 }
 
 

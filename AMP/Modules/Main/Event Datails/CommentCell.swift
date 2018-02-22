@@ -30,7 +30,7 @@ class CommentCell: UITableViewCell {
   
   
   private func render(_ comment: Comment) {
-    avatarImageView.kf.setImage(with: URL(string: comment.avatarURL))
+    avatarImageView.kf.setImage(with: URL(string: comment.avatarURL ?? ""))
     createdLabel.text = comment.created.shortDayTimeString
     
     if comment.likes > 0 {
@@ -39,9 +39,12 @@ class CommentCell: UITableViewCell {
 
     likeButton.tintColor = UIColor(red: 1, green: 0, blue: 0, alpha: comment.like ? 1.0 : 0.35)
     
-    let signedMessage = NSMutableAttributedString(string: comment.userName + " " + comment.message)
+    let userName = comment.userName ?? "Без имени"
+    let message = comment.message ?? ""
+    
+    let signedMessage = NSMutableAttributedString(string: userName + " " + message)
     signedMessage.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .subheadline), range: signedMessage.mutableString.range(of: signedMessage.string))
-    let userNameRange =  signedMessage.mutableString.range(of: comment.userName)
+    let userNameRange =  signedMessage.mutableString.range(of: userName)
     signedMessage.addAttribute(.link, value: "UserProfile://", range: userNameRange)
     signedMessage.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .subheadline), range: userNameRange)
     messageTextView.attributedText = signedMessage   

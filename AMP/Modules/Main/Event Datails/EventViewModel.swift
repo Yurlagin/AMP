@@ -11,26 +11,31 @@ import ReSwift
 
 struct EventViewModel {
   let event: Event
-  let getCommentsForScreen: (ScreenId) -> ([Comment])
-  let loadMoreButtonState: LoadMoreState = .none
-//  let onLoadScreen: (ScreenId, EventId) -> ()
+  let screenId: ScreenId
+  let comments: [Comment]
+  let loadMoreButtonState: LoadMoreState
   let onDeinitScreen: (ScreenId) -> ()
   let distance: String
   let getMapURL: (CGFloat, CGFloat) -> (URL?)
   let didTapLike: () -> ()
   let didTapDislike: () -> ()
+  let didTapLoadMore: () -> ()
   
   enum LoadMoreState {
     case none
     case showButton
     case showLoading
+    case showButtonWithError
   }
   
-  init? (eventId: Int, state: AppState) {
+  init? (eventId: EventId, screenId: ScreenId, state: AppState) {
     
-    guard let event = state.eventsState.getEventBy(id: eventId) else { return nil }
+    guard let event = state.eventsState.getEventBy(id: eventId), let screen = state.eventsState.commentScreens[screenId] else { return nil }
     
     self.event = event
+    self.screenId = screenId
+    self.comments = screen.comments
+
     
     if let distance = state.locationState.location?.distance(from: CLLocation(latitude: event.latitude, longitude: event.longitude)) {
       self.distance = String(format: "%.1f км.", arguments: [distance / 1000])
@@ -80,23 +85,52 @@ struct EventViewModel {
     }
     
     
+    
     self.getMapURL = { width, height in
       return URL(string: state.eventsState.settings.mapBaseURL + "size=\(width)x\(height)&center=\(event.latitude),\(event.longitude)&markers=\(event.latitude),\(event.longitude)")
     }
     
-    
-    self.getCommentsForScreen = { screenId in
-      return state.eventsState.commentScreens[screenId]?.comments ?? []
+
+    switch screen.request {
+    case .none:
+      loadMoreButtonState =  screen.isEndReached ? .none : .showButton
+    case .run:
+      loadMoreButtonState = .showLoading
+    case .error:
+      loadMoreButtonState = .showButtonWithError
     }
     
     
-//    self.onLoadScreen = {
-//      store.dispatch(CreateCommentsScreen(screenId: $0, eventId: $1))
-//    }
+    
+    self.didTapLoadMore = {
+      store.dispatch{ (state, store) -> Action? in
+        
+        guard state.eventsState.commentScreens[screenId]?.isEndReached != true,
+          let event = state.eventsState.getEventBy(id: eventId)
+          else { return nil }
+        print ("passed")
+        
+        let pagelimit = state.eventsState.settings.commentPageLimit
+        let offset = max(event.commentsCount - screen.comments.count - pagelimit, 0)
+        let limit = offset > 0 ? pagelimit : event.commentsCount - screen.comments.count
+
+        let commentsPageAction = GetCommentsPage(
+          screenId: screenId,
+          eventId: eventId,
+          limit: limit,
+          offset: offset,
+          maxId: event.maxCommentId ?? 0)
+        
+        return commentsPageAction
+      }
+    }
     
     
     self.onDeinitScreen = {
       store.dispatch(RemoveCommentsScreen(screenId: $0))
     }
+    
+    
+
   }
 }

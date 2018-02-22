@@ -74,9 +74,21 @@ struct CommentsRequest: Codable {
   }
 }
 
+struct EventRequest: Codable {
+  let action = "getEvent"
+  let eventid: Int
+  let token: String
+  let filter: Filter
+  
+  struct Filter: Codable {
+    let tzone = "+07:00"
+  }
+}
+
+
 
 struct CommentsResponse: Codable {
-  let maxCommentId: Int?
+//  let maxCommentId: Int?
   let answer: String
   let comments: [Comment]?
 }

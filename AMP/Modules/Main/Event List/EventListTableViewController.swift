@@ -41,41 +41,48 @@ class EventListTableViewController: UITableViewController, EventListView {
   
   private func render(viewModel: EventListViewModel) {
 
-    let changes = diff(old: events, new: viewModel.events)
-    
-    events = viewModel.events
-    
-    let insertionsSet = Set(changes.flatMap{$0.insert?.index})
-    let deletionsSet = Set(changes.flatMap{$0.delete?.index})
-    let reloadsSet = deletionsSet.intersection(insertionsSet)
-    
-    let insertions = Array(insertionsSet.filter{!reloadsSet.contains($0)}.map{IndexPath(row: $0, section: 0)})
-    let deletions = Array(deletionsSet.filter{!reloadsSet.contains($0)}.map{IndexPath(row: $0, section: 0)})
-    
-    reloadsSet.forEach {
-      if let cell = tableView.cellForRow(at: IndexPath(row: $0, section: 0)) as? EventListTableViewCell {
-        cell.renderUI(event: events[$0])
+    DispatchQueue.global(qos: .userInitiated).async {
+      let changes = diff(old: self.events, new: viewModel.events)
+      
+      let insertionsSet = Set(changes.flatMap{$0.insert?.index})
+      let deletionsSet = Set(changes.flatMap{$0.delete?.index})
+      let reloadsSet = deletionsSet.intersection(insertionsSet)
+      
+      let insertions = Array(insertionsSet.filter{!reloadsSet.contains($0)}.map{IndexPath(row: $0, section: 0)})
+      let deletions = Array(deletionsSet.filter{!reloadsSet.contains($0)}.map{IndexPath(row: $0, section: 0)})
+
+      self.events = viewModel.events
+      
+      DispatchQueue.main.async {
+        reloadsSet.forEach {
+          if let cell = self.tableView.cellForRow(at: IndexPath(row: $0, section: 0)) as? EventListTableViewCell {
+            cell.renderUI(event: self.events[$0])
+          }
+        }
+        
+        self.tableView.beginUpdates()
+        self.tableView.deleteRows(at: deletions, with: .automatic)
+        self.tableView.insertRows(at: insertions, with: .automatic)
+        self.tableView.endUpdates()
+        
+        switch viewModel.spinner {
+        case .none: self.topSpinner(isRefreshing: false); self.bottomSpinner(isRefreshing: false)
+        case .top: self.topSpinner(isRefreshing: true); self.bottomSpinner(isRefreshing: false)
+        case .bottom: self.topSpinner(isRefreshing: false); self.bottomSpinner(isRefreshing: true)
+        }
+
       }
+
     }
     
-    tableView.beginUpdates()
-    tableView.deleteRows(at: deletions, with: .automatic)
-    tableView.insertRows(at: insertions, with: .automatic)
-    tableView.endUpdates()
-    
-    switch viewModel.spinner {
-    case .none: topSpinner(isRefreshing: false); bottomSpinner(isRefreshing: false)
-    case .top: topSpinner(isRefreshing: true); bottomSpinner(isRefreshing: false)
-    case .bottom: topSpinner(isRefreshing: false); bottomSpinner(isRefreshing: true)
-    }
   }
   
   
   private func topSpinner(isRefreshing: Bool) {
     if isRefreshing {
       if !refreshControl!.isRefreshing{
-        refreshControl!.beginRefreshing()
         setRefreshingContentOffset()
+        refreshControl!.beginRefreshing()
       }
     } else if refreshControl!.isRefreshing {
       refreshControl!.endRefreshing()
@@ -112,9 +119,9 @@ class EventListTableViewController: UITableViewController, EventListView {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    topSpinner(isRefreshing: true)
     tableView.estimatedRowHeight = 193
     tableView.rowHeight = UITableViewAutomaticDimension
+
   }
   
   
@@ -129,6 +136,7 @@ class EventListTableViewController: UITableViewController, EventListView {
     if !firstViewModelRendered {
       viewModel.onRefreshTableView?()
       firstViewModelRendered = true
+      topSpinner(isRefreshing: true)
     }
   }
   
@@ -202,6 +210,7 @@ class EventListTableViewController: UITableViewController, EventListView {
       let eventId = events[indexPath.row].id
       detailsVC.eventId = eventId
       detailsVC.screenId = screenId
+      // TODO: Remove cheat
       store.dispatch(CreateCommentsScreen(screenId: screenId, eventId: eventId))
     }
   }

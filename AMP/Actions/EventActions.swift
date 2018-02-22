@@ -56,9 +56,26 @@ struct CreateCommentsScreen: Action {
   let eventId: EventId
 }
 
+
 struct RemoveCommentsScreen: Action {
   let screenId: ScreenId
 }
+
+
+struct GetCommentsPage: Action {
+  let screenId: ScreenId
+  let eventId: EventId
+  let limit: Int
+  let offset: Int
+  let maxId: Int?
+}
+
+
+struct GotEvent: Action {
+  let event: Event
+  let screenId: ScreenId
+}
+
 
 struct NewComments: Action {
   let screenId: ScreenId
@@ -73,5 +90,6 @@ struct NewComments: Action {
 
 struct GetCommentsError: Action {
   let screenId: ScreenId
+  let error: Error
 }
 
