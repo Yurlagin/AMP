@@ -67,7 +67,7 @@ extension Comment {
 
 extension Comment: Equatable, Hashable {
   var hashValue: Int {
-    return self.id.hashValue + self.like.hashValue + self.likes.hashValue
+    return self.created.hashValue + self.like.hashValue + self.likes.hashValue
   }
   
   static func ==(lhs: Comment, rhs: Comment) -> Bool {

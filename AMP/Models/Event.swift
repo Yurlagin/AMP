@@ -128,12 +128,13 @@ extension Event: Equatable {
 
 extension Event: Hashable {
   var hashValue: Int {
-    return id.hashValue +
+    return created.hashValue +
       commentsCount.hashValue +
       dislikes.hashValue +
       likes.hashValue +
       like.hashValue +
       dislike.hashValue +
       visible.hashValue
+    
   }
 }

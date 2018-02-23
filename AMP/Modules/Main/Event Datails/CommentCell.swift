@@ -34,7 +34,7 @@ class CommentCell: UITableViewCell {
     createdLabel.text = comment.created.shortDayTimeString
     
     if comment.likes > 0 {
-      createdLabel.text! += " | Отметок нравится: \(comment.likes)"
+      createdLabel.text! += " | Нравится: \(comment.likes)"
     }
 
     likeButton.tintColor = UIColor(red: 1, green: 0, blue: 0, alpha: comment.like ? 1.0 : 0.35)
@@ -56,5 +56,7 @@ class CommentCell: UITableViewCell {
     messageTextView.textContainerInset = .zero
     messageTextView.offset
     messageTextView.textContainer.lineFragmentPadding = .leastNonzeroMagnitude
+    avatarImageView?.layer.masksToBounds = true
+    avatarImageView?.layer.cornerRadius = avatarImageView!.frame.height / 2
   }
 }
