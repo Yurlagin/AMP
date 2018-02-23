@@ -25,8 +25,17 @@ class CommentCell: UITableViewCell {
   var comment: Comment! {
     didSet {
       render(comment)
+//      setNeedsLayout()
     }
   }
+  
+//  override func layoutSubviews() {
+//    if !commentRendered {
+//      render(comment)
+//      commentRendered = true
+//    }
+//    super.layoutSubviews()
+//  }
   
   
   private func render(_ comment: Comment) {
@@ -37,7 +46,7 @@ class CommentCell: UITableViewCell {
       createdLabel.text! += " | Нравится: \(comment.likes)"
     }
 
-    likeButton.tintColor = UIColor(red: 1, green: 0, blue: 0, alpha: comment.like ? 1.0 : 0.35)
+    likeButton.isHidden = !comment.like
     
     let userName = comment.userName ?? "Без имени"
     let message = comment.message ?? ""
@@ -59,4 +68,5 @@ class CommentCell: UITableViewCell {
     avatarImageView?.layer.masksToBounds = true
     avatarImageView?.layer.cornerRadius = avatarImageView!.frame.height / 2
   }
+  
 }

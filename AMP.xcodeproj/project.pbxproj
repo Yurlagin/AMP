@@ -309,8 +309,8 @@
 			isa = PBXGroup;
 			children = (
 				344EB9CB20351357009DDC65 /* EventDetailsTableViewController.swift */,
-				3484C29C2037B7AD002F3A10 /* CommentCell.swift */,
 				344EB9D020352D40009DDC65 /* EventViewModel.swift */,
+				3484C29C2037B7AD002F3A10 /* CommentCell.swift */,
 				84045BC0203E678600BC230C /* Tests */,
 			);
 			path = "Event Datails";

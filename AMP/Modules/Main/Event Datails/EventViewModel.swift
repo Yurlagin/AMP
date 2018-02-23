@@ -10,6 +10,7 @@ import CoreLocation
 import ReSwift
 
 struct EventViewModel {
+  
   let event: Event
   let screenId: ScreenId
   let comments: [Comment]
@@ -20,6 +21,15 @@ struct EventViewModel {
   let didTapLike: () -> ()
   let didTapDislike: () -> ()
   let didTapLoadMore: () -> ()
+  let getActionsForComment: (_ commentIndex: Int) -> (Set<CommentAction>)
+  let didTapCommentAction: (CommentAction, _ commentIndex: Int) -> ()
+  
+  enum CommentAction {
+    case like
+    case dislike
+    case resolve
+    case answer
+  }
   
   enum LoadMoreState {
     case none
@@ -131,6 +141,25 @@ struct EventViewModel {
     }
     
     
+    self.getActionsForComment = { index in
+      let comment = screen.comments[index]
+      var actions: Set<CommentAction> = [comment.like ? .dislike : .like, .answer]
+      if event.solutionCommentId == nil { actions.insert(.resolve) }
+      return actions
+    }
+    
+    
+    self.didTapCommentAction = { action, index in
+      
+      switch action {
+      case .like, .dislike:
+        break
+      case .resolve:
+        break
+      default:
+        break
+      }
+    }
 
   }
 }

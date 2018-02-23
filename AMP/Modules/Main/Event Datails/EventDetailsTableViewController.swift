@@ -108,6 +108,30 @@ class EventDetailsTableViewController: UITableViewController {
   }
   
   
+  private func showActionsForComment(index: Int) {
+    
+    let actions =  eventViewModel.getActionsForComment(index)
+    let actionsVC = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    actions.forEach { action in
+      let buttonTitle: String
+      switch action {
+      case .like: buttonTitle = "Мне нравится"
+      case .dislike: buttonTitle = "Больше не нравится"
+      case .answer: buttonTitle = "Ответить"
+      case .resolve: buttonTitle = "Отметить, как решение"
+      }
+      actionsVC.addAction(UIAlertAction(title: buttonTitle,
+                                        style: .default,
+                                        handler: { _ in
+                                          self.eventViewModel.didTapCommentAction(action, index)
+                                          self.tableView.cellForRow(at: IndexPath(row: index, section: 0))?.setSelected(false, animated: true)} ))
+    }
+    actionsVC.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: { _ in
+      self.tableView.cellForRow(at: IndexPath(row: index, section: 0))?.setSelected(false, animated: true) }))
+    present(actionsVC, animated: true, completion: nil)
+  }
+  
+  
   override func viewWillLayoutSubviews() {
     super.viewWillLayoutSubviews()
     
@@ -165,6 +189,10 @@ class EventDetailsTableViewController: UITableViewController {
   }
   
   
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    showActionsForComment(index: indexPath.row)
+  }
+  
   deinit {
     eventViewModel?.onDeinitScreen(screenId)
   }
@@ -180,8 +208,5 @@ extension EventDetailsTableViewController: StoreSubscriber {
       self.eventViewModel = eventViewModel
     }
   }
-  
-  
-  
   
 }

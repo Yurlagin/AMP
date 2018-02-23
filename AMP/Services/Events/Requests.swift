@@ -61,6 +61,23 @@ struct LikeEventRequest: Encodable {
 }
 
 
+struct LikeCommentRequest: Encodable {
+  let token: String
+  let action: RequestType
+  let id: Int
+  
+  enum RequestType: String, Encodable {
+    case addLikeComment
+    case removeLikeComment
+  }
+}
+
+
+struct DefaultAnswer: Decodable {
+  let answer: String
+}
+
+
 struct CommentsRequest: Codable {
   let action = "getComments"
   let eventid: Int

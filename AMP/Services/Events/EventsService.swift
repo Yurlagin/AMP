@@ -164,6 +164,34 @@ struct EventsService: EventsServiceProtocol {
   }
 
   
+  static func send(_ request: LikeCommentRequest) -> (Promise<()>, Cancel) {
+    
+    let urlRequest = try! makeURLRequest(parameters: request)
+    
+    let task = Alamofire.request(urlRequest)
+    
+    var canceled = false
+    
+    let cancel = {
+      task.cancel()
+      canceled = true
+    }
+    
+    return (
+      task.responseData()
+        .then (on: bgq) { data in
+          if !canceled {
+            let answer = try JSONDecoder().decode(DefaultAnswer.self, from: data)
+            if answer.answer == request.action.rawValue {
+              return Promise()
+            }
+          }
+          return Promise()
+      },
+      cancel)
+    
+  }
+  
   
   enum EventsServiceError: Error {
     case unexpectedAnswer

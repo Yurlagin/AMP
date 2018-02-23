@@ -28,6 +28,7 @@ struct Event: Codable {
   let visible: Bool // visible=показывается всем pended= на премодерации и показывается только автору
   var comments: [Comment]?
   var maxCommentId: Int?
+  let solutionCommentId: Int?
   
   enum EventType: String, Codable {
     case questions
@@ -60,6 +61,7 @@ struct Event: Codable {
     case visible = "status"
     case comments
     case maxCommentId
+    case solutionCommentId
   }
 }
 
@@ -110,7 +112,7 @@ extension Event {
     self.visible = visible == "visible"
     self.comments = try values.decodeIfPresent([Comment].self, forKey: .comments)
     self.maxCommentId = try values.decodeIfPresent(Int.self, forKey: .maxCommentId)
-
+    self.solutionCommentId = try values.decodeIfPresent(Int.self, forKey: .solutionCommentId)
   }
   
   enum EventDecodingError: Error {
