@@ -46,6 +46,9 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     state.isEndOfListReached = action.events.count < state.settings.pageLimit
     
     
+  case let action as SetEventListError:
+    state.listRequest = .error(action.error)
+    
   case let action as EventLikeSent:
     updateEventCounters(fromNewEvent: action.event)
     
