@@ -10,49 +10,51 @@ import ReSwift
 
 func apiRequestsReducer(action: Action, state: ApiRequestsState?) -> ApiRequestsState {
   
-  var state = state ?? ApiRequestsState(likeRequests: [:])
+  var state = state ?? ApiRequestsState(eventsLikeRequests: [:], commentsLikeRequests: [:])
   
   switch action {
     
   case _ as ReSwiftInit:
     break
     
-  case let action as LikeInvertAction:
-    if var cancelTasks = state.likeRequests[action.eventId] {
+    
+  case let action as EventLikeInvertAction:
+    if var cancelTasks = state.eventsLikeRequests[action.eventId] {
       cancelTasks.like = action.cancelTask
-      state.likeRequests[action.eventId] = cancelTasks
+      state.eventsLikeRequests[action.eventId] = cancelTasks
     } else if let cancelFunction = action.cancelTask {
-      state.likeRequests[action.eventId] = (like: cancelFunction, dislike: nil)
+      state.eventsLikeRequests[action.eventId] = (like: cancelFunction, dislike: nil)
     }
     
-  case let action as DislikeInvertAction:
-    if var cancelTasks = state.likeRequests[action.eventId] {
+    
+  case let action as EventDislikeInvertAction:
+    if var cancelTasks = state.eventsLikeRequests[action.eventId] {
       cancelTasks.dislike = action.cancelTask
-      state.likeRequests[action.eventId] = cancelTasks
+      state.eventsLikeRequests[action.eventId] = cancelTasks
     } else if let cancelFunction = action.cancelTask {
-      state.likeRequests[action.eventId] = (like: cancelFunction, dislike: nil)
+      state.eventsLikeRequests[action.eventId] = (like: cancelFunction, dislike: nil)
     }
     
-//  case let action as UpdateEvent:
-//    if let _ = state.likeRequests[action.event.id] {
-//      if action.removeLikeTask {
-//        state.likeRequests[action.event.id]?.like = nil
-//      }
-//      if action.removeDislikeTask {
-//        state.likeRequests[action.event.id]?.dislike = nil
-//      }
-//    }
     
-  case let action as LikeEventSent:
-    if let _ = state.likeRequests[action.event.id] {
-      state.likeRequests[action.event.id]?.like = nil
+  case let action as EventLikeSent:
+    if let _ = state.eventsLikeRequests[action.event.id] {
+      state.eventsLikeRequests[action.event.id]?.like = nil
     }
     
-  case let action as DislikeEventSent:
-    if let _ = state.likeRequests[action.event.id] {
-      state.likeRequests[action.event.id]?.dislike = nil
+    
+  case let action as EventDislikeSent:
+    if let _ = state.eventsLikeRequests[action.event.id] {
+      state.eventsLikeRequests[action.event.id]?.dislike = nil
     }
+    
+    
+  case let action as CommentLikeInvertAction:
+      state.commentsLikeRequests[action.commentId] = action.cancelTask
 
+    
+  case let action as CommentLikeSent:
+    state.commentsLikeRequests[action.commentId] = nil
+    
     
     
   default :

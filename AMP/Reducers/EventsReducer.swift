@@ -10,7 +10,7 @@ import ReSwift
 
 func eventsReducer(action: Action, state: EventsState?) -> EventsState {
   
-  var state = state ?? EventsState(list: nil, isEndOfListReached: false, settings: EventsState.Settings(), commentScreens: [:], request: .none)
+  var state = state ?? EventsState(list: nil, isEndOfListReached: false, settings: EventsState.Settings(), commentScreens: [:], listRequest: .none)
   
   func updateEventCounters(fromNewEvent event: Event) {
     if let index = state.list?.events.index(of: event) {
@@ -31,30 +31,30 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     
     
   case let action as SetEventListRequestStatus:
-    state.request = action.status
+    state.listRequest = action.status
     
     
   case let action as RefreshEventsList:
     state.list = (action.location, action.events)
-    state.request = .none
+    state.listRequest = .none
     state.isEndOfListReached = action.events.count < state.settings.pageLimit
     
     
   case let action as AppendEventsToList:
     state.list?.events.append(contentsOf: action.events)
-    state.request = .none
+    state.listRequest = .none
     state.isEndOfListReached = action.events.count < state.settings.pageLimit
     
     
-  case let action as LikeEventSent:
+  case let action as EventLikeSent:
     updateEventCounters(fromNewEvent: action.event)
     
 
-  case let action as DislikeEventSent:
+  case let action as EventDislikeSent:
     updateEventCounters(fromNewEvent: action.event)
     
 
-  case let action as LikeInvertAction:
+  case let action as EventLikeInvertAction:
     if let index = state.list?.events.index(where: {$0.id == action.eventId}) {
       var event = state.list!.events[index]
       if event.like {
@@ -67,7 +67,7 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     }
     
     
-  case let action as DislikeInvertAction:
+  case let action as EventDislikeInvertAction:
     if let index = state.list?.events.index(where: {$0.id == action.eventId}) {
       var event = state.list!.events[index]
       if event.dislike {
@@ -126,10 +126,30 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     state.commentScreens[action.screenId] = screen
 
     
+  case let action as CommentLikeInvertAction:
+    
+    func invertLike(eventId: EventId, commentId: CommentId, screens: [ScreenId: EventsState.Comments]) -> [ScreenId: EventsState.Comments] {
+      return state.commentScreens.mapValues { (comments) in
+        guard eventId == comments.eventId else { return comments }
+        var comments = comments
+        if let index = comments.comments.index(where: { $0.id == commentId }) {
+          var comment = comments.comments[index]
+          if comment.like { comment.likes -= 1 } else { comment.likes += 1 }
+          comment.like = !comment.like
+          comments.comments[index] = comment
+        }
+        return comments
+      }
+    }
+    
+    state.commentScreens = invertLike(eventId: action.eventId, commentId: action.commentId, screens: state.commentScreens)
+  
+    
   default :
     break
     
   }
+  
   
   return state
 }

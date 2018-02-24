@@ -40,12 +40,12 @@ struct EventListViewModel {
   init (state: AppState) {
    
     events = state.eventsState.list?.events ?? []
-    spinner = state.eventsState.request.getSpinnerType()
+    spinner = state.eventsState.listRequest.getSpinnerType()
   
     let refresh = {
       store.dispatch({ (appState, store) -> Action? in
         guard let token = state.authState.loginStatus.getUserCredentials()?.token else { return nil } // TODO: изменить состоение на неавторизованное
-        switch appState.eventsState.request {
+        switch appState.eventsState.listRequest {
         case .request:
           return nil
         default: break
@@ -85,7 +85,7 @@ struct EventListViewModel {
         
         guard let events = appState.eventsState.list?.events,
           events.count - 1 - index <= appState.eventsState.settings.pageLimit / 2 ,
-          !appState.eventsState.request.isActive(),
+          !appState.eventsState.listRequest.isActive(),
           !appState.eventsState.isEndOfListReached else { return nil }
         
         guard let token = state.authState.loginStatus.getUserCredentials()?.token else { return SetLoginState(.none) }
@@ -118,7 +118,7 @@ struct EventListViewModel {
     didTapLike = { eventId in
       store.dispatch { (state, store) -> Action? in
         var cancelTask: Cancel?
-        if let cancelLikeRequest = state.apiRequestsState.likeRequests[eventId]?.like {
+        if let cancelLikeRequest = state.apiRequestsState.eventsLikeRequests[eventId]?.like {
           cancelLikeRequest()
         } else {
           let index = state.eventsState.list!.events.index { $0.id == eventId }!
@@ -128,17 +128,17 @@ struct EventListViewModel {
           let (eventPromise, cancel) = EventsService.send(likeRequest)
           cancelTask = cancel
           eventPromise
-            .then { store.dispatch(LikeEventSent(event: $0)) }
-            .catch { _ in store.dispatch(LikeInvertAction(eventId: eventId, cancelTask: nil)) }
+            .then { store.dispatch(EventLikeSent(event: $0)) }
+            .catch { _ in store.dispatch(EventLikeInvertAction(eventId: eventId, cancelTask: nil)) }
         }
-        return LikeInvertAction(eventId: eventId, cancelTask: cancelTask)
+        return EventLikeInvertAction(eventId: eventId, cancelTask: cancelTask)
       }
     }
     
     didTapDislike = { eventId in
       store.dispatch { (state, store) -> Action? in
         var cancelTask: Cancel?
-        if let cancelDislikeRequest = state.apiRequestsState.likeRequests[eventId]?.dislike {
+        if let cancelDislikeRequest = state.apiRequestsState.eventsLikeRequests[eventId]?.dislike {
           cancelDislikeRequest()
         } else {
           let index = state.eventsState.list!.events.index { $0.id == eventId }!
@@ -148,10 +148,10 @@ struct EventListViewModel {
           let (eventPromise, cancel) = EventsService.send(dislikeRequest)
           cancelTask = cancel
           eventPromise
-            .then {  store.dispatch( DislikeEventSent(event: $0) )}
-            .catch { _ in store.dispatch(DislikeInvertAction(eventId: eventId, cancelTask: nil)) }
+            .then {  store.dispatch( EventDislikeSent(event: $0) )}
+            .catch { _ in store.dispatch(EventDislikeInvertAction(eventId: eventId, cancelTask: nil)) }
         }
-        return DislikeInvertAction(eventId: eventId, cancelTask: cancelTask)
+        return EventDislikeInvertAction(eventId: eventId, cancelTask: cancelTask)
       }
     }
   }

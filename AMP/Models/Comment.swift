@@ -31,6 +31,7 @@ struct Comment: Codable {
     case like
     case likes
     case replyToId = "replyTo"
+    
   }
   
 }

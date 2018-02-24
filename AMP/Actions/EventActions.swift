@@ -33,21 +33,21 @@ struct SetEventListRequestStatus: Action {
   init (_ status: EventsState.RequestStatus) { self.status = status }
 }
 
-struct LikeInvertAction: Action {
+struct EventLikeInvertAction: Action {
   let eventId: Int
   let cancelTask: (()->())?
 }
 
-struct DislikeInvertAction: Action {
+struct EventDislikeInvertAction: Action {
   let eventId: Int
   let cancelTask: (()->())?
 }
 
-struct LikeEventSent: Action {
+struct EventLikeSent: Action {
   let event: Event
 }
 
-struct DislikeEventSent: Action {
+struct EventDislikeSent: Action {
   let event: Event
 }
 
@@ -92,4 +92,19 @@ struct GetCommentsError: Action {
   let screenId: ScreenId
   let error: Error
 }
+
+// MARK: Comment like actions
+
+typealias CommentId = Int
+
+struct CommentLikeInvertAction: Action {
+  let eventId: EventId
+  let commentId: CommentId
+  let cancelTask: (()->())?
+}
+
+struct CommentLikeSent: Action {
+  let commentId: CommentId
+}
+
 

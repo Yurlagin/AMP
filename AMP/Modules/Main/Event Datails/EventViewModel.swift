@@ -21,7 +21,7 @@ struct EventViewModel {
   let didTapLike: () -> ()
   let didTapDislike: () -> ()
   let didTapLoadMore: () -> ()
-  let getActionsForComment: (_ commentIndex: Int) -> (Set<CommentAction>)
+  let getActionsForComment: (_ commentIndex: Int) -> ([CommentAction])
   let didTapCommentAction: (CommentAction, _ commentIndex: Int) -> ()
   
   enum CommentAction {
@@ -56,7 +56,7 @@ struct EventViewModel {
     self.didTapLike = {
       store.dispatch { (state, store) -> Action? in
         var cancelTask: Cancel?
-        if let cancelLikeRequest = state.apiRequestsState.likeRequests[eventId]?.like {
+        if let cancelLikeRequest = state.apiRequestsState.eventsLikeRequests[eventId]?.like {
           cancelLikeRequest()
         } else {
           let index = state.eventsState.list!.events.index { $0.id == eventId }!
@@ -66,10 +66,10 @@ struct EventViewModel {
           let (eventPromise, cancel) = EventsService.send(likeRequest)
           cancelTask = cancel
           eventPromise
-            .then { store.dispatch(LikeEventSent(event: $0)) }
-            .catch { _ in store.dispatch(LikeInvertAction(eventId: eventId, cancelTask: nil)) }
+            .then { store.dispatch(EventLikeSent(event: $0)) }
+            .catch { _ in store.dispatch(EventLikeInvertAction(eventId: eventId, cancelTask: nil)) }
         }
-        return LikeInvertAction(eventId: eventId, cancelTask: cancelTask)
+        return EventLikeInvertAction(eventId: eventId, cancelTask: cancelTask)
       }
     }
     
@@ -77,7 +77,7 @@ struct EventViewModel {
     self.didTapDislike = {
       store.dispatch { (state, store) -> Action? in
         var cancelTask: Cancel?
-        if let cancelDislikeRequest = state.apiRequestsState.likeRequests[eventId]?.dislike {
+        if let cancelDislikeRequest = state.apiRequestsState.eventsLikeRequests[eventId]?.dislike {
           cancelDislikeRequest()
         } else {
           let index = state.eventsState.list!.events.index { $0.id == eventId }!
@@ -87,10 +87,10 @@ struct EventViewModel {
           let (eventPromise, cancel) = EventsService.send(dislikeRequest)
           cancelTask = cancel
           eventPromise
-            .then {  store.dispatch( DislikeEventSent(event: $0) )}
-            .catch { _ in store.dispatch(DislikeInvertAction(eventId: eventId, cancelTask: nil)) }
+            .then {  store.dispatch( EventDislikeSent(event: $0) )}
+            .catch { _ in store.dispatch(EventDislikeInvertAction(eventId: eventId, cancelTask: nil)) }
         }
-        return DislikeInvertAction(eventId: eventId, cancelTask: cancelTask)
+        return EventDislikeInvertAction(eventId: eventId, cancelTask: cancelTask)
       }
     }
     
@@ -143,21 +143,47 @@ struct EventViewModel {
     
     self.getActionsForComment = { index in
       let comment = screen.comments[index]
-      var actions: Set<CommentAction> = [comment.like ? .dislike : .like, .answer]
-      if event.solutionCommentId == nil { actions.insert(.resolve) }
+      var actions: [CommentAction] = [comment.like ? .dislike : .like, .answer]
+      if event.solutionCommentId == nil { actions.append(.resolve) }
       return actions
     }
     
     
     self.didTapCommentAction = { action, index in
+      let comment = screen.comments[index]
       
       switch action {
+        
       case .like, .dislike:
-        break
+        store.dispatch { (state, store) -> Action? in
+         
+          let cancelTask: Cancel?
+          
+          if let cancelRequestFunction = state.apiRequestsState.commentsLikeRequests[comment.id] {
+            cancelRequestFunction()
+            cancelTask = nil
+          } else {
+            guard let token = state.authState.loginStatus.getUserCredentials()?.token else { return SetLoginState(.none) }
+            let likeRequest = LikeCommentRequest(token: token, action: comment.like ? .removeLikeComment : .addLikeComment, id: comment.id)
+            let (likeCommentPromise, cancel) = EventsService.send(likeRequest)
+            cancelTask = cancel
+            likeCommentPromise
+              .then {
+                store.dispatch(CommentLikeSent(commentId: comment.id)) }
+              .catch { _ in
+                store.dispatch(CommentLikeInvertAction(eventId: eventId, commentId: comment.id, cancelTask: nil)) }
+          }
+          
+          return CommentLikeInvertAction(eventId: eventId, commentId: comment.id, cancelTask: cancelTask)
+        }
+
+        
       case .resolve:
         break
+        
       default:
         break
+        
       }
     }
 

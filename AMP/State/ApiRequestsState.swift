@@ -12,6 +12,7 @@ struct ApiRequestsState: StateType {
   
   typealias EventTasks = (like: Cancel?, dislike: Cancel?)
   
-  var likeRequests: [Int: EventTasks]
+  var eventsLikeRequests: [Int: EventTasks]
+  var commentsLikeRequests: [CommentId: Cancel]
   
 }

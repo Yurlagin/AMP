@@ -178,15 +178,18 @@ struct EventsService: EventsServiceProtocol {
     }
     
     return (
-      task.responseData()
-        .then (on: bgq) { data in
-          if !canceled {
+      Promise { (fulfill, error) in
+        task.responseData()
+          .then (on: bgq) { data -> () in
+            guard !canceled else { return }
             let answer = try JSONDecoder().decode(DefaultAnswer.self, from: data)
             if answer.answer == request.action.rawValue {
-              return Promise()
+              fulfill(())
+            } else {
+              error (EventsServiceError.unexpectedAnswer)
             }
-          }
-          return Promise()
+          }.catch{
+            error($0) }
       },
       cancel)
     

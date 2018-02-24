@@ -15,7 +15,7 @@ struct EventsState: StateType {
   var isEndOfListReached: Bool
   var settings: Settings
   var commentScreens: [ScreenId: Comments]
-  var request: RequestStatus
+  var listRequest: RequestStatus
   
   
   enum RequestStatus {
@@ -28,7 +28,6 @@ struct EventsState: StateType {
       case loadMore
     }
   }
-  
   
   struct Settings {
     var radius = 20
