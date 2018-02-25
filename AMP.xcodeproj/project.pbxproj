@@ -23,7 +23,7 @@
 		344E57822025630A00C5CF39 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 344E57812025630A00C5CF39 /* GoogleService-Info.plist */; };
 		344E57842025653800C5CF39 /* MockAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344E57832025653800C5CF39 /* MockAuthService.swift */; };
 		344E57872025BF4000C5CF39 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344E57862025BF4000C5CF39 /* Parser.swift */; };
-		344EB9CC20351357009DDC65 /* EventDetailsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344EB9CB20351357009DDC65 /* EventDetailsTableViewController.swift */; };
+		344EB9CC20351357009DDC65 /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344EB9CB20351357009DDC65 /* EventDetailsViewController.swift */; };
 		344EB9D120352D40009DDC65 /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344EB9D020352D40009DDC65 /* EventViewModel.swift */; };
 		344EB9D32035C42E009DDC65 /* UINavigationControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344EB9D22035C42E009DDC65 /* UINavigationControllerExtensions.swift */; };
 		34693CE1202B012800E4EE8E /* RLMSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34693CE0202B012800E4EE8E /* RLMSettings.swift */; };
@@ -137,7 +137,7 @@
 		344E57812025630A00C5CF39 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		344E57832025653800C5CF39 /* MockAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthService.swift; sourceTree = "<group>"; };
 		344E57862025BF4000C5CF39 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
-		344EB9CB20351357009DDC65 /* EventDetailsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsTableViewController.swift; sourceTree = "<group>"; };
+		344EB9CB20351357009DDC65 /* EventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
 		344EB9D020352D40009DDC65 /* EventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
 		344EB9D22035C42E009DDC65 /* UINavigationControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtensions.swift; sourceTree = "<group>"; };
 		34693CE0202B012800E4EE8E /* RLMSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RLMSettings.swift; sourceTree = "<group>"; };
@@ -308,7 +308,7 @@
 		344EB9CE2035138F009DDC65 /* Event Datails */ = {
 			isa = PBXGroup;
 			children = (
-				344EB9CB20351357009DDC65 /* EventDetailsTableViewController.swift */,
+				344EB9CB20351357009DDC65 /* EventDetailsViewController.swift */,
 				344EB9D020352D40009DDC65 /* EventViewModel.swift */,
 				3484C29C2037B7AD002F3A10 /* CommentCell.swift */,
 				84045BC0203E678600BC230C /* Tests */,
@@ -925,6 +925,7 @@
 				"${BUILT_PRODUCTS_DIR}/ReSwift/ReSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SlackTextViewController/SlackTextViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -941,6 +942,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SlackTextViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1017,7 +1019,7 @@
 				34996F142005B85400D53875 /* AuthCoordinator.swift in Sources */,
 				34996F262005B9FC00D53875 /* UIViewExtensions.swift in Sources */,
 				34DA41F1201DBE3A00DDB0D7 /* SettingsModuleFactory.swift in Sources */,
-				344EB9CC20351357009DDC65 /* EventDetailsTableViewController.swift in Sources */,
+				344EB9CC20351357009DDC65 /* EventDetailsViewController.swift in Sources */,
 				34B9EF5C202FB22F00F31CB0 /* LocationReducer.swift in Sources */,
 				3484C2962036761D002F3A10 /* Event.swift in Sources */,
 				34EBBB932031A548000FF513 /* ApiRequestsReducer.swift in Sources */,

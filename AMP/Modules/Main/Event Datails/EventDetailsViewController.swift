@@ -9,8 +9,9 @@
 import UIKit
 import ReSwift
 import DeepDiff
+import SlackTextViewController
 
-class EventDetailsTableViewController: UITableViewController {
+class EventDetailsViewController: SLKTextViewController {
  
   @IBOutlet weak var userNameLabel: UILabel!
   @IBOutlet weak var avatarImageView: UIImageView!
@@ -24,6 +25,16 @@ class EventDetailsTableViewController: UITableViewController {
   @IBOutlet weak var fromMeLabel: UILabel!
   @IBOutlet weak var loadMoreButton: UIButton!
   @IBOutlet weak var loadingStackView: UIStackView!
+  @IBOutlet weak var bottomStackView: UIStackView!
+
+//  @IBOutlet weak var tableView: UITableView!
+  
+//  @IBOutlet weak var textinputViewBottomConstraint: NSLayoutConstraint!
+//  @IBOutlet weak var textView: UITextView!
+//  @IBOutlet weak var textInputView: UIView!
+
+  @IBOutlet weak var sendButton: UIButton!
+  
   
   @IBAction func likePressed(_ sender: UIButton) {
     eventViewModel.didTapLike()
@@ -38,6 +49,9 @@ class EventDetailsTableViewController: UITableViewController {
   
   @IBAction func loadMorePressed(_ sender: UIButton) {
     eventViewModel.didTapLoadMore()
+  }
+  
+  @IBAction func sendButtonPressed(_ sender: UIButton) {
   }
   
   var eventId: Int!
@@ -64,14 +78,31 @@ class EventDetailsTableViewController: UITableViewController {
   override var shouldAutorotate: Bool { return false }
 
   
-  override func viewDidLoad() {
-    tableView.estimatedRowHeight = 120
-    tableView.rowHeight = UITableViewAutomaticDimension
-    tableView.tableFooterView = UIView()
+  fileprivate func setInitialAppearance() {
+    
+//    textView.layer.cornerRadius = 4
+//    textView.layer.masksToBounds = true
+//    textView.layer.borderColor = UIColor.lightGray.cgColor
+//    textView.layer.borderWidth = 0.5
+//    textView.delegate = self
+    
+//    NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: .UIKeyboardWillHide, object: nil)
+//    NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: .UIKeyboardWillShow, object: nil)
+
+//    let cancelEditGesture = UITapGestureRecognizer(target: self, action: #selector(cancelEdit))
+//    tableView!.addGestureRecognizer(cancelEditGesture)
+
   }
   
   
-  func render(viewModel: EventViewModel) {
+//  @objc private func cancelEdit() {
+//    view.endEditing(true)
+//  }
+  
+
+  func renderUI () {
+    
+    guard let viewModel = eventViewModel else { return }
     
     let event = viewModel.event
     userNameLabel.text = event.userName
@@ -101,6 +132,9 @@ class EventDetailsTableViewController: UITableViewController {
       loadingStackView.isHidden = false
     }
     
+    let mapSize = mapImageView.frame.size
+    mapImageView.kf.setImage(with: eventViewModel.getMapURL(mapSize.width, mapSize.height))
+    
     DispatchQueue.global(qos: .userInitiated).async {
       let changes = diff(old: self.comments, new: viewModel.comments)
       
@@ -115,16 +149,18 @@ class EventDetailsTableViewController: UITableViewController {
       
       DispatchQueue.main.async {
         reloadsSet.forEach {
-          if let cell = self.tableView.cellForRow(at: IndexPath(row: $0, section: 0)) as? CommentCell {
+          if let cell = self.tableView!.cellForRow(at: IndexPath(row: $0, section: 0)) as? CommentCell {
             cell.comment = self.comments[$0]
           }
         }
         
-        self.tableView.beginUpdates()
-        self.tableView.deleteRows(at: deletions, with: .automatic)
-        self.tableView.insertRows(at: insertions, with: .automatic)
-        self.tableView.endUpdates()
-                
+        self.tableView!.beginUpdates()
+        self.tableView!.deleteRows(at: deletions, with: .automatic)
+        self.tableView!.insertRows(at: insertions, with: .automatic)
+        self.tableView!.endUpdates()
+        
+        self.eventViewModelRendered = true
+
       }
       
     }
@@ -148,11 +184,52 @@ class EventDetailsTableViewController: UITableViewController {
                                         style: .default,
                                         handler: { _ in
                                           self.eventViewModel.didTapCommentAction(action, index)
-                                          self.tableView.cellForRow(at: IndexPath(row: index, section: 0))?.setSelected(false, animated: true)} ))
+                                          self.tableView!.cellForRow(at: IndexPath(row: index, section: 0))?.setSelected(false, animated: true)} ))
     }
     actionsVC.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: { _ in
-      self.tableView.cellForRow(at: IndexPath(row: index, section: 0))?.setSelected(false, animated: true) }))
+      self.tableView!.cellForRow(at: IndexPath(row: index, section: 0))?.setSelected(false, animated: true) }))
     present(actionsVC, animated: true, completion: nil)
+  }
+  
+  
+//  @objc private func adjustForKeyboard(notification: Notification) {
+//    let userInfo = notification.userInfo!
+//    let kbDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! Double
+//    let finalKBFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+//    let isShowing = notification.name == Notification.Name.UIKeyboardWillShow
+//    textinputViewBottomConstraint.constant = isShowing ? finalKBFrame.height : 0
+//
+//    let rectToShow: CGRect
+//    if tableView.frame.height > tableView.contentSize.height {
+//      rectToShow = CGRect(origin: CGPoint(x: 0, y: tableView.tableFooterView!.frame.origin.y - 1),
+//                          size: CGSize(width: tableView.frame.width, height: 1))
+//    } else {
+//      let y = textInputView.convert(CGPoint(x: 0, y: textView.frame.origin.y - 1), to: tableView).y
+//      rectToShow = CGRect(origin: CGPoint(x: 0, y: y - 1),
+//                          size: CGSize(width: tableView.frame.width, height: 1))
+//    }
+//
+//    UIView.animate(withDuration: kbDuration, animations:  {
+//      self.view.layoutIfNeeded()
+//
+//    }) { _ in
+//      if isShowing {
+//        self.tableView.scrollRectToVisible(rectToShow, animated: true)
+//      }
+//    }
+//  }
+  
+  override class func tableViewStyle(for decoder: NSCoder) -> UITableViewStyle {
+    return .plain
+  }
+
+  
+  override func viewDidLoad() {
+    tableView!.estimatedRowHeight = 120
+    tableView!.rowHeight = UITableViewAutomaticDimension
+    tableView!.tableFooterView = UIView()
+//    setInitialAppearance()
+    
   }
   
   
@@ -160,18 +237,17 @@ class EventDetailsTableViewController: UITableViewController {
     super.viewWillLayoutSubviews()
     
     if !eventViewModelRendered {
-      render(viewModel: eventViewModel)
-      eventViewModelRendered = true
+      renderUI()//(viewModel: eventViewModel)
     }
     
-    if let headerView = tableView.tableHeaderView {
+    if let headerView = tableView!.tableHeaderView {
       let height = headerView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
       var headerFrame = headerView.frame
       
       if height != headerFrame.size.height {
         headerFrame.size.height = height
         headerView.frame = headerFrame
-        tableView.tableHeaderView = headerView
+        tableView!.tableHeaderView = headerView
       }
     }
   }
@@ -179,8 +255,6 @@ class EventDetailsTableViewController: UITableViewController {
   
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
-    let mapSize = mapImageView.frame.size
-    mapImageView.kf.setImage(with: eventViewModel.getMapURL(mapSize.width, mapSize.height))
   }
   
   
@@ -196,6 +270,18 @@ class EventDetailsTableViewController: UITableViewController {
   }
   
   
+  deinit {
+    eventViewModel?.onDeinitScreen(screenId)
+  }
+
+  
+  
+  
+}
+
+
+extension EventDetailsViewController {
+ 
   override func numberOfSections(in tableView: UITableView) -> Int {
     return 1
   }
@@ -211,21 +297,20 @@ class EventDetailsTableViewController: UITableViewController {
     cell.comment = comments[indexPath.row]
     return cell
   }
-  
+
+}
+
+
+extension EventDetailsViewController {
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     showActionsForComment(index: indexPath.row)
   }
   
-  deinit {
-    eventViewModel?.onDeinitScreen(screenId)
-  }
-
-  
 }
 
 
-extension EventDetailsTableViewController: StoreSubscriber {
+extension EventDetailsViewController: StoreSubscriber {
   
   func newState(state: AppState) {
     if let eventViewModel = EventViewModel(eventId: eventId, screenId: screenId, state: state) {
@@ -234,3 +319,22 @@ extension EventDetailsTableViewController: StoreSubscriber {
   }
   
 }
+
+//extension EventDetailsViewController: UITextViewDelegate {
+//
+//  func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+//    print (textView.intrinsicContentSize.height)
+//    textView.isScrollEnabled = textView.frame.height > 100
+//    if !textView.isScrollEnabled {
+//      textView.frame.size.height = textView.intrinsicContentSize.height
+//    }
+//
+//    return true
+//  }
+
+//  func textViewDidChange(_ textView: UITextView) {
+//    print(textView.isScrollEnabled)
+//  }
+  
+//}
+

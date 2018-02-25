@@ -203,7 +203,7 @@ class EventListTableViewController: UITableViewController, EventListView {
 
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if let detailsVC = segue.destination as? EventDetailsTableViewController,
+    if let detailsVC = segue.destination as? EventDetailsViewController,
       let cell = sender as? EventListTableViewCell,
       let indexPath = tableView.indexPath(for: cell) {
       let screenId = UUID().uuidString
@@ -212,6 +212,7 @@ class EventListTableViewController: UITableViewController, EventListView {
       detailsVC.screenId = screenId
       // TODO: Remove cheat
       store.dispatch(CreateCommentsScreen(screenId: screenId, eventId: eventId))
+//      tabBarItem.
     }
   }
   

@@ -25,7 +25,7 @@
         <!--Tabbar Controller-->
         <scene sceneID="bRJ-u9-YpS">
             <objects>
-                <tabBarController storyboardIdentifier="TabbarController" id="QlG-c5-KQU" customClass="TabbarController" customModule="AMP" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabbarController" hidesBottomBarWhenPushed="YES" id="QlG-c5-KQU" customClass="TabbarController" customModule="AMP" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="JhG-nY-ZUj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
