@@ -16,7 +16,6 @@ target 'AMP' do
 	pod 'Kingfisher', '~> 4.0'
 	pod 'Locksmith'
 	pod 'DeepDiff'
-	pod 'SlackTextViewController'
 end
 
 target 'AMPTests' do
