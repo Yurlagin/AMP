@@ -101,7 +101,7 @@ class EventDetailsViewController: UIViewController {
     cancelEditGesture.cancelsTouchesInView = false
     tableView!.addGestureRecognizer(cancelEditGesture)
     
-    tableView.contentInset = UIEdgeInsetsMake(0, 0, textInputView.frame.size.height, 0)
+//    tableView.contentInset = UIEdgeInsetsMake(0, 0, textInputView.frame.size.height, 0)
     tableView.tableFooterView = UIView()
   }
   
