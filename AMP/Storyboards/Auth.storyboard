@@ -21,46 +21,46 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" delaysContentTouches="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Llq-if-GEw">
-                                <rect key="frame" x="0.0" y="20" width="0.0" height="647"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qgD-PH-dWg">
-                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="647"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Gxa-Hr-JZl">
-                                                <rect key="frame" x="0.0" y="155.5" width="0.0" height="208.5"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Gxa-Hr-JZl">
+                                                <rect key="frame" x="19" y="155.5" width="337.5" height="208.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Регистрация или вход" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LCW-sI-zIB">
-                                                        <rect key="frame" x="0.0" y="0.0" width="0.0" height="31.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="337.5" height="31.5"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Телефон:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2dg-VW-CIs">
-                                                        <rect key="frame" x="0.0" y="39.5" width="0.0" height="20.5"/>
+                                                        <rect key="frame" x="131.5" y="39.5" width="74" height="20.5"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="+7 (xxx) xxx xx xx" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="J6f-WA-eD2" customClass="PhoneNumberTextField" customModule="PhoneNumberKit">
-                                                        <rect key="frame" x="0.0" y="68" width="0.0" height="30"/>
+                                                        <rect key="frame" x="56" y="68" width="225" height="30"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="phonePad" enablesReturnKeyAutomatically="YES" textContentType="tel"/>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Смс-код: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Fz-9H-9lI">
-                                                        <rect key="frame" x="0.0" y="106" width="0.0" height="20.5"/>
+                                                        <rect key="frame" x="129" y="106" width="79" height="20.5"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text=" " borderStyle="roundedRect" placeholder="хххх" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bv6-9q-5Fu">
-                                                        <rect key="frame" x="0.0" y="134.5" width="0.0" height="30"/>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="ххххxx" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bv6-9q-5Fu">
+                                                        <rect key="frame" x="132" y="134.5" width="73" height="30"/>
                                                         <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     </textField>
                                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LnB-lD-o2d">
-                                                        <rect key="frame" x="0.0" y="172.5" width="0.0" height="36"/>
+                                                        <rect key="frame" x="139.5" y="172.5" width="58" height="36"/>
                                                         <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                                                         <state key="normal" title="Далее"/>
                                                         <connections>
@@ -68,9 +68,13 @@
                                                         </connections>
                                                     </button>
                                                 </subviews>
+                                                <constraints>
+                                                    <constraint firstItem="J6f-WA-eD2" firstAttribute="width" secondItem="LCW-sI-zIB" secondAttribute="width" multiplier="2:3" id="HdH-rc-hbE"/>
+                                                    <constraint firstItem="LCW-sI-zIB" firstAttribute="width" secondItem="Gxa-Hr-JZl" secondAttribute="width" id="aWc-LE-0Zw"/>
+                                                </constraints>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tZl-fp-q01">
-                                                <rect key="frame" x="-120" y="597" width="120" height="30"/>
+                                                <rect key="frame" x="235" y="597" width="120" height="30"/>
                                                 <state key="normal" title="Войти анонимно"/>
                                                 <connections>
                                                     <action selector="enterAnonimouslyTapped:" destination="ftg-EE-zrT" eventType="touchUpInside" id="CFr-PP-ZTG"/>
@@ -92,7 +96,7 @@
                                 <constraints>
                                     <constraint firstItem="qgD-PH-dWg" firstAttribute="height" secondItem="Llq-if-GEw" secondAttribute="height" priority="750" id="5z5-Y0-jSn"/>
                                     <constraint firstAttribute="bottom" secondItem="qgD-PH-dWg" secondAttribute="bottom" id="FaQ-t8-rsI"/>
-                                    <constraint firstItem="Gxa-Hr-JZl" firstAttribute="width" secondItem="Llq-if-GEw" secondAttribute="width" multiplier="0.8" id="TrC-hL-pdk"/>
+                                    <constraint firstItem="Gxa-Hr-JZl" firstAttribute="width" secondItem="Llq-if-GEw" secondAttribute="width" multiplier="0.9" id="TrC-hL-pdk"/>
                                     <constraint firstItem="qgD-PH-dWg" firstAttribute="top" secondItem="Llq-if-GEw" secondAttribute="top" id="gix-e2-bAy"/>
                                     <constraint firstItem="qgD-PH-dWg" firstAttribute="leading" secondItem="Llq-if-GEw" secondAttribute="leading" id="itG-wT-mSu"/>
                                     <constraint firstAttribute="trailing" secondItem="qgD-PH-dWg" secondAttribute="trailing" id="jaU-Sn-Fj9"/>
