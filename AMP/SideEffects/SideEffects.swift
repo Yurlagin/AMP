@@ -4,5 +4,5 @@ let authServiceSideEffects = [
 ]
 
 let eventsServiceSideEffects = [
-  getComments
+  eventsEffects
 ]

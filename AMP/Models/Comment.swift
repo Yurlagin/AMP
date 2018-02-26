@@ -57,11 +57,11 @@ extension Comment {
     
     message = try values.decodeIfPresent(String.self, forKey: .message)
     
-    let likeInt = try values.decode(Int.self, forKey: .like)
-    self.like = likeInt > 0
+    let likeInt = try values.decodeIfPresent(Int.self, forKey: .like)
+    self.like = (likeInt ?? 0) > 0
     
-    likes = try values.decode(Int.self, forKey: .likes)
-    replyToId = try values.decodeIfPresent(Int.self, forKey: .likes)
+    likes = try values.decodeIfPresent(Int.self, forKey: .likes) ?? 0
+    replyToId = try values.decodeIfPresent(Int.self, forKey: .replyToId)
     
   }
 }

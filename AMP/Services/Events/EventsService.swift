@@ -13,7 +13,8 @@ import Alamofire
 
 protocol EventsServiceProtocol {
   func makeRequest(_ commentsRequest: CommentsRequest) -> Promise<[Comment]>
-  func makeRequest(_ commentsRequest: EventRequest) -> Promise<Event>
+  func makeRequest(_ eventRequest: EventRequest) -> Promise<Event>
+  func make(_ addCommentRequest: AddCommentRequest) -> Promise<Comment>
 }
 
 struct EventsService: EventsServiceProtocol {
@@ -21,8 +22,6 @@ struct EventsService: EventsServiceProtocol {
   private static let bgq = DispatchQueue.global(qos: .userInitiated)
   
   private static let baseURL = "https://usefulness.club/amp/sitebackend/0"
-  
-  
   
   static private func makeURLRequest<T: Encodable>(parameters: T) throws -> URLRequest {
     var urlRequest = try URLRequest(url: baseURL, method: .post)
@@ -193,6 +192,24 @@ struct EventsService: EventsServiceProtocol {
       },
       cancel)
     
+  }
+  
+  
+  func make(_ addCommentRequest: AddCommentRequest) -> Promise<Comment> {
+    do {
+      let request = try EventsService.makeURLRequest(parameters: addCommentRequest)
+      return Alamofire.request(request).responseData()
+        .then (on: EventsService.bgq) { data in
+          let response = try JSONDecoder().decode(CommentsResponse.self, from: data)
+          if response.answer == "addComment", let comment = response.comments?.first {
+            return Promise(value: comment)
+          } else {
+            throw EventsServiceError.unexpectedAnswer
+          }
+      }
+    } catch let error {
+      return Promise(error: error)
+    }
   }
   
   

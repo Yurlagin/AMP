@@ -10,7 +10,7 @@ import ReSwift
 
 func eventsReducer(action: Action, state: EventsState?) -> EventsState {
   
-  var state = state ?? EventsState(list: nil, isEndOfListReached: false, settings: EventsState.Settings(), commentScreens: [:], listRequest: .none)
+  var state = state ?? EventsState(list: nil, isEndOfListReached: false, settings: EventsState.Settings(), eventScreens: [:], listRequest: .none)
   
   func updateEventCounters(fromNewEvent event: Event) {
     if let index = state.list?.events.index(of: event) {
@@ -84,25 +84,28 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     
 
   case let action as CreateCommentsScreen:
-    guard state.commentScreens[action.screenId] == nil else { break }
-    state.commentScreens[action.screenId] = EventsState.Comments(
+    guard state.eventScreens[action.screenId] == nil else { break }
+    state.eventScreens[action.screenId] = EventsState.EventScreen(
       comments: [],
       eventId: action.eventId,
       isEndReached: false, // TODO: здесь должна быть настоящая проверочка
-      request: .run)
+      fetchCommentsRequest: .run,
+      sendCommentRequest: .none,
+      outgoingCommentId: nil,
+      textInputMode: .new)
     
     
   case let action as GetCommentsPage:
-    state.commentScreens[action.screenId]?.request = .run
+    state.eventScreens[action.screenId]?.fetchCommentsRequest = .run
     print(action)
     
     
   case let action as GetCommentsError:
-    state.commentScreens[action.screenId]?.request = .error(action.error)
+    state.eventScreens[action.screenId]?.fetchCommentsRequest = .error(action.error)
 
 
   case let action as RemoveCommentsScreen:
-    state.commentScreens[action.screenId] = nil
+    state.eventScreens[action.screenId] = nil
     
     
   case let action as GotEvent:
@@ -111,12 +114,12 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     }
     
     
-    state.commentScreens[action.screenId]?.comments = action.event.comments ?? []
-    state.commentScreens[action.screenId]?.request = .none
-    state.commentScreens[action.screenId]?.isEndReached = (action.event.comments?.count ?? 0) == action.event.commentsCount
+    state.eventScreens[action.screenId]?.comments = action.event.comments ?? []
+    state.eventScreens[action.screenId]?.fetchCommentsRequest = .none
+    state.eventScreens[action.screenId]?.isEndReached = (action.event.comments?.count ?? 0) == action.event.commentsCount
     
   case let action as NewComments:
-    guard var screen = state.commentScreens[action.screenId] else { break }
+    guard var screen = state.eventScreens[action.screenId] else { break }
     
     switch action.action {
     case .append: screen.comments.insert(contentsOf: action.comments, at: 0)
@@ -124,15 +127,15 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     }
     
     screen.isEndReached = action.comments.count < state.settings.commentPageLimit
-    screen.request = .none
+    screen.fetchCommentsRequest = .none
     
-    state.commentScreens[action.screenId] = screen
+    state.eventScreens[action.screenId] = screen
 
     
   case let action as CommentLikeInvertAction:
     
-    func invertLike(eventId: EventId, commentId: CommentId, screens: [ScreenId: EventsState.Comments]) -> [ScreenId: EventsState.Comments] {
-      return state.commentScreens.mapValues { (comments) in
+    func invertLike(eventId: EventId, commentId: CommentId, screens: [ScreenId: EventsState.EventScreen]) -> [ScreenId: EventsState.EventScreen] {
+      return state.eventScreens.mapValues { (comments) in
         guard eventId == comments.eventId else { return comments }
         var comments = comments
         if let index = comments.comments.index(where: { $0.id == commentId }) {
@@ -145,8 +148,45 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
       }
     }
     
-    state.commentScreens = invertLike(eventId: action.eventId, commentId: action.commentId, screens: state.commentScreens)
+    state.eventScreens = invertLike(eventId: action.eventId, commentId: action.commentId, screens: state.eventScreens)
   
+    
+  case let action as SendComment:
+    state.eventScreens[action.screenId]?.sendCommentRequest = .run
+    state.eventScreens[action.screenId]?.outgoingCommentId = action.localId
+  
+    
+  case let action as SentComment:
+    
+    if let eventIndex = state.list?.events.index(where: { $0.id == action.eventId }) {
+      state.list?.events[eventIndex].commentsCount += 1
+    }
+    
+    state.eventScreens = state.eventScreens.mapValues { screen in
+      guard screen.eventId == action.eventId else { return screen }
+      var newScreen = screen
+      newScreen.comments.append(action.comment)
+      if newScreen.outgoingCommentId == action.localId {
+        newScreen.outgoingCommentId = nil
+        newScreen.sendCommentRequest = .success
+      }
+      return newScreen
+    }
+
+    
+  case let action as SendCommentError:
+    state.eventScreens = state.eventScreens.mapValues { screen in
+      guard screen.eventId == action.eventId, screen.outgoingCommentId == action.localId else { return screen }
+      var newScreen = screen
+      newScreen.outgoingCommentId = nil
+      newScreen.sendCommentRequest = .error(action.error)
+      return newScreen
+    }
+    
+  
+  case let action as NewCommentShown:
+    state.eventScreens[action.screenId]?.sendCommentRequest = .none
+    
     
   default :
     break

@@ -50,7 +50,7 @@ struct EventListRequest: Codable {
 struct LikeEventRequest: Encodable {
   let token: String
   let action: RequestType
-  let eventid: Int
+  let eventid: EventId
   
   enum RequestType: String, Encodable {
     case addLike
@@ -80,7 +80,7 @@ struct DefaultAnswer: Decodable {
 
 struct CommentsRequest: Codable {
   let action = "getComments"
-  let eventid: Int
+  let eventid: EventId
   let token: String
   let filter: CommentsFilter
   
@@ -93,7 +93,7 @@ struct CommentsRequest: Codable {
 
 struct EventRequest: Codable {
   let action = "getEvent"
-  let eventid: Int
+  let eventid: EventId
   let token: String
   let filter: Filter
   
@@ -103,11 +103,19 @@ struct EventRequest: Codable {
 }
 
 
-
 struct CommentsResponse: Codable {
-//  let maxCommentId: Int?
   let answer: String
   let comments: [Comment]?
+}
+
+
+struct AddCommentRequest: Codable {
+  let action = "addComment"
+  let comment: String
+  let eventid: EventId
+  let token: String
+  let replyTo: CommentId?
+  let thank: Bool?
 }
 
 

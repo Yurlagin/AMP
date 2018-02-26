@@ -47,6 +47,7 @@
         <scene sceneID="To3-1I-byQ">
             <objects>
                 <navigationController title="Список" id="KAC-vu-rdq" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <tabBarItem key="tabBarItem" title="Список" image="Bulleted_List" id="QdM-xt-Ynb"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="ya5-Sa-53v">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>

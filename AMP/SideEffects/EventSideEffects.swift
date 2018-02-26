@@ -8,7 +8,7 @@
 
 import ReSwift
 
-func getComments(eventsService: EventsServiceProtocol) -> MiddlewareItem {
+func eventsEffects(eventsService: EventsServiceProtocol) -> MiddlewareItem {
   return { (action: Action, dispatch: @escaping DispatchFunction) in
     
     switch action {
@@ -37,6 +37,28 @@ func getComments(eventsService: EventsServiceProtocol) -> MiddlewareItem {
           print (error)
           dispatch(GetCommentsError(screenId: action.screenId, error: error)) }
 
+    
+    case let action as SendComment:
+      guard let token = store.state.authState.loginStatus.getUserCredentials()?.token else { return }
+
+      var replay: Int?
+      var thank: Bool?
+      if case .answer(let replayId) = action.type {
+        replay = replayId
+      } else if case .resolve (let replayId) = action.type {
+        replay = replayId; thank = true
+      }
+      
+      eventsService.make(AddCommentRequest(comment: action.message,
+                                           eventid: action.eventId,
+                                           token: token,
+                                           replyTo: replay,
+                                           thank: thank))
+        .then {
+          dispatch(SentComment(localId: action.localId, eventId: action.eventId, comment: $0 ))
+        } .catch {
+          dispatch(SendCommentError(localId: action.localId, eventId: action.eventId, error: $0 ))
+      }
       
     default:
       break

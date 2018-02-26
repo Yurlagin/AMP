@@ -15,14 +15,17 @@ struct EventViewModel {
   let screenId: ScreenId
   let comments: [Comment]
   let loadMoreButtonState: LoadMoreState
+  let shouldDisplayHUD: Bool
+  let shouldShowPostedComment: () -> Bool
   let onDeinitScreen: (ScreenId) -> ()
   let distance: String
-  let getMapURL: (CGFloat, CGFloat) -> (URL?)
+  let getMapURL: (CGFloat, CGFloat) -> URL?
   let didTapLike: () -> ()
   let didTapDislike: () -> ()
   let didTapLoadMore: () -> ()
-  let getActionsForComment: (_ commentIndex: Int) -> ([CommentAction])
+  let getActionsForComment: (_ commentIndex: Int) -> [CommentAction]
   let didTapCommentAction: (CommentAction, _ commentIndex: Int) -> ()
+  let didTapSendComment: (String) -> ()
   
   enum CommentAction {
     case like
@@ -40,7 +43,8 @@ struct EventViewModel {
   
   init? (eventId: EventId, screenId: ScreenId, state: AppState) {
     
-    guard let event = state.eventsState.getEventBy(id: eventId), let screen = state.eventsState.commentScreens[screenId] else { return nil }
+    guard let event = state.eventsState.getEventBy(id: eventId), let screen = state.eventsState.eventScreens[screenId] else { return nil }
+    let token = state.authState.loginStatus.getUserCredentials()?.token
     
     self.event = event
     self.screenId = screenId
@@ -61,7 +65,7 @@ struct EventViewModel {
         } else {
           let index = state.eventsState.list!.events.index { $0.id == eventId }!
           let event = state.eventsState.list!.events[index]
-          guard let token = state.authState.loginStatus.getUserCredentials()?.token else { return SetLoginState(.none) }
+          guard let token = token else { return SetLoginState(.none) }
           let likeRequest = LikeEventRequest(token: token, action: event.like ? .removeLike : .addLike , eventid: eventId)
           let (eventPromise, cancel) = EventsService.send(likeRequest)
           cancelTask = cancel
@@ -82,7 +86,7 @@ struct EventViewModel {
         } else {
           let index = state.eventsState.list!.events.index { $0.id == eventId }!
           let event = state.eventsState.list!.events[index]
-          guard let token = state.authState.loginStatus.getUserCredentials()?.token else {  return SetLoginState(.none)  }
+          guard let token = token else {  return SetLoginState(.none)  }
           let dislikeRequest = LikeEventRequest(token: token, action: event.dislike ? .removeDisLike : .addDisLike, eventid: eventId)
           let (eventPromise, cancel) = EventsService.send(dislikeRequest)
           cancelTask = cancel
@@ -101,21 +105,28 @@ struct EventViewModel {
     }
     
 
-    switch screen.request {
-    case .none:
+    switch screen.fetchCommentsRequest {
+    case .none, .success:
       loadMoreButtonState =  screen.isEndReached ? .none : .showButton
     case .run:
       loadMoreButtonState = .showLoading
     case .error:
       loadMoreButtonState = .showButtonWithError
+  
     }
     
+    
+    if case .run? = state.eventsState.eventScreens[screenId]?.sendCommentRequest {
+      self.shouldDisplayHUD = true
+    } else {
+      self.shouldDisplayHUD = false
+    }
     
     
     self.didTapLoadMore = {
       store.dispatch{ (state, store) -> Action? in
         
-        guard state.eventsState.commentScreens[screenId]?.isEndReached != true,
+        guard state.eventsState.eventScreens[screenId]?.isEndReached != true,
           let event = state.eventsState.getEventBy(id: eventId)
           else { return nil }
         print ("passed")
@@ -163,7 +174,7 @@ struct EventViewModel {
             cancelRequestFunction()
             cancelTask = nil
           } else {
-            guard let token = state.authState.loginStatus.getUserCredentials()?.token else { return SetLoginState(.none) }
+            guard let token = token else { return SetLoginState(.none) }
             let likeRequest = LikeCommentRequest(token: token, action: comment.like ? .removeLikeComment : .addLikeComment, id: comment.id)
             let (likeCommentPromise, cancel) = EventsService.send(likeRequest)
             cancelTask = cancel
@@ -186,6 +197,19 @@ struct EventViewModel {
         
       }
     }
+    
+    
+    self.didTapSendComment = { message in
+      store.dispatch(SendComment(screenId: screenId, eventId: screen.eventId, localId: UUID().uuidString, message: message, type: screen.textInputMode))
+    }
 
+    
+    self.shouldShowPostedComment = {
+      if case .success = state.eventsState.eventScreens[screenId]!.sendCommentRequest {
+        store.dispatch(NewCommentShown(screenId: screenId))
+        return true
+      }
+      return false
+    }
   }
 }

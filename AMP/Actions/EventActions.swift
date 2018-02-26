@@ -107,4 +107,27 @@ struct CommentLikeSent: Action {
   let commentId: CommentId
 }
 
+struct SendComment: Action {
+  let screenId: ScreenId
+  let eventId: EventId
+  let localId: String
+  let message: String
+  let type: CommentType
+}
+
+struct SentComment: Action {
+  let localId: String
+  let eventId: EventId
+  let comment: Comment
+}
+
+struct SendCommentError: Action {
+  let localId: String
+  let eventId: EventId
+  let error: Error
+}
+
+struct NewCommentShown: Action  {
+  let screenId: ScreenId
+}
 

@@ -9,6 +9,7 @@
 import UIKit
 import ReSwift
 import DeepDiff
+import MBProgressHUD
 
 class EventDetailsViewController: UIViewController {
   
@@ -54,10 +55,15 @@ class EventDetailsViewController: UIViewController {
   }
   
   @IBAction func sendButtonPressed(_ sender: UIButton) {
+    eventViewModel.didTapSendComment(textView.text)
   }
   
   var eventId: Int!
   var screenId: ScreenId!
+
+  var rowHeights = [Int: CGFloat]()
+  
+  private var progressHud: MBProgressHUD?
   
   private var comments = [Comment]()
   
@@ -92,8 +98,11 @@ class EventDetailsViewController: UIViewController {
     NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: .UIKeyboardWillShow, object: nil)
     
     let cancelEditGesture = UITapGestureRecognizer(target: self, action: #selector(cancelEdit))
+    cancelEditGesture.cancelsTouchesInView = false
     tableView!.addGestureRecognizer(cancelEditGesture)
     
+    tableView.contentInset = UIEdgeInsetsMake(0, 0, textInputView.frame.size.height, 0)
+    tableView.tableFooterView = UIView()
   }
   
   
@@ -122,6 +131,18 @@ class EventDetailsViewController: UIViewController {
     dislikesButton.setTitle(String(event.dislikes), for: .normal)
     commentsButton.setTitle(String(event.commentsCount), for: .normal)
     
+    if viewModel.shouldDisplayHUD {
+      if progressHud == nil {
+        progressHud = MBProgressHUD.showAdded(to: view, animated: true)
+        progressHud!.removeFromSuperViewOnHide = true
+      }
+    } else {
+      if let _ = progressHud {
+        progressHud!.hide(animated: true)
+        progressHud = nil
+      }
+    }
+    
     switch viewModel.loadMoreButtonState {
     case .none:
       loadMoreButton.isHidden = true
@@ -137,36 +158,36 @@ class EventDetailsViewController: UIViewController {
     let mapSize = mapImageView.frame.size
     mapImageView.kf.setImage(with: eventViewModel.getMapURL(mapSize.width, mapSize.height))
     
-    DispatchQueue.global(qos: .userInitiated).async {
-      let changes = diff(old: self.comments, new: viewModel.comments)
-      
-      let insertionsSet = Set(changes.flatMap{$0.insert?.index})
-      let deletionsSet = Set(changes.flatMap{$0.delete?.index})
-      let reloadsSet = deletionsSet.intersection(insertionsSet)
-      
-      let insertions = Array(insertionsSet.filter{!reloadsSet.contains($0)}.map{IndexPath(row: $0, section: 0)})
-      let deletions = Array(deletionsSet.filter{!reloadsSet.contains($0)}.map{IndexPath(row: $0, section: 0)})
-      
-      self.comments = viewModel.comments
-      
-      DispatchQueue.main.async {
-        reloadsSet.forEach {
-          if let cell = self.tableView!.cellForRow(at: IndexPath(row: $0, section: 0)) as? CommentCell {
-            cell.comment = self.comments[$0]
-          }
-        }
-        
-        self.tableView!.beginUpdates()
-        self.tableView!.deleteRows(at: deletions, with: .automatic)
-        self.tableView!.insertRows(at: insertions, with: .automatic)
-        self.tableView!.endUpdates()
-        
-        self.eventViewModelRendered = true
-        
+    let changes = diff(old: self.comments, new: viewModel.comments)
+    
+    let insertionsSet = Set(changes.flatMap{$0.insert?.index})
+    let deletionsSet = Set(changes.flatMap{$0.delete?.index})
+    let reloadsSet = deletionsSet.intersection(insertionsSet)
+    
+    let insertions = Array(insertionsSet.filter{!reloadsSet.contains($0)}.map{IndexPath(row: $0, section: 0)})
+    let deletions = Array(deletionsSet.filter{!reloadsSet.contains($0)}.map{IndexPath(row: $0, section: 0)})
+    
+    self.comments = viewModel.comments
+    
+    reloadsSet.forEach {
+      if let cell = self.tableView!.cellForRow(at: IndexPath(row: $0, section: 0)) as? CommentCell {
+        cell.comment = self.comments[$0]
       }
-      
     }
     
+    self.tableView!.beginUpdates()
+    self.tableView!.deleteRows(at: deletions, with: .none)
+    self.tableView!.insertRows(at: insertions, with: .none)
+    self.tableView!.endUpdates()
+    
+    if viewModel.shouldShowPostedComment(), !viewModel.comments.isEmpty {
+      self.textView.text = ""
+      self.textViewDidChange(self.textView)
+      self.tableView.scrollToRow(at: IndexPath(row: viewModel.comments.count - 1, section: 0), at: .bottom, animated: true)
+    }
+    
+    self.eventViewModelRendered = true
+
   }
   
   
@@ -186,10 +207,10 @@ class EventDetailsViewController: UIViewController {
                                         style: .default,
                                         handler: { _ in
                                           self.eventViewModel.didTapCommentAction(action, index)
-                                          self.tableView!.cellForRow(at: IndexPath(row: index, section: 0))?.setSelected(false, animated: true)} ))
+                                          self.tableView.deselectRow(at: IndexPath(row: index, section: 0), animated: true)} ))
     }
     actionsVC.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: { _ in
-      self.tableView!.cellForRow(at: IndexPath(row: index, section: 0))?.setSelected(false, animated: true) }))
+      self.tableView.deselectRow(at: IndexPath(row: index, section: 0), animated: true) }))
     present(actionsVC, animated: true, completion: nil)
   }
   
@@ -225,9 +246,7 @@ class EventDetailsViewController: UIViewController {
   override func viewDidLoad() {
     tableView.estimatedRowHeight = 120
     tableView.rowHeight = UITableViewAutomaticDimension
-    tableView.tableFooterView = UIView()
     setInitialAppearance()
-    
   }
   
   
@@ -303,6 +322,17 @@ extension EventDetailsViewController: UITableViewDelegate {
     showActionsForComment(index: indexPath.row)
   }
   
+  func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    if rowHeights[indexPath.row] == nil {
+      rowHeights[indexPath.row] = cell.frame.height
+    }
+  }
+  
+  func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+    return rowHeights[indexPath.row] ?? 120
+  }
+
+    
 }
 
 

@@ -14,7 +14,7 @@ struct EventsState: StateType {
   var list: (location: CLLocation, events: [Event])?
   var isEndOfListReached: Bool
   var settings: Settings
-  var commentScreens: [ScreenId: Comments]
+  var eventScreens: [ScreenId: EventScreen]
   var listRequest: RequestStatus
   
   
@@ -39,21 +39,30 @@ struct EventsState: StateType {
     let mapBaseURL = "https://usefulness.club/amp/staticmap.php?zoom=15&"
   }
   
-  
-  struct Comments {
+  struct EventScreen {
     var comments: [Comment]
     var eventId: Int
     var isEndReached: Bool
-    var request: Request
+    var fetchCommentsRequest: Request
+    var sendCommentRequest: Request
+    var outgoingCommentId: String?
+    var textInputMode: CommentType
     
     enum Request {
       case none
       case run
       case error(Error)
+      case success
     }
-    
   }
 }
+
+enum CommentType {
+  case new
+  case answer(CommentId)
+  case resolve(CommentId)
+}
+
 
 extension EventsState {
   func getEventBy(id: Int) -> Event? {
