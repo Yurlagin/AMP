@@ -305,7 +305,7 @@
 			path = CoreComponents;
 			sourceTree = "<group>";
 		};
-		344EB9CE2035138F009DDC65 /* Event Datails */ = {
+		344EB9CE2035138F009DDC65 /* Event Details */ = {
 			isa = PBXGroup;
 			children = (
 				344EB9CB20351357009DDC65 /* EventDetailsViewController.swift */,
@@ -313,7 +313,7 @@
 				3484C29C2037B7AD002F3A10 /* CommentCell.swift */,
 				84045BC0203E678600BC230C /* Tests */,
 			);
-			path = "Event Datails";
+			path = "Event Details";
 			sourceTree = "<group>";
 		};
 		34693CDF202B010500E4EE8E /* Realm Models */ = {
@@ -659,7 +659,7 @@
 			isa = PBXGroup;
 			children = (
 				34DA41F5201DBEBB00DDB0D7 /* Event List */,
-				344EB9CE2035138F009DDC65 /* Event Datails */,
+				344EB9CE2035138F009DDC65 /* Event Details */,
 				34DA41F8201DBEE200DDB0D7 /* Create Event */,
 				34DA41F6201DBECE00DDB0D7 /* Favourites */,
 				34DA41F4201DBEB700DDB0D7 /* Events Map */,

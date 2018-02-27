@@ -28,15 +28,18 @@ class EventDetailsViewController: UIViewController {
   @IBOutlet weak var bottomStackView: UIStackView!
   
   @IBOutlet weak var tableView: UITableView!
+  @IBOutlet weak var textInputSeparatorView: NSLayoutConstraint!
   
   @IBOutlet weak var textInputViewBottomConstraint: NSLayoutConstraint!
   @IBOutlet weak var textInputView: UIView!
   @IBOutlet weak var textView: UITextView!
   @IBOutlet weak var textViewHeightConstraint: NSLayoutConstraint!
   @IBOutlet weak var placeHolderLabel: UILabel!
-  
-  
   @IBOutlet weak var sendButton: UIButton!
+  
+  @IBOutlet weak var quoteView: UIView!
+  @IBOutlet weak var quoteUserName: UILabel!
+  @IBOutlet weak var quoteTextLabel: UILabel!
   
   
   @IBAction func likePressed(_ sender: UIButton) {
@@ -57,6 +60,13 @@ class EventDetailsViewController: UIViewController {
   @IBAction func sendButtonPressed(_ sender: UIButton) {
     eventViewModel.didTapSendComment(textView.text)
   }
+  
+  @IBAction func cleanQouteTapped(_ sender: UIButton) {
+    quoteUserName.text = nil
+    quoteTextLabel.text = nil
+    showQuoteView(false)
+  }
+  
   
   var eventId: Int!
   var screenId: ScreenId!
@@ -101,8 +111,11 @@ class EventDetailsViewController: UIViewController {
     cancelEditGesture.cancelsTouchesInView = false
     tableView!.addGestureRecognizer(cancelEditGesture)
     
-//    tableView.contentInset = UIEdgeInsetsMake(0, 0, textInputView.frame.size.height, 0)
     tableView.tableFooterView = UIView()
+    
+    textInputSeparatorView.constant = 0.3
+    
+    showQuoteView(false, animated: false)
   }
   
   
@@ -182,6 +195,7 @@ class EventDetailsViewController: UIViewController {
     
     if viewModel.shouldShowPostedComment(), !viewModel.comments.isEmpty {
       self.textView.text = ""
+      self.showQuoteView(false)
       self.textViewDidChange(self.textView)
       self.tableView.scrollToRow(at: IndexPath(row: viewModel.comments.count - 1, section: 0), at: .bottom, animated: true)
     }
@@ -206,12 +220,26 @@ class EventDetailsViewController: UIViewController {
       actionsVC.addAction(UIAlertAction(title: buttonTitle,
                                         style: .default,
                                         handler: { _ in
+                                          if case .answer = action {
+                                            let comment = self.comments[index]
+                                            self.quoteUserName.text = comment.userName ?? "Без имени"
+                                            self.quoteTextLabel.text = comment.message ?? ""
+                                            self.showQuoteView(true)
+                                          }
                                           self.eventViewModel.didTapCommentAction(action, index)
                                           self.tableView.deselectRow(at: IndexPath(row: index, section: 0), animated: true)} ))
     }
     actionsVC.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: { _ in
       self.tableView.deselectRow(at: IndexPath(row: index, section: 0), animated: true) }))
     present(actionsVC, animated: true, completion: nil)
+  }
+  
+  
+  private func showQuoteView(_ show: Bool, animated: Bool = true) {
+    quoteView.isHidden = !show
+    UIView.animate(withDuration: animated ? 0.25 : 0) {
+      self.view.layoutIfNeeded()
+    }
   }
   
   
@@ -290,7 +318,6 @@ class EventDetailsViewController: UIViewController {
   deinit {
     eventViewModel?.onDeinitScreen(screenId)
   }
-  
   
 }
 
