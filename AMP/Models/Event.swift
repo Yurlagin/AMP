@@ -28,7 +28,7 @@ struct Event: Codable {
   let visible: Bool // visible=показывается всем pended= на премодерации и показывается только автору
   var comments: [Comment]?
   var maxCommentId: Int?
-  let solutionCommentId: Int?
+  var solutionCommentId: Int?
   
   enum EventType: String, Codable {
     case questions

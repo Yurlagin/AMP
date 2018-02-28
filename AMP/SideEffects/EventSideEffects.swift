@@ -49,11 +49,13 @@ func eventsEffects(eventsService: EventsServiceProtocol) -> MiddlewareItem {
         replay = replayId; thank = true
       }
       
-      eventsService.make(AddCommentRequest(comment: action.message,
-                                           eventid: action.eventId,
-                                           token: token,
-                                           replyTo: replay,
-                                           thank: thank))
+      let request = AddCommentRequest(comment: action.message,
+                                      eventid: action.eventId,
+                                      token: token,
+                                      replyTo: replay,
+                                      thank: thank)
+      
+      eventsService.make(request)
         .then {
           dispatch(SentComment(localId: action.localId, eventId: action.eventId, comment: $0 ))
         } .catch {

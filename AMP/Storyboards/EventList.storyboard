@@ -561,7 +561,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EO8-Nx-OTW">
-                                                        <rect key="frame" x="14" y="33" width="27.5" height="17"/>
+                                                        <rect key="frame" x="14" y="33" width="253" height="17"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -588,6 +588,7 @@
                                                     <constraint firstItem="Wg0-7m-6mz" firstAttribute="top" secondItem="gHz-3X-hMP" secondAttribute="top" id="eYG-PR-6C2"/>
                                                     <constraint firstItem="rO1-tU-waL" firstAttribute="leading" secondItem="Wg0-7m-6mz" secondAttribute="trailing" constant="8" symbolic="YES" id="fxB-vA-pVA"/>
                                                     <constraint firstItem="EO8-Nx-OTW" firstAttribute="top" secondItem="Wg0-7m-6mz" secondAttribute="bottom" id="p6M-FY-Ftr"/>
+                                                    <constraint firstItem="EO8-Nx-OTW" firstAttribute="trailing" secondItem="Wg0-7m-6mz" secondAttribute="trailing" id="sLJ-Ap-s79"/>
                                                     <constraint firstItem="EO8-Nx-OTW" firstAttribute="leading" secondItem="Wg0-7m-6mz" secondAttribute="leading" id="vML-AM-6OZ"/>
                                                     <constraint firstItem="kRK-bu-YfI" firstAttribute="leading" secondItem="gHz-3X-hMP" secondAttribute="leading" constant="4" id="yfL-BT-j8x"/>
                                                     <constraint firstItem="Wg0-7m-6mz" firstAttribute="leading" secondItem="kRK-bu-YfI" secondAttribute="trailing" constant="8" id="z8j-Gh-0nm"/>

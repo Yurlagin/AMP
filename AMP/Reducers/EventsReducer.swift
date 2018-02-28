@@ -159,7 +159,9 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     
   case let action as SentComment:
     
-    if let eventIndex = state.list?.events.index(where: { $0.id == action.eventId }) {
+    let eventIndex = state.list?.events.index(where: { $0.id == action.eventId })
+    
+    if let eventIndex = eventIndex {
       state.list?.events[eventIndex].commentsCount += 1
     }
     
@@ -167,9 +169,13 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
       guard screen.eventId == action.eventId else { return screen }
       var screen = screen
       screen.comments.append(action.comment)
+      
       if screen.outgoingCommentId == action.localId {
         screen.outgoingCommentId = nil
         screen.sendCommentRequest = .success
+        if case .resolve(let commentId) = screen.textInputMode, let index = eventIndex {
+          state.list?.events[index].solutionCommentId = commentId
+        }
         screen.textInputMode = .new
       }
       
