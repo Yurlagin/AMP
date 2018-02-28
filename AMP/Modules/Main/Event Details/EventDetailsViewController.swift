@@ -349,6 +349,7 @@ extension EventDetailsViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as! CommentCell
     cell.comment = comments[indexPath.row]
+    cell.backgroundColor = eventViewModel.event.solutionCommentId == cell.comment.id ? UIColor.hexColor(rgb: 0xCFFFBA) : .white
     return cell
   }
   

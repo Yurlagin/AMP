@@ -136,16 +136,16 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
   case let action as CommentLikeInvertAction:
     
     func invertLike(eventId: EventId, commentId: CommentId, screens: [ScreenId: EventsState.EventScreen]) -> [ScreenId: EventsState.EventScreen] {
-      return state.eventScreens.mapValues { (comments) in
-        guard eventId == comments.eventId else { return comments }
-        var comments = comments
-        if let index = comments.comments.index(where: { $0.id == commentId }) {
-          var comment = comments.comments[index]
+      return state.eventScreens.mapValues { (screen) in
+        guard eventId == screen.eventId else { return screen }
+        var screen = screen
+        if let index = screen.comments.index(where: { $0.id == commentId }) {
+          var comment = screen.comments[index]
           if comment.like { comment.likes -= 1 } else { comment.likes += 1 }
           comment.like = !comment.like
-          comments.comments[index] = comment
+          screen.comments[index] = comment
         }
-        return comments
+        return screen
       }
     }
     
