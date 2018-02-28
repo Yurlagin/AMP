@@ -131,3 +131,7 @@ struct NewCommentShown: Action  {
   let screenId: ScreenId
 }
 
+struct SetCommentType: Action {
+  let screenId: ScreenId
+  let type: CommentType
+}

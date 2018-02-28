@@ -49,6 +49,7 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
   case let action as SetEventListError:
     state.listRequest = .error(action.error)
     
+    
   case let action as EventLikeSent:
     updateEventCounters(fromNewEvent: action.event)
     
@@ -164,13 +165,15 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     
     state.eventScreens = state.eventScreens.mapValues { screen in
       guard screen.eventId == action.eventId else { return screen }
-      var newScreen = screen
-      newScreen.comments.append(action.comment)
-      if newScreen.outgoingCommentId == action.localId {
-        newScreen.outgoingCommentId = nil
-        newScreen.sendCommentRequest = .success
+      var screen = screen
+      screen.comments.append(action.comment)
+      if screen.outgoingCommentId == action.localId {
+        screen.outgoingCommentId = nil
+        screen.sendCommentRequest = .success
+        screen.textInputMode = .new
       }
-      return newScreen
+      
+      return screen
     }
 
     
@@ -188,7 +191,11 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     state.eventScreens[action.screenId]?.sendCommentRequest = .none
     
     
-  default :
+  case let action as SetCommentType:
+    state.eventScreens[action.screenId]?.textInputMode = action.type
+    
+    
+  default:
     break
     
   }

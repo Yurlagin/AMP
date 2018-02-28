@@ -65,6 +65,7 @@ class EventDetailsViewController: UIViewController {
     quoteUserName.text = nil
     quoteTextLabel.text = nil
     showQuoteView(false)
+    eventViewModel.didTapClearQoute()
   }
   
   
@@ -205,6 +206,7 @@ class EventDetailsViewController: UIViewController {
   }
   
   
+  
   private func showActionsForComment(index: Int) {
     
     let actions = eventViewModel.getActionsForComment(index)
@@ -220,12 +222,22 @@ class EventDetailsViewController: UIViewController {
       actionsVC.addAction(UIAlertAction(title: buttonTitle,
                                         style: .default,
                                         handler: { _ in
-                                          if case .answer = action {
+
+                                          func fillQouteView() {
                                             let comment = self.comments[index]
                                             self.quoteUserName.text = comment.userName ?? "Без имени"
                                             self.quoteTextLabel.text = comment.message ?? ""
                                             self.showQuoteView(true)
+                                            self.textView.becomeFirstResponder()
                                           }
+
+                                          if case .answer = action {
+                                            fillQouteView()
+                                          } else if case .resolve = action {
+                                            fillQouteView()
+                                          }
+                                          
+                                          
                                           self.eventViewModel.didTapCommentAction(action, index)
                                           self.tableView.deselectRow(at: IndexPath(row: index, section: 0), animated: true)} ))
     }
@@ -282,7 +294,7 @@ class EventDetailsViewController: UIViewController {
     super.viewWillLayoutSubviews()
     
     if !eventViewModelRendered {
-      renderUI()//(viewModel: eventViewModel)
+      renderUI()
     }
     
     if let headerView = tableView!.tableHeaderView {

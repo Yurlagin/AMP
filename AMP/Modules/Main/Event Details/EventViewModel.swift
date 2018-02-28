@@ -26,6 +26,7 @@ struct EventViewModel {
   let getActionsForComment: (_ commentIndex: Int) -> [CommentAction]
   let didTapCommentAction: (CommentAction, _ commentIndex: Int) -> ()
   let didTapSendComment: (String) -> ()
+  let didTapClearQoute: () -> ()
   
   enum CommentAction {
     case like
@@ -188,12 +189,11 @@ struct EventViewModel {
           return CommentLikeInvertAction(eventId: eventId, commentId: comment.id, cancelTask: cancelTask)
         }
 
+      case .answer:
+        store.dispatch(SetCommentType(screenId: screenId, type: .answer(comment.id)))
         
       case .resolve:
-        break
-        
-      default:
-        break
+        store.dispatch(SetCommentType(screenId: screenId, type: .resolve(comment.id)))
         
       }
     }
@@ -210,6 +210,11 @@ struct EventViewModel {
         return true
       }
       return false
+    }
+    
+    
+    self.didTapClearQoute = {
+      store.dispatch(SetCommentType(screenId: screenId, type: .new))
     }
   }
 }
