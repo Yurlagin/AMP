@@ -88,6 +88,7 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     guard state.eventScreens[action.screenId] == nil else { break }
     state.eventScreens[action.screenId] = EventsState.EventScreen(
       comments: [],
+      replyedComments: [:],
       eventId: action.eventId,
       isEndReached: false, // TODO: здесь должна быть настоящая проверочка
       fetchCommentsRequest: .run,
@@ -114,10 +115,12 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
       state.list?.events[index] = action.event
     }
     
-    
     state.eventScreens[action.screenId]?.comments = action.event.comments ?? []
+    action.event.replyedComments?.forEach{ state.eventScreens[action.screenId]?.replyedComments[$0.id] = $0 }
+    
     state.eventScreens[action.screenId]?.fetchCommentsRequest = .none
     state.eventScreens[action.screenId]?.isEndReached = (action.event.comments?.count ?? 0) == action.event.commentsCount
+    
     
   case let action as NewComments:
     guard var screen = state.eventScreens[action.screenId] else { break }
@@ -127,6 +130,8 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     case .replace: screen.comments = action.comments
     }
     
+    action.replyedComments.forEach{screen.replyedComments[$0.id] = $0}
+
     screen.isEndReached = action.comments.count < state.settings.commentPageLimit
     screen.fetchCommentsRequest = .none
     
@@ -168,16 +173,23 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     state.eventScreens = state.eventScreens.mapValues { screen in
       guard screen.eventId == action.eventId else { return screen }
       var screen = screen
-      screen.comments.append(action.comment)
+      var postedComment = action.comment
+      
       
       if screen.outgoingCommentId == action.localId {
         screen.outgoingCommentId = nil
         screen.sendCommentRequest = .success
         if case .resolve(let commentId) = screen.textInputMode, let index = eventIndex {
           state.list?.events[index].solutionCommentId = commentId
+          postedComment.replyToId = commentId
+        } else  if case .answer(let commentId) = screen.textInputMode {
+          postedComment.replyToId = commentId
         }
+        
         screen.textInputMode = .new
       }
+      
+      screen.comments.append(action.comment)
       
       return screen
     }

@@ -27,6 +27,8 @@ struct Event: Codable {
   var dislike: Bool
   let visible: Bool // visible=показывается всем pended= на премодерации и показывается только автору
   var comments: [Comment]?
+  let replyedComments: [Comment]?
+
   var maxCommentId: Int?
   var solutionCommentId: Int?
   
@@ -60,6 +62,7 @@ struct Event: Codable {
     case commentsCount = "commentsnum"
     case visible = "status"
     case comments
+    case replyedComments
     case maxCommentId
     case solutionCommentId
   }
@@ -111,6 +114,7 @@ extension Event {
     self.dislike = dislikeInt > 0
     self.visible = visible == "visible"
     self.comments = try values.decodeIfPresent([Comment].self, forKey: .comments)
+    self.replyedComments = try values.decodeIfPresent([Comment].self, forKey: .replyedComments)
     self.maxCommentId = try values.decodeIfPresent(Int.self, forKey: .maxCommentId)
     self.solutionCommentId = try values.decodeIfPresent(Int.self, forKey: .solutionCommentId)
   }

@@ -41,6 +41,7 @@ struct EventsState: StateType {
   
   struct EventScreen {
     var comments: [Comment]
+    var replyedComments: [CommentId: Comment]
     var eventId: Int
     var isEndReached: Bool
     var fetchCommentsRequest: Request

@@ -80,6 +80,7 @@ struct GotEvent: Action {
 struct NewComments: Action {
   let screenId: ScreenId
   let comments: [Comment]
+  let replyedComments: [Comment]
   let action: ActionType
   
   enum ActionType {

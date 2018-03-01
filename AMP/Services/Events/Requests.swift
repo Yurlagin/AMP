@@ -106,6 +106,7 @@ struct EventRequest: Codable {
 struct CommentsResponse: Codable {
   let answer: String
   let comments: [Comment]?
+  let replyedComments: [Comment]?
 }
 
 

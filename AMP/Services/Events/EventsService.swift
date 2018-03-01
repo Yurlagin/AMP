@@ -10,9 +10,13 @@ import PromiseKit
 import CoreLocation
 import Alamofire
 
+struct CommentsAndQuotes {
+  let comments: [Comment]
+  let replayedComments: [Comment]?
+}
 
 protocol EventsServiceProtocol {
-  func makeRequest(_ commentsRequest: CommentsRequest) -> Promise<[Comment]>
+  func makeRequest(_ commentsRequest: CommentsRequest) -> Promise<CommentsAndQuotes>
   func makeRequest(_ eventRequest: EventRequest) -> Promise<Event>
   func make(_ addCommentRequest: AddCommentRequest) -> Promise<Comment>
 }
@@ -124,16 +128,15 @@ struct EventsService: EventsServiceProtocol {
   }
 
   
-  
-  func makeRequest(_ commentsRequest: CommentsRequest) -> Promise<[Comment]> {
+  func makeRequest(_ commentsRequest: CommentsRequest) -> Promise<CommentsAndQuotes> {
     do {
       let commentsRequest = try EventsService.makeURLRequest(parameters: commentsRequest)
       return Alamofire.request(commentsRequest).responseData()
-        .then (on: EventsService.bgq) {
-          let commentsResponse = try JSONDecoder().decode(CommentsResponse.self, from: $0)
-          print ("ccc")
+        .then (on: EventsService.bgq) { data in
+          let commentsResponse = try JSONDecoder().decode(CommentsResponse.self, from: data)
+          print (commentsResponse)
           if commentsResponse.answer == "getComments" {
-            return Promise(value: commentsResponse.comments ?? [])
+            return Promise(value: CommentsAndQuotes(comments: commentsResponse.comments ?? [], replayedComments: commentsResponse.replyedComments))
           } else {
             throw EventsServiceError.unexpectedAnswer
           }

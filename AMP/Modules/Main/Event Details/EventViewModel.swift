@@ -14,6 +14,7 @@ struct EventViewModel {
   let event: Event
   let screenId: ScreenId
   let comments: [Comment]
+  let replyedComments: [CommentId: Comment]
   let loadMoreButtonState: LoadMoreState
   let shouldDisplayHUD: Bool
   let shouldShowPostedComment: () -> Bool
@@ -50,7 +51,7 @@ struct EventViewModel {
     self.event = event
     self.screenId = screenId
     self.comments = screen.comments
-
+    self.replyedComments = screen.replyedComments
     
     if let distance = state.locationState.location?.distance(from: CLLocation(latitude: event.latitude, longitude: event.longitude)) {
       self.distance = String(format: "%.1f км.", arguments: [distance / 1000])

@@ -15,30 +15,29 @@ class CommentCell: UITableViewCell {
   @IBOutlet weak var createdLabel: UILabel!
   @IBOutlet weak var likeButton: UIButton!
   @IBOutlet weak var messageTextView: UITextView!
-  
-  @IBAction func likePressed(_ sender: UIButton) {
-    // TODO: like handling
-  }
+  @IBOutlet weak var quoteView: UIView!
+  @IBOutlet weak var quoteCommentUserName: UILabel!
+  @IBOutlet weak var quoteMessage: UILabel!
   
   private var commentRendered = false
   
-  var comment: Comment! {
+  var comment: (Comment, Comment?)! {
     didSet {
-      render(comment)
-//      setNeedsLayout()
+      renderUI()
     }
   }
   
-//  override func layoutSubviews() {
-//    if !commentRendered {
-//      render(comment)
-//      commentRendered = true
-//    }
-//    super.layoutSubviews()
-//  }
   
-  
-  private func render(_ comment: Comment) {
+  private func renderUI() {
+    
+    quoteView.isHidden = self.comment.1 == nil
+    
+    if let quote = self.comment.1 {
+      quoteCommentUserName.text = quote.userName
+      quoteMessage.text = quote.message
+    }
+    
+    let comment = self.comment.0
     avatarImageView.kf.setImage(with: URL(string: comment.avatarURL ?? ""))
     createdLabel.text = comment.created.shortDayTimeString
     

@@ -77,6 +77,7 @@ class EventDetailsViewController: UIViewController {
   private var progressHud: MBProgressHUD?
   
   private var comments = [Comment]()
+  private var replyedComments = [CommentId: Comment]()
   
   private var eventViewModelRendered = false
   private var isFirstViewModelReceived = false
@@ -182,10 +183,11 @@ class EventDetailsViewController: UIViewController {
     let deletions = Array(deletionsSet.filter{!reloadsSet.contains($0)}.map{IndexPath(row: $0, section: 0)})
     
     self.comments = viewModel.comments
+    self.replyedComments = viewModel.replyedComments
     
     reloadsSet.forEach {
       if let cell = self.tableView!.cellForRow(at: IndexPath(row: $0, section: 0)) as? CommentCell {
-        cell.comment = self.comments[$0]
+        cell.comment = (self.comments[$0], nil)
       }
     }
     
@@ -348,8 +350,15 @@ extension EventDetailsViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as! CommentCell
-    cell.comment = comments[indexPath.row]
-    cell.backgroundColor = eventViewModel.event.solutionCommentId == cell.comment.id ? UIColor.hexColor(rgb: 0xCFFFBA) : .white
+    let comment = comments[indexPath.row]
+    let replyedComment: Comment?
+    if let replyId = comment.replyToId  {
+      replyedComment = replyedComments[replyId]
+    } else {
+      replyedComment = nil
+    }
+    cell.comment = (comment, replyedComment)
+    cell.backgroundColor = eventViewModel.event.solutionCommentId == comment.id ? UIColor.hexColor(rgb: 0xCFFFBA) : .white
     return cell
   }
   
