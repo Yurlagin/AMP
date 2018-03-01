@@ -31,6 +31,7 @@ class SignInViewController: UIViewController, SignInView {
     phoneTextField.delegate = self
     NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: .UIKeyboardWillHide, object: nil)
     NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: .UIKeyboardWillShow, object: nil)
+    nextButton.isExclusiveTouch = true
 
   }
   

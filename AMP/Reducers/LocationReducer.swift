@@ -21,7 +21,7 @@ func locationReducer(action: Action, state: LocationState?) -> LocationState {
     state.location = action.location
     print ("new location: \(action.location)")
     
-  default :
+  default:
     break
     
   }

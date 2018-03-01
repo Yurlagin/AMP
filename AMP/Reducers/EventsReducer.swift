@@ -175,6 +175,11 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
       var screen = screen
       var postedComment = action.comment
       
+      func addCommentToReplyedComments(commentId: CommentId) {
+        guard let commentIndex = screen.comments.index(where: {$0.id == commentId}) else { return }
+        screen.replyedComments[commentId] = screen.comments[commentIndex]
+      }
+
       
       if screen.outgoingCommentId == action.localId {
         screen.outgoingCommentId = nil
@@ -182,15 +187,16 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
         if case .resolve(let commentId) = screen.textInputMode, let index = eventIndex {
           state.list?.events[index].solutionCommentId = commentId
           postedComment.replyToId = commentId
+          addCommentToReplyedComments(commentId: commentId)
         } else  if case .answer(let commentId) = screen.textInputMode {
           postedComment.replyToId = commentId
+          addCommentToReplyedComments(commentId: commentId)
         }
         
         screen.textInputMode = .new
       }
       
-      screen.comments.append(action.comment)
-      
+      screen.comments.append(postedComment)
       return screen
     }
 
@@ -217,6 +223,7 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     break
     
   }
+  
   
   
   return state

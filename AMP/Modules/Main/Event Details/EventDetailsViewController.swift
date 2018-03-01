@@ -187,7 +187,7 @@ class EventDetailsViewController: UIViewController {
     
     reloadsSet.forEach {
       if let cell = self.tableView!.cellForRow(at: IndexPath(row: $0, section: 0)) as? CommentCell {
-        cell.comment = (self.comments[$0], nil)
+        cell.comment = (self.comments[$0], self.replayedCommentFor(comments[$0]))
       }
     }
     
@@ -274,14 +274,13 @@ class EventDetailsViewController: UIViewController {
                           size: CGSize(width: tableView.frame.width, height: 1))
     }
     
-    UIView.animate(withDuration: kbDuration, animations:  {
+    UIView.animate(withDuration: kbDuration)   {
       self.view.layoutIfNeeded()
-      
-    }) { _ in
       if isShowing {
-        self.tableView.scrollRectToVisible(rectToShow, animated: true)
+        self.tableView.scrollRectToVisible(rectToShow, animated: false)
       }
     }
+    
   }
   
   
@@ -347,17 +346,29 @@ extension EventDetailsViewController: UITableViewDataSource {
     return comments.count
   }
   
-  
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as! CommentCell
-    let comment = comments[indexPath.row]
+  private func replayedCommentFor(_ comment: Comment) -> Comment? {
     let replyedComment: Comment?
     if let replyId = comment.replyToId  {
       replyedComment = replyedComments[replyId]
     } else {
       replyedComment = nil
     }
-    cell.comment = (comment, replyedComment)
+    return replyedComment
+  }
+  
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as! CommentCell
+    let comment = comments[indexPath.row]
+    if comment.message == "Fasfasfa" {
+      print (comment)
+    }
+    
+//    if let replyId = comment.replyToId  {
+//      replyedComment = replyedComments[replyId]
+//    } else {
+//      replyedComment = nil
+//    }
+    cell.comment = (comment, replayedCommentFor(comment))
     cell.backgroundColor = eventViewModel.event.solutionCommentId == comment.id ? UIColor.hexColor(rgb: 0xCFFFBA) : .white
     return cell
   }

@@ -14,7 +14,8 @@ class CommentCell: UITableViewCell {
   @IBOutlet weak var avatarImageView: UIImageView!
   @IBOutlet weak var createdLabel: UILabel!
   @IBOutlet weak var likeButton: UIButton!
-  @IBOutlet weak var messageTextView: UITextView!
+  @IBOutlet weak var messageLabel: UILabel!
+  @IBOutlet weak var userNameLabel: UILabel!
   @IBOutlet weak var quoteView: UIView!
   @IBOutlet weak var quoteCommentUserName: UILabel!
   @IBOutlet weak var quoteMessage: UILabel!
@@ -30,10 +31,15 @@ class CommentCell: UITableViewCell {
   
   private func renderUI() {
     
+    if self.comment.0.message == "ыч" {
+      print (self.comment.0)
+      print (self.comment.1)
+    }
+    
     quoteView.isHidden = self.comment.1 == nil
     
     if let quote = self.comment.1 {
-      quoteCommentUserName.text = quote.userName
+      quoteCommentUserName.text = quote.userName ?? "Без имени"
       quoteMessage.text = quote.message
     }
     
@@ -48,22 +54,16 @@ class CommentCell: UITableViewCell {
     likeButton.isHidden = !comment.like
     
     let userName = comment.userName ?? "Без имени"
-    let message = comment.message ?? ""
+    let message = comment.message ?? " "
     
-    let signedMessage = NSMutableAttributedString(string: userName + " " + message)
-    signedMessage.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .subheadline), range: signedMessage.mutableString.range(of: signedMessage.string))
-    let userNameRange =  signedMessage.mutableString.range(of: userName)
-    signedMessage.addAttribute(.link, value: "UserProfile://", range: userNameRange)
-    signedMessage.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .subheadline), range: userNameRange)
-    messageTextView.attributedText = signedMessage   
+    userNameLabel.text = userName
+    messageLabel.text = message
+
   }
 
 
   override func awakeFromNib() {
     super.awakeFromNib()
-    messageTextView.textContainerInset = .zero
-    messageTextView.offset
-    messageTextView.textContainer.lineFragmentPadding = .leastNonzeroMagnitude
     avatarImageView?.layer.masksToBounds = true
     avatarImageView?.layer.cornerRadius = avatarImageView!.frame.height / 2
   }
