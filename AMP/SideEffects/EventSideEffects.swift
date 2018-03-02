@@ -34,7 +34,6 @@ func eventsEffects(eventsService: EventsServiceProtocol) -> MiddlewareItem {
         .then {
           dispatch(NewComments(screenId: action.screenId, comments: $0.comments, replyedComments: $0.replayedComments ?? [], action: .append)) }
         .catch { error in
-          assertionFailure(error.localizedDescription)
           dispatch(GetCommentsError(screenId: action.screenId, error: error)) }
 
     

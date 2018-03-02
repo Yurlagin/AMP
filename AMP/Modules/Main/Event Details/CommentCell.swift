@@ -22,7 +22,7 @@ class CommentCell: UITableViewCell {
   
   private var commentRendered = false
   
-  var comment: (Comment, Comment?)! {
+  var viewModel: (Comment, Comment?)! { // Comment and quoted comment
     didSet {
       renderUI()
     }
@@ -30,20 +30,15 @@ class CommentCell: UITableViewCell {
   
   
   private func renderUI() {
+        
+    quoteView.isHidden = self.viewModel.1 == nil
     
-    if self.comment.0.message == "ыч" {
-      print (self.comment.0)
-      print (self.comment.1)
-    }
-    
-    quoteView.isHidden = self.comment.1 == nil
-    
-    if let quote = self.comment.1 {
+    if let quote = self.viewModel.1 {
       quoteCommentUserName.text = quote.userName ?? "Без имени"
       quoteMessage.text = quote.message
     }
     
-    let comment = self.comment.0
+    let comment = self.viewModel.0
     avatarImageView.kf.setImage(with: URL(string: comment.avatarURL ?? ""))
     createdLabel.text = comment.created.shortDayTimeString
     

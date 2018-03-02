@@ -185,16 +185,12 @@ class EventDetailsViewController: UIViewController {
     self.comments = viewModel.comments
     self.replyedComments = viewModel.replyedComments
     
-    reloadsSet.forEach {
-      if let cell = self.tableView!.cellForRow(at: IndexPath(row: $0, section: 0)) as? CommentCell {
-        cell.comment = (self.comments[$0], self.replayedCommentFor(comments[$0]))
-      }
-    }
     
-    self.tableView!.beginUpdates()
-    self.tableView!.deleteRows(at: deletions, with: .none)
-    self.tableView!.insertRows(at: insertions, with: .none)
-    self.tableView!.endUpdates()
+    self.tableView.beginUpdates()
+    self.tableView.deleteRows(at: deletions, with: .none)
+    self.tableView.insertRows(at: insertions, with: .none)
+    self.tableView.reloadRows(at: Array(reloadsSet.map{IndexPath(row: $0, section: 0)}), with: .automatic)
+    self.tableView.endUpdates()
     
     if viewModel.shouldShowPostedComment(), !viewModel.comments.isEmpty {
       self.textView.text = ""
@@ -264,21 +260,20 @@ class EventDetailsViewController: UIViewController {
     let isShowing = notification.name == Notification.Name.UIKeyboardWillShow
     textInputViewBottomConstraint.constant = isShowing ? finalKBFrame.height : 0
     
-    let rectToShow: CGRect
-    if tableView.frame.height > tableView.contentSize.height {
-      rectToShow = CGRect(origin: CGPoint(x: 0, y: tableView.tableFooterView!.frame.origin.y - 1),
-                          size: CGSize(width: tableView.frame.width, height: 1))
-    } else {
-      let y = textInputView.convert(CGPoint(x: 0, y: textView.frame.origin.y - 1), to: tableView).y
-      rectToShow = CGRect(origin: CGPoint(x: 0, y: y - 1),
-                          size: CGSize(width: tableView.frame.width, height: 1))
-    }
+    let contentRect = CGRect(origin: .zero, size: tableView.contentSize)
+    let overlayRect = view.convert(finalKBFrame.union(textInputView.frame), to: tableView)
+    let intersectionRect = contentRect.intersection(overlayRect)
+    let visibleContentHeight = tableView.frame.height - intersectionRect.height
+    let hidingRect = CGRect(origin: intersectionRect.origin, size: CGSize(width: intersectionRect.width, height: min(intersectionRect.height, visibleContentHeight)))
     
-    UIView.animate(withDuration: kbDuration)   {
+    UIView.animate(withDuration: kbDuration, animations: {
       self.view.layoutIfNeeded()
-      if isShowing {
-        self.tableView.scrollRectToVisible(rectToShow, animated: false)
+      if isShowing, hidingRect.height > 0 {
+        self.tableView.scrollRectToVisible(hidingRect, animated: false)
       }
+    }) { _ in
+      self.tableView.beginUpdates()
+      self.tableView.endUpdates()
     }
     
   }
@@ -359,16 +354,7 @@ extension EventDetailsViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell", for: indexPath) as! CommentCell
     let comment = comments[indexPath.row]
-    if comment.message == "Fasfasfa" {
-      print (comment)
-    }
-    
-//    if let replyId = comment.replyToId  {
-//      replyedComment = replyedComments[replyId]
-//    } else {
-//      replyedComment = nil
-//    }
-    cell.comment = (comment, replayedCommentFor(comment))
+    cell.viewModel = (comment, replayedCommentFor(comment))
     cell.backgroundColor = eventViewModel.event.solutionCommentId == comment.id ? UIColor.hexColor(rgb: 0xCFFFBA) : .white
     return cell
   }
