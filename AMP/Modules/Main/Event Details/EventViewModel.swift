@@ -101,7 +101,6 @@ struct EventViewModel {
     }
     
     
-    
     self.getMapURL = { width, height in
       return URL(string: state.eventsState.settings.mapBaseURL + "size=\(width)x\(height)&center=\(event.latitude),\(event.longitude)&markers=\(event.latitude),\(event.longitude)")
     }
@@ -114,7 +113,6 @@ struct EventViewModel {
       loadMoreButtonState = .showLoading
     case .error:
       loadMoreButtonState = .showButtonWithError
-  
     }
     
     
@@ -131,7 +129,6 @@ struct EventViewModel {
         guard state.eventsState.eventScreens[screenId]?.isEndReached != true,
           let event = state.eventsState.getEventBy(id: eventId)
           else { return nil }
-        print ("passed")
         
         let pagelimit = state.eventsState.settings.commentPageLimit
         let offset = max(event.commentsCount - screen.comments.count - pagelimit, 0)

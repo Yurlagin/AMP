@@ -68,7 +68,6 @@ class EventDetailsViewController: UIViewController {
     eventViewModel.didTapClearQoute()
   }
   
-  
   var eventId: Int!
   var screenId: ScreenId!
 
@@ -111,7 +110,7 @@ class EventDetailsViewController: UIViewController {
     
     let cancelEditGesture = UITapGestureRecognizer(target: self, action: #selector(cancelEdit))
     cancelEditGesture.cancelsTouchesInView = false
-    tableView!.addGestureRecognizer(cancelEditGesture)
+    tableView.addGestureRecognizer(cancelEditGesture)
     
     tableView.tableFooterView = UIView()
     
@@ -126,7 +125,7 @@ class EventDetailsViewController: UIViewController {
   }
   
   
-  func renderUI () {
+  func renderUI() {
     
     guard let viewModel = eventViewModel else { return }
     
@@ -182,27 +181,37 @@ class EventDetailsViewController: UIViewController {
     let insertions = Array(insertionsSet.filter{!reloadsSet.contains($0)}.map{IndexPath(row: $0, section: 0)})
     let deletions = Array(deletionsSet.filter{!reloadsSet.contains($0)}.map{IndexPath(row: $0, section: 0)})
     
-    self.comments = viewModel.comments
-    self.replyedComments = viewModel.replyedComments
+    comments = viewModel.comments
+    replyedComments = viewModel.replyedComments
     
-    
-    self.tableView.beginUpdates()
-    self.tableView.deleteRows(at: deletions, with: .none)
-    self.tableView.insertRows(at: insertions, with: .none)
-    self.tableView.reloadRows(at: Array(reloadsSet.map{IndexPath(row: $0, section: 0)}), with: .automatic)
-    self.tableView.endUpdates()
+    tableView.beginUpdates()
+    tableView.deleteRows(at: deletions, with: .none)
+    tableView.insertRows(at: insertions, with: .none)
+    tableView.reloadRows(at: Array(reloadsSet.map{IndexPath(row: $0, section: 0)}), with: .automatic)
+    tableView.endUpdates()
     
     if viewModel.shouldShowPostedComment(), !viewModel.comments.isEmpty {
-      self.textView.text = ""
-      self.showQuoteView(false)
-      self.textViewDidChange(self.textView)
-      self.tableView.scrollToRow(at: IndexPath(row: viewModel.comments.count - 1, section: 0), at: .bottom, animated: true)
+      textView.text = ""
+      showQuoteView(false)
+      textViewDidChange(self.textView)
+      markSolutionComment()
+      tableView.scrollToRow(at: IndexPath(row: viewModel.comments.count - 1, section: 0), at: .bottom, animated: true)
     }
     
-    self.eventViewModelRendered = true
-
+    eventViewModelRendered = true
   }
   
+  
+  private func markSolutionComment() {
+    if let solutionCommentId = eventViewModel.event.solutionCommentId,
+      let postedCommentReplyId = comments.last?.replyToId,
+      solutionCommentId == postedCommentReplyId,
+      let index = comments.index(where: { $0.id == solutionCommentId }) {
+      tableView.beginUpdates()
+      tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
+      tableView.endUpdates()
+    }
+  }
   
   
   private func showActionsForComment(index: Int) {
@@ -217,30 +226,32 @@ class EventDetailsViewController: UIViewController {
       case .answer: buttonTitle = "Ответить"
       case .resolve: buttonTitle = "Отметить, как решение"
       }
-      actionsVC.addAction(UIAlertAction(title: buttonTitle,
-                                        style: .default,
-                                        handler: { _ in
-
-                                          func fillQouteView() {
-                                            let comment = self.comments[index]
-                                            self.quoteUserName.text = comment.userName ?? "Без имени"
-                                            self.quoteTextLabel.text = comment.message ?? ""
-                                            self.showQuoteView(true)
-                                            self.textView.becomeFirstResponder()
-                                          }
-
-                                          if case .answer = action {
-                                            fillQouteView()
-                                          } else if case .resolve = action {
-                                            fillQouteView()
-                                          }
-                                          
-                                          
-                                          self.eventViewModel.didTapCommentAction(action, index)
-                                          self.tableView.deselectRow(at: IndexPath(row: index, section: 0), animated: true)} ))
+      actionsVC.addAction(UIAlertAction(
+        title: buttonTitle,
+        style: .default,
+        handler: { _ in
+          
+          func fillQouteView() {
+            let comment = self.comments[index]
+            self.quoteUserName.text = comment.userName ?? "Без имени"
+            self.quoteTextLabel.text = comment.message ?? ""
+            self.showQuoteView(true)
+            self.textView.becomeFirstResponder()
+          }
+          
+          if case .answer = action {
+            fillQouteView()
+          } else if case .resolve = action {
+            fillQouteView()
+          }
+          
+          self.eventViewModel.didTapCommentAction(action, index)
+          self.tableView.deselectRow(at: IndexPath(row: index, section: 0), animated: true)} ))
     }
+    
     actionsVC.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: { _ in
       self.tableView.deselectRow(at: IndexPath(row: index, section: 0), animated: true) }))
+    
     present(actionsVC, animated: true, completion: nil)
   }
   
@@ -266,16 +277,16 @@ class EventDetailsViewController: UIViewController {
     let visibleContentHeight = tableView.frame.height - intersectionRect.height
     let hidingRect = CGRect(origin: intersectionRect.origin, size: CGSize(width: intersectionRect.width, height: min(intersectionRect.height, visibleContentHeight)))
     
-    UIView.animate(withDuration: kbDuration, animations: {
+    UIView.animate(withDuration: kbDuration) {
       self.view.layoutIfNeeded()
+
       if isShowing, hidingRect.height > 0 {
         self.tableView.scrollRectToVisible(hidingRect, animated: false)
+      } else {
+        self.tableView.beginUpdates()
+        self.tableView.endUpdates()
       }
-    }) { _ in
-      self.tableView.beginUpdates()
-      self.tableView.endUpdates()
     }
-    
   }
   
   
@@ -377,8 +388,7 @@ extension EventDetailsViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
     return rowHeights[indexPath.row] ?? 120
   }
-
-    
+  
 }
 
 
