@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		24512AF1A112C52893F320FB /* Pods_AMP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9EF6C0E6E1A0E5898FBC39 /* Pods_AMP.framework */; };
+		340A26AB204A2F5A00698124 /* AddEventTransitioningIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340A26A9204A2F5900698124 /* AddEventTransitioningIn.swift */; };
+		340A26AC204A2F5A00698124 /* AddEventTransitioningOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340A26AA204A2F5900698124 /* AddEventTransitioningOut.swift */; };
 		340D90FB2026AE7B00B1B90A /* EventsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340D90FA2026AE7B00B1B90A /* EventsState.swift */; };
 		340D90FD2026B36900B1B90A /* EventsReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340D90FC2026B36900B1B90A /* EventsReducer.swift */; };
 		340D90FF2026EC0400B1B90A /* EventActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340D90FE2026EC0400B1B90A /* EventActions.swift */; };
@@ -66,6 +68,7 @@
 		34996F242005B9FC00D53875 /* UIImage+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34996F1F2005B9FC00D53875 /* UIImage+Hex.swift */; };
 		34996F252005B9FC00D53875 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34996F202005B9FC00D53875 /* UIViewControllerExtension.swift */; };
 		34996F262005B9FC00D53875 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34996F212005B9FC00D53875 /* UIViewExtensions.swift */; };
+		34A91789204A5BC100A0CCB3 /* CreateEventNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A91788204A5BC100A0CCB3 /* CreateEventNavigationController.swift */; };
 		34ADF3D7202AF50200FA1F06 /* InitialAuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34ADF3D6202AF50200FA1F06 /* InitialAuthState.swift */; };
 		34B9EF5C202FB22F00F31CB0 /* LocationReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B9EF5B202FB22F00F31CB0 /* LocationReducer.swift */; };
 		34B9EF5E202FB41300F31CB0 /* LocationActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B9EF5D202FB41300F31CB0 /* LocationActions.swift */; };
@@ -122,6 +125,8 @@
 /* Begin PBXFileReference section */
 		149156D074A066AE563FC489 /* Pods-AMPTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AMPTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AMPTests/Pods-AMPTests.release.xcconfig"; sourceTree = "<group>"; };
 		173F7410D3731CE3736E6927 /* Pods-AMP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AMP.release.xcconfig"; path = "Pods/Target Support Files/Pods-AMP/Pods-AMP.release.xcconfig"; sourceTree = "<group>"; };
+		340A26A9204A2F5900698124 /* AddEventTransitioningIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddEventTransitioningIn.swift; path = ../../../../../AMA/AMA/AddEventTransitioningIn.swift; sourceTree = "<group>"; };
+		340A26AA204A2F5900698124 /* AddEventTransitioningOut.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddEventTransitioningOut.swift; path = ../../../../../AMA/AMA/AddEventTransitioningOut.swift; sourceTree = "<group>"; };
 		340D90FA2026AE7B00B1B90A /* EventsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsState.swift; sourceTree = "<group>"; };
 		340D90FC2026B36900B1B90A /* EventsReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsReducer.swift; sourceTree = "<group>"; };
 		340D90FE2026EC0400B1B90A /* EventActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventActions.swift; sourceTree = "<group>"; };
@@ -183,6 +188,7 @@
 		34996F202005B9FC00D53875 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		34996F212005B9FC00D53875 /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		349CF547201C04130011BDD5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		34A91788204A5BC100A0CCB3 /* CreateEventNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEventNavigationController.swift; sourceTree = "<group>"; };
 		34ADF3D6202AF50200FA1F06 /* InitialAuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialAuthState.swift; sourceTree = "<group>"; };
 		34B9EF5B202FB22F00F31CB0 /* LocationReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationReducer.swift; sourceTree = "<group>"; };
 		34B9EF5D202FB41300F31CB0 /* LocationActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationActions.swift; sourceTree = "<group>"; };
@@ -454,6 +460,7 @@
 				347DB552201F36E8009A240D /* CreateEvent.storyboard */,
 				347DB554201F3702009A240D /* Favourites.storyboard */,
 				347DB556201F3753009A240D /* Settings.storyboard */,
+				34745CB9200593CE00D19835 /* LaunchScreen.storyboard */,
 				349954D02012C5A8006CFD87 /* StoryboardsEnum.swift */,
 			);
 			path = Storyboards;
@@ -464,7 +471,6 @@
 			children = (
 				344E57812025630A00C5CF39 /* GoogleService-Info.plist */,
 				34745CB7200593CE00D19835 /* Assets.xcassets */,
-				34745CB9200593CE00D19835 /* LaunchScreen.storyboard */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -660,9 +666,9 @@
 			children = (
 				34DA41F5201DBEBB00DDB0D7 /* Event List */,
 				344EB9CE2035138F009DDC65 /* Event Details */,
+				34DA41F4201DBEB700DDB0D7 /* Events Map */,
 				34DA41F8201DBEE200DDB0D7 /* Create Event */,
 				34DA41F6201DBECE00DDB0D7 /* Favourites */,
-				34DA41F4201DBEB700DDB0D7 /* Events Map */,
 				34DA41F7201DBED600DDB0D7 /* Settings */,
 				34DA41F3201DBEAA00DDB0D7 /* Tab Bar */,
 			);
@@ -672,6 +678,8 @@
 		34DA41F3201DBEAA00DDB0D7 /* Tab Bar */ = {
 			isa = PBXGroup;
 			children = (
+				340A26A9204A2F5900698124 /* AddEventTransitioningIn.swift */,
+				340A26AA204A2F5900698124 /* AddEventTransitioningOut.swift */,
 				34DA41D4201DB0B100DDB0D7 /* TabbarController.swift */,
 			);
 			path = "Tab Bar";
@@ -716,6 +724,7 @@
 			isa = PBXGroup;
 			children = (
 				34DA41FB201DBF8900DDB0D7 /* CreateEventViewController.swift */,
+				34A91788204A5BC100A0CCB3 /* CreateEventNavigationController.swift */,
 			);
 			path = "Create Event";
 			sourceTree = "<group>";
@@ -925,6 +934,7 @@
 				"${BUILT_PRODUCTS_DIR}/ReSwift/ReSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
+				"${PODS_ROOT}/Reveal-SDK/RevealServer-13/iOS/RevealServer.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -941,6 +951,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RevealServer.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1048,6 +1059,7 @@
 				34996F172005B85400D53875 /* EnterNameView.swift in Sources */,
 				34DA41E5201DBB4B00DDB0D7 /* EventMapModuleFactory.swift in Sources */,
 				34DA4208201DC3CD00DDB0D7 /* FavouritesCoordinator.swift in Sources */,
+				340A26AC204A2F5A00698124 /* AddEventTransitioningOut.swift in Sources */,
 				34DA41FE201DBFB000DDB0D7 /* SettingsTableViewController.swift in Sources */,
 				3422E5ED201B38A200DAF175 /* SignInViewModel.swift in Sources */,
 				34DA4200201DBFE100DDB0D7 /* FavouritesTableViewController.swift in Sources */,
@@ -1065,6 +1077,7 @@
 				344E57842025653800C5CF39 /* MockAuthService.swift in Sources */,
 				34F1A6D820286268009B18B2 /* EventListTableViewCell.swift in Sources */,
 				34DA41EB201DBD5000DDB0D7 /* FavouritesView.swift in Sources */,
+				34A91789204A5BC100A0CCB3 /* CreateEventNavigationController.swift in Sources */,
 				34DA41ED201DBDCD00DDB0D7 /* CreateEventFactory.swift in Sources */,
 				34996F232005B9FC00D53875 /* String+Whitespace.swift in Sources */,
 				34996F012005B36D00D53875 /* Router.swift in Sources */,
@@ -1089,6 +1102,7 @@
 				34BFAE38201C105C0079D566 /* InjectService.swift in Sources */,
 				34BFAE32201C06BC0079D566 /* AuthService.swift in Sources */,
 				3484C29420367514002F3A10 /* Comment.swift in Sources */,
+				340A26AB204A2F5A00698124 /* AddEventTransitioningIn.swift in Sources */,
 				34996F252005B9FC00D53875 /* UIViewControllerExtension.swift in Sources */,
 				34C6DB1420270C1700F7FF2C /* EventListViewModel.swift in Sources */,
 				34DA420C201EA1E400DDB0D7 /* CreateEventCoordinatorOutput.swift in Sources */,

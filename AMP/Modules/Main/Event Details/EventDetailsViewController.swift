@@ -185,8 +185,8 @@ class EventDetailsViewController: UIViewController {
     replyedComments = viewModel.replyedComments
     
     tableView.beginUpdates()
-    tableView.deleteRows(at: deletions, with: .none)
-    tableView.insertRows(at: insertions, with: .none)
+    tableView.deleteRows(at: deletions, with: .automatic)
+    tableView.insertRows(at: insertions, with: .automatic)
     tableView.reloadRows(at: Array(reloadsSet.map{IndexPath(row: $0, section: 0)}), with: .automatic)
     tableView.endUpdates()
     

@@ -14,11 +14,23 @@ class CreateEventViewController: UIViewController, CreateEventView {
   
   var onCancel: (() -> ())?
   
+  
+  @objc private func cancel() {
+    onCancel?()
+  }
+  
+  
+  private func setInitialState() {
+    navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
+  }
+  
+  
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    // Do any additional setup after loading the view.
+    setInitialState()
   }
+  
+  
   
   
 }

@@ -6,7 +6,7 @@ target 'AMP' do
 	pod 'RealmSwift'
 	pod 'Alamofire'
 	pod 'PhoneNumberKit', '~> 2.1'
-	pod ‘Reveal-iOS-SDK’, :configurations => [‘Debug’]
+	pod 'Reveal-SDK', :configurations => ['Debug']
 	pod 'MBProgressHUD', '~> 1.1.0'
 	pod 'ReSwift'
 	pod 'Firebase/Auth'

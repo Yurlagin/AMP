@@ -75,7 +75,7 @@
         <!--Создать-->
         <scene sceneID="9HH-hk-qJ7">
             <objects>
-                <navigationController title="Создать" id="YI2-9K-QDr" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="CreateEventNavigationController" title="Создать" id="YI2-9K-QDr" customClass="CreateEventNavigationController" customModule="AMP" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Создать" image="Plus" id="mPe-pL-Fw2"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="7Sw-Yp-yxw">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>

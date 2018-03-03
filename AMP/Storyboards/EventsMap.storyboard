@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -17,13 +18,83 @@
                     <view key="view" contentMode="scaleToFill" id="s0a-bJ-Wi1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="xyG-22-y3V">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                            </mapView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="vI3-Dr-rZT">
+                                <rect key="frame" x="337" y="309.5" width="30" height="68"/>
+                                <subviews>
+                                    <button opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dnY-f0-WJj">
+                                        <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" priority="750" constant="30" id="fGD-8h-ovH"/>
+                                            <constraint firstAttribute="height" priority="750" constant="30" id="j05-2p-SHC"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" image="mapPlus"/>
+                                        <connections>
+                                            <action selector="zoomInPressed:" destination="kHD-Tn-Mbw" eventType="touchUpInside" id="MtA-iw-pGf"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Ig-Ax-8B2">
+                                        <rect key="frame" x="0.0" y="38" width="30" height="30"/>
+                                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" priority="750" constant="30" id="Tod-IB-4Rk"/>
+                                            <constraint firstAttribute="height" priority="750" constant="30" id="XJf-rr-psJ"/>
+                                        </constraints>
+                                        <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <state key="normal" image="mapMinus"/>
+                                        <connections>
+                                            <action selector="zoomOutPressed:" destination="kHD-Tn-Mbw" eventType="touchUpInside" id="LJW-yA-aNo"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dfc-kZ-Rsp">
+                                <rect key="frame" x="337" y="617" width="30" height="30"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" priority="750" constant="30" id="DW9-fR-Vnt"/>
+                                    <constraint firstAttribute="height" priority="750" constant="30" id="qKN-yt-pc8"/>
+                                </constraints>
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" image="mapFindMe"/>
+                                <connections>
+                                    <action selector="findMePressed:" destination="kHD-Tn-Mbw" eventType="touchUpInside" id="kdN-YT-qcW"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="mvB-5c-Ihe" firstAttribute="bottom" secondItem="Dfc-kZ-Rsp" secondAttribute="bottom" constant="20" id="9oO-Ox-GQy"/>
+                            <constraint firstItem="xyG-22-y3V" firstAttribute="leading" secondItem="mvB-5c-Ihe" secondAttribute="leading" id="CKU-er-cqf"/>
+                            <constraint firstItem="xyG-22-y3V" firstAttribute="trailing" secondItem="vI3-Dr-rZT" secondAttribute="trailing" constant="8" id="HAZ-ed-tHq"/>
+                            <constraint firstItem="xyG-22-y3V" firstAttribute="bottom" secondItem="mvB-5c-Ihe" secondAttribute="bottom" id="QjS-N3-u4N"/>
+                            <constraint firstItem="vI3-Dr-rZT" firstAttribute="centerY" secondItem="xyG-22-y3V" secondAttribute="centerY" id="dgH-rg-p8V"/>
+                            <constraint firstItem="xyG-22-y3V" firstAttribute="trailing" secondItem="mvB-5c-Ihe" secondAttribute="trailing" id="eOQ-m1-zj6"/>
+                            <constraint firstItem="Dfc-kZ-Rsp" firstAttribute="trailing" secondItem="vI3-Dr-rZT" secondAttribute="trailing" id="kq6-q9-uER"/>
+                            <constraint firstItem="xyG-22-y3V" firstAttribute="top" secondItem="mvB-5c-Ihe" secondAttribute="top" id="n0V-Zp-bPW"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="mvB-5c-Ihe"/>
                     </view>
+                    <connections>
+                        <outlet property="findMeButton" destination="Dfc-kZ-Rsp" id="aw7-30-PNX"/>
+                        <outlet property="mapView" destination="xyG-22-y3V" id="yBc-2x-sBZ"/>
+                        <outlet property="zoomInButton" destination="dnY-f0-WJj" id="xz1-L6-GwH"/>
+                        <outlet property="zoomOutButton" destination="9Ig-Ax-8B2" id="bsk-3F-m4H"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="OJA-ck-nBB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="100" y="152"/>
+            <point key="canvasLocation" x="100" y="151.57421289355324"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="mapFindMe" width="12" height="12"/>
+        <image name="mapMinus" width="13" height="13"/>
+        <image name="mapPlus" width="13" height="13"/>
+    </resources>
 </document>

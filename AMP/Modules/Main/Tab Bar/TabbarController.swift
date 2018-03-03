@@ -2,6 +2,8 @@ import UIKit
 
 final class TabbarController: UITabBarController, UITabBarControllerDelegate, TabbarView {
   
+  fileprivate var previosIndex = 0
+  
   var onEventsListFlowSelect: ((UINavigationController) -> ())?
   
   var onEventsMapFlowSelect: ((UINavigationController) -> ())?
@@ -23,6 +25,7 @@ final class TabbarController: UITabBarController, UITabBarControllerDelegate, Ta
     }
   }
   
+  
   func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
     guard let controller = viewControllers?[selectedIndex] as? UINavigationController else { return }
     
@@ -42,4 +45,32 @@ final class TabbarController: UITabBarController, UITabBarControllerDelegate, Ta
       break
     }
   }
+  
+  
+
+  func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+    
+    previosIndex = selectedIndex
+    return true
+  }
+
+  
+  
+  func tabBarController(_ tabBarController: UITabBarController, animationControllerForTransitionFrom fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    
+    if let _ = toVC as?  CreateEventNavigationController {
+      return AddEventTransitioningIn()
+    }
+    
+    if let _ = fromVC as? CreateEventNavigationController {
+      return AddEventTransitioningOut()
+    }
+    
+    return nil
+  }
+  
+  
+  
+  
+  
 }

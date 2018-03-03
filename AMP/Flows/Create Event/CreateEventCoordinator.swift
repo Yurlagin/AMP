@@ -3,7 +3,7 @@ final class CreateEventCoordinator: BaseCoordinator, CreateEventCoordinatorOutpu
   private let factory: CreateEventModuleFactory
   private let router: Router
   
-  var finishFlow: (() -> Void)? 
+  var finishFlow: ((Created) -> Void)?
   
   init(router: Router, factory: CreateEventModuleFactory) {
     self.factory = factory
@@ -11,13 +11,14 @@ final class CreateEventCoordinator: BaseCoordinator, CreateEventCoordinatorOutpu
   }
   
   override func start() {
-    showSighInForm()
+    showCreateEventForm()
   }
   
   //MARK: - Run current flow's controllers
   
-  private func showSighInForm() {
+  private func showCreateEventForm() {
     let createEventOutput = factory.makeCreateEventOutput()
+    createEventOutput.onCancel = { [weak self] in self?.finishFlow?(false) }
     
     //TODO: Добавить обработку добавленного события и отмены
     router.setRootModule(createEventOutput)

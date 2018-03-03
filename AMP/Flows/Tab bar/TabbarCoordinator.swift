@@ -51,9 +51,9 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
   private func runCreateEventFlow() -> ((UINavigationController) -> ()) {
     return { navController in
       if navController.viewControllers.isEmpty == true {
-        let settingsCoordinator = self.coordinatorFactory.makeCreateEventCoordinatorBox(navController: navController)
-        settingsCoordinator.start()
-        self.addDependency(settingsCoordinator)
+        let createdEventCoordinator = self.coordinatorFactory.makeCreateEventCoordinatorBox(navController: navController)
+        createdEventCoordinator.start()
+        self.addDependency(createdEventCoordinator)
       }
     }
   }
