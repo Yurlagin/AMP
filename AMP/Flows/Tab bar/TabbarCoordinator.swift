@@ -5,7 +5,7 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
   private let tabbarView: TabbarView
   private let coordinatorFactory: CoordinatorFactory
 
-  var cancelFlow: (() -> ())?
+  var finishFlow: (() -> ())?
 
   private let locationTracker = LocationTracker()
   
@@ -51,9 +51,12 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
   private func runCreateEventFlow() -> ((UINavigationController) -> ()) {
     return { navController in
       if navController.viewControllers.isEmpty == true {
-        let createdEventCoordinator = self.coordinatorFactory.makeCreateEventCoordinatorBox(navController: navController)
-        createdEventCoordinator.start()
-        self.addDependency(createdEventCoordinator)
+        let createEventCoordinator = self.coordinatorFactory.makeCreateEventCoordinatorBox(navController: navController)
+        createEventCoordinator.finishFlow = { eventId in
+          
+        }
+        createEventCoordinator.start()
+        self.addDependency(createEventCoordinator)
       }
     }
   }

@@ -10,7 +10,7 @@ protocol CreateEventCoordinatorOutput: class {
   
   typealias Created = Bool
   
-  var finishFlow: ((Created) -> Void)? { get set }
+  var finishFlow: ((EventId?) -> Void)? { get set }
   
 }
 

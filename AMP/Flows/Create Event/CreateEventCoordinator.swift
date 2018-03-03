@@ -3,7 +3,7 @@ final class CreateEventCoordinator: BaseCoordinator, CreateEventCoordinatorOutpu
   private let factory: CreateEventModuleFactory
   private let router: Router
   
-  var finishFlow: ((Created) -> Void)?
+  var finishFlow: ((EventId?) -> Void)?
   
   init(router: Router, factory: CreateEventModuleFactory) {
     self.factory = factory
@@ -18,8 +18,8 @@ final class CreateEventCoordinator: BaseCoordinator, CreateEventCoordinatorOutpu
   
   private func showCreateEventForm() {
     let createEventOutput = factory.makeCreateEventOutput()
-    createEventOutput.onCancel = { [weak self] in self?.finishFlow?(false) }
-    
+    createEventOutput.onCancel = { [weak self] in self?.finishFlow?(nil) }
+    createEventOutput.onCreateEvent = { [weak self] in self?.finishFlow?($0) }
     //TODO: Добавить обработку добавленного события и отмены
     router.setRootModule(createEventOutput)
   }

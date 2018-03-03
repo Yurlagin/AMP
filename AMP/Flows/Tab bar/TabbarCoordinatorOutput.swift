@@ -7,6 +7,6 @@
 //
 
 protocol TabbarCoordinatorOutput: class {
-  var cancelFlow: (() -> Void)? { get set }
+  var finishFlow: (() -> Void)? { get set }
 }
 

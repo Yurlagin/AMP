@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		24512AF1A112C52893F320FB /* Pods_AMP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9EF6C0E6E1A0E5898FBC39 /* Pods_AMP.framework */; };
-		340A26AB204A2F5A00698124 /* AddEventTransitioningIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340A26A9204A2F5900698124 /* AddEventTransitioningIn.swift */; };
-		340A26AC204A2F5A00698124 /* AddEventTransitioningOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340A26AA204A2F5900698124 /* AddEventTransitioningOut.swift */; };
 		340D90FB2026AE7B00B1B90A /* EventsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340D90FA2026AE7B00B1B90A /* EventsState.swift */; };
 		340D90FD2026B36900B1B90A /* EventsReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340D90FC2026B36900B1B90A /* EventsReducer.swift */; };
 		340D90FF2026EC0400B1B90A /* EventActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340D90FE2026EC0400B1B90A /* EventActions.swift */; };
@@ -34,6 +32,8 @@
 		34745CB8200593CE00D19835 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34745CB7200593CE00D19835 /* Assets.xcassets */; };
 		34745CBB200593CE00D19835 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34745CB9200593CE00D19835 /* LaunchScreen.storyboard */; };
 		34745CC6200593CE00D19835 /* AMPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34745CC5200593CE00D19835 /* AMPTests.swift */; };
+		34763975204A60BE00EB221E /* AddEventTransitioningOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34763973204A60BD00EB221E /* AddEventTransitioningOut.swift */; };
+		34763976204A60BE00EB221E /* AddEventTransitioningIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34763974204A60BD00EB221E /* AddEventTransitioningIn.swift */; };
 		347DB54F201F3605009A240D /* EventList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 347DB54E201F3605009A240D /* EventList.storyboard */; };
 		347DB551201F36D4009A240D /* EventsMap.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 347DB550201F36D4009A240D /* EventsMap.storyboard */; };
 		347DB553201F36E8009A240D /* CreateEvent.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 347DB552201F36E8009A240D /* CreateEvent.storyboard */; };
@@ -125,8 +125,6 @@
 /* Begin PBXFileReference section */
 		149156D074A066AE563FC489 /* Pods-AMPTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AMPTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AMPTests/Pods-AMPTests.release.xcconfig"; sourceTree = "<group>"; };
 		173F7410D3731CE3736E6927 /* Pods-AMP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AMP.release.xcconfig"; path = "Pods/Target Support Files/Pods-AMP/Pods-AMP.release.xcconfig"; sourceTree = "<group>"; };
-		340A26A9204A2F5900698124 /* AddEventTransitioningIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddEventTransitioningIn.swift; path = ../../../../../AMA/AMA/AddEventTransitioningIn.swift; sourceTree = "<group>"; };
-		340A26AA204A2F5900698124 /* AddEventTransitioningOut.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddEventTransitioningOut.swift; path = ../../../../../AMA/AMA/AddEventTransitioningOut.swift; sourceTree = "<group>"; };
 		340D90FA2026AE7B00B1B90A /* EventsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsState.swift; sourceTree = "<group>"; };
 		340D90FC2026B36900B1B90A /* EventsReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsReducer.swift; sourceTree = "<group>"; };
 		340D90FE2026EC0400B1B90A /* EventActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventActions.swift; sourceTree = "<group>"; };
@@ -153,6 +151,8 @@
 		34745CBA200593CE00D19835 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		34745CC1200593CE00D19835 /* AMPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AMPTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		34745CC5200593CE00D19835 /* AMPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AMPTests.swift; sourceTree = "<group>"; };
+		34763973204A60BD00EB221E /* AddEventTransitioningOut.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddEventTransitioningOut.swift; sourceTree = "<group>"; };
+		34763974204A60BD00EB221E /* AddEventTransitioningIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddEventTransitioningIn.swift; sourceTree = "<group>"; };
 		347DB54E201F3605009A240D /* EventList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EventList.storyboard; sourceTree = "<group>"; };
 		347DB550201F36D4009A240D /* EventsMap.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = EventsMap.storyboard; sourceTree = "<group>"; };
 		347DB552201F36E8009A240D /* CreateEvent.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CreateEvent.storyboard; sourceTree = "<group>"; };
@@ -678,8 +678,8 @@
 		34DA41F3201DBEAA00DDB0D7 /* Tab Bar */ = {
 			isa = PBXGroup;
 			children = (
-				340A26A9204A2F5900698124 /* AddEventTransitioningIn.swift */,
-				340A26AA204A2F5900698124 /* AddEventTransitioningOut.swift */,
+				34763974204A60BD00EB221E /* AddEventTransitioningIn.swift */,
+				34763973204A60BD00EB221E /* AddEventTransitioningOut.swift */,
 				34DA41D4201DB0B100DDB0D7 /* TabbarController.swift */,
 			);
 			path = "Tab Bar";
@@ -1022,6 +1022,7 @@
 				34693CE1202B012800E4EE8E /* RLMSettings.swift in Sources */,
 				34996F192005B88700D53875 /* AuthModuleFactory.swift in Sources */,
 				34996EFE2005B36D00D53875 /* Coordinator.swift in Sources */,
+				34763976204A60BE00EB221E /* AddEventTransitioningIn.swift in Sources */,
 				3484C29D2037B7AD002F3A10 /* CommentCell.swift in Sources */,
 				34996F162005B85400D53875 /* SignInView.swift in Sources */,
 				34B9EF60202FB64200F31CB0 /* LocationTracker.swift in Sources */,
@@ -1059,7 +1060,7 @@
 				34996F172005B85400D53875 /* EnterNameView.swift in Sources */,
 				34DA41E5201DBB4B00DDB0D7 /* EventMapModuleFactory.swift in Sources */,
 				34DA4208201DC3CD00DDB0D7 /* FavouritesCoordinator.swift in Sources */,
-				340A26AC204A2F5A00698124 /* AddEventTransitioningOut.swift in Sources */,
+				34763975204A60BE00EB221E /* AddEventTransitioningOut.swift in Sources */,
 				34DA41FE201DBFB000DDB0D7 /* SettingsTableViewController.swift in Sources */,
 				3422E5ED201B38A200DAF175 /* SignInViewModel.swift in Sources */,
 				34DA4200201DBFE100DDB0D7 /* FavouritesTableViewController.swift in Sources */,
@@ -1102,7 +1103,6 @@
 				34BFAE38201C105C0079D566 /* InjectService.swift in Sources */,
 				34BFAE32201C06BC0079D566 /* AuthService.swift in Sources */,
 				3484C29420367514002F3A10 /* Comment.swift in Sources */,
-				340A26AB204A2F5A00698124 /* AddEventTransitioningIn.swift in Sources */,
 				34996F252005B9FC00D53875 /* UIViewControllerExtension.swift in Sources */,
 				34C6DB1420270C1700F7FF2C /* EventListViewModel.swift in Sources */,
 				34DA420C201EA1E400DDB0D7 /* CreateEventCoordinatorOutput.swift in Sources */,
