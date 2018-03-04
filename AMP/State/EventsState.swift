@@ -12,6 +12,7 @@ import CoreLocation
 struct EventsState: StateType {
   
   var list: (location: CLLocation, events: [Event])?
+  var map: Set<EventAnnotation>
   var isEndOfListReached: Bool
   var settings: Settings
   var eventScreens: [ScreenId: EventScreen]

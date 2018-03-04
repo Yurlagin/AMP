@@ -69,7 +69,7 @@ struct EventViewModel {
           let event = state.eventsState.list!.events[index]
           guard let token = token else { return SetLoginState(.none) }
           let likeRequest = LikeEventRequest(token: token, action: event.like ? .removeLike : .addLike , eventid: eventId)
-          let (eventPromise, cancel) = EventsService.send(likeRequest)
+          let (eventPromise, cancel) = EventsService.make(likeRequest)
           cancelTask = cancel
           eventPromise
             .then { store.dispatch(EventLikeSent(event: $0)) }
@@ -90,7 +90,7 @@ struct EventViewModel {
           let event = state.eventsState.list!.events[index]
           guard let token = token else {  return SetLoginState(.none)  }
           let dislikeRequest = LikeEventRequest(token: token, action: event.dislike ? .removeDisLike : .addDisLike, eventid: eventId)
-          let (eventPromise, cancel) = EventsService.send(dislikeRequest)
+          let (eventPromise, cancel) = EventsService.make(dislikeRequest)
           cancelTask = cancel
           eventPromise
             .then {  store.dispatch( EventDislikeSent(event: $0) )}

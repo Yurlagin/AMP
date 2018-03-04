@@ -19,7 +19,7 @@ struct EventListRequest: Codable {
     var lat: Double
     var lon: Double
     var eventsradius: Int = 20
-    var exclude : [String] = []
+    var exclude: [String] = []
     var sort = "create"
     var tzone: String = "+07:00"
     var onlyactive: Bool = true
@@ -45,6 +45,37 @@ struct EventListRequest: Codable {
     }
   }
 }
+
+struct EventsMapRequest: Codable {
+  
+  let action = "getEventsOnMap"
+  var filter: Filter
+  let token: String
+  
+  struct Filter: Codable {
+    let maxLon: Double
+    let maxLat: Double
+    let minLon: Double
+    let minLat: Double
+    
+    let mapbased = true // TODO: проверить, нужно ли это поле?
+    var exclude: [String] = []
+    var tzone: String = "+07:00"
+    var onlyactive: Bool = true
+    var onlymine = false
+    
+    var helps: Bool = true
+    var founds: Bool = true
+    var chats: Bool = true
+    var witness: Bool = true
+    var gibdds: Bool = true
+    var alerts: Bool = true
+    var news: Bool = true
+    var questions: Bool = true
+    
+  }
+}
+
 
 
 struct LikeEventRequest: Encodable {

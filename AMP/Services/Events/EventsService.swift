@@ -83,7 +83,7 @@ struct EventsService: EventsServiceProtocol {
   }
 
   
-  static func getEventsList(request: EventListRequest) -> Promise<[Event]> {
+  static func make(request: EventListRequest) -> Promise<[Event]> {
     do {
       let urlRequest = try makeURLRequest(parameters: request)
       return Alamofire.request(urlRequest).responseData()
@@ -95,7 +95,25 @@ struct EventsService: EventsServiceProtocol {
   }
   
   
-  static func send(_ request: LikeEventRequest) -> (Promise<Event>, Cancel) {
+  static func make(request: EventsMapRequest) -> Promise<[Event]> {
+    do {
+      let urlRequest = try makeURLRequest(parameters: request)
+      return Alamofire.request(urlRequest).responseData()
+        .then (on: bgq) {
+          let response = try JSONDecoder().decode(EventsAnswer.self, from: $0)
+          if response.answer == request.action {
+            return Promise(value: response.events ?? [])
+          } else {
+            return Promise(error: EventsServiceError.unexpectedAnswer)
+          }
+      }
+    } catch let error {
+      return Promise(error: error)
+    }
+  }
+  
+  
+  static func make(_ request: LikeEventRequest) -> (Promise<Event>, Cancel) {
     
     let urlRequest = try! makeURLRequest(parameters: request)
     
@@ -134,7 +152,7 @@ struct EventsService: EventsServiceProtocol {
       return Alamofire.request(commentsRequest).responseData()
         .then (on: EventsService.bgq) { data in
           let commentsResponse = try JSONDecoder().decode(CommentsResponse.self, from: data)
-          print (commentsResponse)
+//          print (commentsResponse)
           if commentsResponse.answer == "getComments" {
             return Promise(value: CommentsAndQuotes(comments: commentsResponse.comments ?? [], replayedComments: commentsResponse.replyedComments))
           } else {
@@ -153,7 +171,7 @@ struct EventsService: EventsServiceProtocol {
       let request = try EventsService.makeURLRequest(parameters: eventRequest)
       return Alamofire.request(request).responseData()
         .then (on: EventsService.bgq) {
-          let response = try JSONDecoder().decode(EventListAnswer.self, from: $0)
+          let response = try JSONDecoder().decode(EventsAnswer.self, from: $0)
           if response.answer == "getEvent", let event = response.events?.first {
             return Promise(value: event)
           } else {

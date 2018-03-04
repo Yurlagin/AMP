@@ -10,7 +10,7 @@ import ReSwift
 
 func eventsReducer(action: Action, state: EventsState?) -> EventsState {
   
-  var state = state ?? EventsState(list: nil, isEndOfListReached: false, settings: EventsState.Settings(), eventScreens: [:], listRequest: .none)
+  var state = state ?? EventsState(list: nil, map: [], isEndOfListReached: false, settings: EventsState.Settings(), eventScreens: [:], listRequest: .none)
   
   func updateEventCounters(fromNewEvent event: Event) {
     if let index = state.list?.events.index(of: event) {
@@ -44,6 +44,13 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     state.list?.events.append(contentsOf: action.events)
     state.listRequest = .none
     state.isEndOfListReached = action.events.count < state.settings.pageLimit
+    
+    
+  case let action as AppendEventsToMap:
+    let newEvents = action.events.map{EventAnnotation.init($0)}
+    var mapEvents = state.map.subtracting(newEvents)
+    newEvents.forEach{mapEvents.insert($0)}
+    state.map = mapEvents
     
     
   case let action as SetEventListError:

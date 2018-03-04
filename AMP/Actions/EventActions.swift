@@ -28,6 +28,10 @@ struct SetEventListError: Action {
   }
 }
 
+struct AppendEventsToMap: Action {
+  let events: [Event]
+}
+
 struct SetEventListRequestStatus: Action {
   let status: EventsState.RequestStatus
   init (_ status: EventsState.RequestStatus) { self.status = status }

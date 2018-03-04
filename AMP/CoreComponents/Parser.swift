@@ -22,7 +22,7 @@ struct UserCredentials: Codable {
   let token: String
 }
 
-struct EventListAnswer: Decodable {
+struct EventsAnswer: Decodable {
   let answer: String
   let events: [Event]?
   let maxId: Int?
@@ -61,7 +61,7 @@ enum Parser {
   static func parseEventList(data: Data) -> Promise<[Event]> {
     return Promise(resolvers: { (resolve, error) in
       do {
-        let answer = try JSONDecoder().decode(EventListAnswer.self, from: data)
+        let answer = try JSONDecoder().decode(EventsAnswer.self, from: data)
         if let events = answer.events {
           resolve(events)
         } else {

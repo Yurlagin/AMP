@@ -105,6 +105,9 @@
 		34DA420C201EA1E400DDB0D7 /* CreateEventCoordinatorOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DA420B201EA1E400DDB0D7 /* CreateEventCoordinatorOutput.swift */; };
 		34EBBB912031A284000FF513 /* ApiRequestsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EBBB902031A284000FF513 /* ApiRequestsState.swift */; };
 		34EBBB932031A548000FF513 /* ApiRequestsReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EBBB922031A548000FF513 /* ApiRequestsReducer.swift */; };
+		34ED71DB204A899500B62115 /* EventsMapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34ED71DA204A899500B62115 /* EventsMapViewModel.swift */; };
+		34ED71DD204C0D9900B62115 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34ED71DC204C0D9900B62115 /* MapView.swift */; };
+		34ED71DF204C173D00B62115 /* EventAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34ED71DE204C173D00B62115 /* EventAnnotation.swift */; };
 		34EE683520326C6A004D2D1A /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34EE683420326C6A004D2D1A /* UIColor.swift */; };
 		34F1A6D820286268009B18B2 /* EventListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F1A6D720286268009B18B2 /* EventListTableViewCell.swift */; };
 		709567E7118BE802D9CAB548 /* Pods_AMPTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43A78FE235F0607F04560E22 /* Pods_AMPTests.framework */; };
@@ -226,6 +229,9 @@
 		34DB65E2202553D5000D3BDC /* AMP.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AMP.entitlements; sourceTree = "<group>"; };
 		34EBBB902031A284000FF513 /* ApiRequestsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiRequestsState.swift; sourceTree = "<group>"; };
 		34EBBB922031A548000FF513 /* ApiRequestsReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiRequestsReducer.swift; sourceTree = "<group>"; };
+		34ED71DA204A899500B62115 /* EventsMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsMapViewModel.swift; sourceTree = "<group>"; };
+		34ED71DC204C0D9900B62115 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		34ED71DE204C173D00B62115 /* EventAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventAnnotation.swift; sourceTree = "<group>"; };
 		34EE683420326C6A004D2D1A /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		34F1A6D720286268009B18B2 /* EventListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListTableViewCell.swift; sourceTree = "<group>"; };
 		43A78FE235F0607F04560E22 /* Pods_AMPTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AMPTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -564,6 +570,7 @@
 				34996F212005B9FC00D53875 /* UIViewExtensions.swift */,
 				344EB9D22035C42E009DDC65 /* UINavigationControllerExtensions.swift */,
 				3484C29720367F59002F3A10 /* Date.swift */,
+				34ED71DC204C0D9900B62115 /* MapView.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -689,6 +696,8 @@
 			isa = PBXGroup;
 			children = (
 				34DA4201201DC01500DDB0D7 /* EventsMapViewController.swift */,
+				34ED71DA204A899500B62115 /* EventsMapViewModel.swift */,
+				34ED71DE204C173D00B62115 /* EventAnnotation.swift */,
 			);
 			path = "Events Map";
 			sourceTree = "<group>";
@@ -1026,6 +1035,7 @@
 				3484C29D2037B7AD002F3A10 /* CommentCell.swift in Sources */,
 				34996F162005B85400D53875 /* SignInView.swift in Sources */,
 				34B9EF60202FB64200F31CB0 /* LocationTracker.swift in Sources */,
+				34ED71DD204C0D9900B62115 /* MapView.swift in Sources */,
 				34996F142005B85400D53875 /* AuthCoordinator.swift in Sources */,
 				34996F262005B9FC00D53875 /* UIViewExtensions.swift in Sources */,
 				34DA41F1201DBE3A00DDB0D7 /* SettingsModuleFactory.swift in Sources */,
@@ -1047,6 +1057,7 @@
 				34B9EF5E202FB41300F31CB0 /* LocationActions.swift in Sources */,
 				34BFAE37201C105C0079D566 /* CreateMiddleware.swift in Sources */,
 				349954CF2012C53B006CFD87 /* SignInViewController.swift in Sources */,
+				34ED71DB204A899500B62115 /* EventsMapViewModel.swift in Sources */,
 				348D69EF20145B950051E4B5 /* AuthActions.swift in Sources */,
 				34356F8F201302A7001EE568 /* AuthState.swift in Sources */,
 				34DA41D7201DB0B100DDB0D7 /* TabbarController.swift in Sources */,
@@ -1067,6 +1078,7 @@
 				34DA41D8201DB0B100DDB0D7 /* TabbarView.swift in Sources */,
 				34DA420A201DC49C00DDB0D7 /* SettingsCoordinator.swift in Sources */,
 				344E57872025BF4000C5CF39 /* Parser.swift in Sources */,
+				34ED71DF204C173D00B62115 /* EventAnnotation.swift in Sources */,
 				34BFAE3C201C12FF0079D566 /* AuthSideEffects.swift in Sources */,
 				348D69ED20145B5F0051E4B5 /* AuthReducer.swift in Sources */,
 				340D90FB2026AE7B00B1B90A /* EventsState.swift in Sources */,
