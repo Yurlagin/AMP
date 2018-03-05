@@ -281,6 +281,5 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
   }
   
   
-  
   return state
 }

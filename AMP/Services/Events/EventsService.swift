@@ -142,7 +142,6 @@ struct EventsService: EventsServiceProtocol {
         }
       },
       cancel)
-    
   }
 
   
@@ -232,6 +231,37 @@ struct EventsService: EventsServiceProtocol {
       return Promise(error: error)
     }
   }
+  
+  
+  static func make(_ request: CreateEventRequest) -> (Promise<Event>, Cancel) {
+    
+    let urlRequest = try! makeURLRequest(parameters: request)
+    
+    let task = Alamofire.request(urlRequest)
+    
+    var canceled = false
+    
+    let cancel = {
+      task.cancel()
+      canceled = true
+    }
+    
+    return (
+      Promise { (fulfill, error) in
+        task.responseData()
+          .then (on: bgq) { data -> () in
+            let eventResponse = try JSONDecoder().decode(CreateEventResponse.self, from: data)
+            if !canceled {
+              fulfill(eventResponse.event)
+            }
+          }
+          .catch {
+            error($0)
+        }
+      },
+      cancel)
+  }
+
   
   
   enum EventsServiceError: Error {

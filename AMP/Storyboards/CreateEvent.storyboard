@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -17,13 +18,75 @@
                     <view key="view" contentMode="scaleToFill" id="HNO-Z6-yEc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K2F-d7-bYM">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hmn-MY-uVg" userLabel="Content View">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                        <subviews>
+                                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="0fh-8h-79A">
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="281.5"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="0fh-8h-79A" secondAttribute="height" multiplier="4:3" id="2WV-kl-bEX"/>
+                                                </constraints>
+                                            </mapView>
+                                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sVT-oB-Mg9">
+                                                <rect key="frame" x="0.0" y="289" width="375" height="96"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="96" id="zS5-55-JmV"/>
+                                                </constraints>
+                                            </pickerView>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="Event message" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Mqf-mE-5SJ">
+                                                <rect key="frame" x="20" y="393" width="335" height="254"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="Mqf-mE-5SJ" secondAttribute="bottom" constant="20" symbolic="YES" id="80u-0c-ezF"/>
+                                            <constraint firstItem="Mqf-mE-5SJ" firstAttribute="top" secondItem="sVT-oB-Mg9" secondAttribute="bottom" constant="8" symbolic="YES" id="BOU-uo-Ng2"/>
+                                            <constraint firstItem="sVT-oB-Mg9" firstAttribute="top" secondItem="0fh-8h-79A" secondAttribute="bottom" constant="8" symbolic="YES" id="LrF-2j-r2b"/>
+                                            <constraint firstAttribute="trailing" secondItem="0fh-8h-79A" secondAttribute="trailing" id="N1h-Uh-mIq"/>
+                                            <constraint firstItem="0fh-8h-79A" firstAttribute="top" secondItem="Hmn-MY-uVg" secondAttribute="top" id="SIC-8m-nx6"/>
+                                            <constraint firstAttribute="trailing" secondItem="sVT-oB-Mg9" secondAttribute="trailing" id="SQF-35-1EZ"/>
+                                            <constraint firstAttribute="trailing" secondItem="Mqf-mE-5SJ" secondAttribute="trailing" constant="20" symbolic="YES" id="Yk4-hv-fwQ"/>
+                                            <constraint firstItem="Mqf-mE-5SJ" firstAttribute="leading" secondItem="Hmn-MY-uVg" secondAttribute="leading" constant="20" symbolic="YES" id="c3z-9U-MLk"/>
+                                            <constraint firstItem="0fh-8h-79A" firstAttribute="leading" secondItem="Hmn-MY-uVg" secondAttribute="leading" id="cfh-w2-x4q"/>
+                                            <constraint firstItem="sVT-oB-Mg9" firstAttribute="leading" secondItem="Hmn-MY-uVg" secondAttribute="leading" id="ksD-WU-dbe"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Hmn-MY-uVg" firstAttribute="leading" secondItem="K2F-d7-bYM" secondAttribute="leading" id="3ed-kA-qDf"/>
+                                    <constraint firstAttribute="trailing" secondItem="Hmn-MY-uVg" secondAttribute="trailing" id="ABo-n2-FSG"/>
+                                    <constraint firstItem="Hmn-MY-uVg" firstAttribute="top" secondItem="K2F-d7-bYM" secondAttribute="top" id="aIc-eh-wHO"/>
+                                    <constraint firstAttribute="bottom" secondItem="Hmn-MY-uVg" secondAttribute="bottom" id="fW3-XT-WP7"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Myt-NI-RIG" firstAttribute="trailing" secondItem="K2F-d7-bYM" secondAttribute="trailing" id="Jh5-og-MGG"/>
+                            <constraint firstItem="Myt-NI-RIG" firstAttribute="bottom" secondItem="K2F-d7-bYM" secondAttribute="bottom" id="LD4-Hd-iVy"/>
+                            <constraint firstItem="Hmn-MY-uVg" firstAttribute="width" secondItem="HNO-Z6-yEc" secondAttribute="width" id="fTC-qy-qWS"/>
+                            <constraint firstItem="Hmn-MY-uVg" firstAttribute="height" secondItem="HNO-Z6-yEc" secondAttribute="height" priority="750" id="mXh-hV-zJ6"/>
+                            <constraint firstItem="K2F-d7-bYM" firstAttribute="top" secondItem="Myt-NI-RIG" secondAttribute="top" id="n3t-Ls-IuS"/>
+                            <constraint firstItem="K2F-d7-bYM" firstAttribute="leading" secondItem="Myt-NI-RIG" secondAttribute="leading" id="tnL-AM-uYd"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Myt-NI-RIG"/>
                     </view>
+                    <connections>
+                        <outlet property="eventTypePicker" destination="sVT-oB-Mg9" id="a2A-tg-FDO"/>
+                        <outlet property="mapView" destination="0fh-8h-79A" id="TLb-OO-N3q"/>
+                        <outlet property="textView" destination="Mqf-mE-5SJ" id="ZQe-cd-x32"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rT2-uy-aAR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="62" y="152"/>
+            <point key="canvasLocation" x="61.600000000000001" y="151.57421289355324"/>
         </scene>
     </scenes>
 </document>

@@ -122,6 +122,7 @@ struct CommentsRequest: Codable {
   }
 }
 
+
 struct EventRequest: Codable {
   let action = "getEvent"
   let eventid: EventId
@@ -148,6 +149,47 @@ struct AddCommentRequest: Codable {
   let token: String
   let replyTo: CommentId?
   let thank: Bool?
+}
+
+
+struct CreateEventRequest: Encodable {
+  let action = "addEvent"
+  let event: CreateEventParams
+  let token: String
+  
+  struct CreateEventParams: Encodable {
+    let howlong: Int
+    let lat: Double
+    let lon: Double
+    let message: String
+    let type: Event.EventType
+  }
+}
+
+
+struct CreateEventResponse: Decodable {
+  let event: Event
+  
+  enum CodingKeys: String, CodingKey {
+    case answer
+    case events
+  }
+  
+  init(from decoder: Decoder) throws {
+    let values = try decoder.container(keyedBy: CodingKeys.self)
+    
+    let answer = try values.decode(String.self, forKey: .answer)
+    guard answer == "addEvent" else {
+      throw NSError(domain: "CreateEventResponse", code: 1, userInfo: ["reason": "Unexpected create event response"])
+    }
+    
+    let events = try values.decodeIfPresent([Event].self, forKey: .events)
+    if let event = events?.first {
+      self.event = event
+    } else {
+      throw NSError(domain: "CreateEventResponse", code: 2, userInfo: ["reason": "Unexpected create event response"])
+    }
+  }
 }
 
 
