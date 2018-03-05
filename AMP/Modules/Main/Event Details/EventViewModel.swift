@@ -45,7 +45,7 @@ struct EventViewModel {
   
   init? (eventId: EventId, screenId: ScreenId, state: AppState) {
     
-    guard let event = state.eventsState.getEventBy(id: eventId), let screen = state.eventsState.eventScreens[screenId] else { return nil }
+    guard let event = state.eventsState.getEventFromListBy(id: eventId) ?? state.eventsState.getEventFromMapBy(id: eventId), let screen = state.eventsState.eventScreens[screenId] else { return nil }
     let token = state.authState.loginStatus.getUserCredentials()?.token
     
     self.event = event
@@ -86,8 +86,8 @@ struct EventViewModel {
         if let cancelDislikeRequest = state.apiRequestsState.eventsLikeRequests[eventId]?.dislike {
           cancelDislikeRequest()
         } else {
-          let index = state.eventsState.list!.events.index { $0.id == eventId }!
-          let event = state.eventsState.list!.events[index]
+//          let index = state.eventsState.list!.events.index { $0.id == eventId }!
+          guard let event = state.eventsState.getEventBy(id: eventId) else { return nil }
           guard let token = token else {  return SetLoginState(.none)  }
           let dislikeRequest = LikeEventRequest(token: token, action: event.dislike ? .removeDisLike : .addDisLike, eventid: eventId)
           let (eventPromise, cancel) = EventsService.make(dislikeRequest)
@@ -127,7 +127,7 @@ struct EventViewModel {
       store.dispatch{ (state, store) -> Action? in
         
         guard state.eventsState.eventScreens[screenId]?.isEndReached != true,
-          let event = state.eventsState.getEventBy(id: eventId)
+          let event = state.eventsState.getEventFromListBy(id: eventId)
           else { return nil }
         
         let pagelimit = state.eventsState.settings.commentPageLimit

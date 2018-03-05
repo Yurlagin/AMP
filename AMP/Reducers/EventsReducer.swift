@@ -22,6 +22,17 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
       oldEvent.commentsCount = event.commentsCount
       state.list!.events[index] = oldEvent
     }
+    
+    if let index = state.map.index(of: event) {
+      var newEvent = state.map[index]
+      newEvent.like = event.like
+      newEvent.likes = event.likes
+      newEvent.dislike = event.dislike
+      newEvent.dislikes = event.dislikes
+      newEvent.commentsCount = event.commentsCount
+      state.map[index] = newEvent
+    }
+
   }
   
   switch action {
@@ -47,10 +58,13 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     
     
   case let action as AppendEventsToMap:
-    let newEvents = action.events.map{EventAnnotation.init($0)}
-    var mapEvents = state.map.subtracting(newEvents)
-    newEvents.forEach{mapEvents.insert($0)}
-    state.map = mapEvents
+    action.events.forEach{
+      if let index = state.map.index(of: $0) {
+        state.map[index] = $0
+      } else {
+        state.map.append($0)
+      }
+    }
     
     
   case let action as SetEventListError:
@@ -76,6 +90,17 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
       event.like = !event.like
       state.list?.events[index] = event
     }
+    if let index = state.map.index(where: {$0.id == action.eventId}) {
+      var event = state.map[index]
+      if event.like {
+        event.likes -= 1
+      } else {
+        event.likes += 1
+      }
+      event.like = !event.like
+      state.map[index] = event
+    }
+
     
     
   case let action as EventDislikeInvertAction:
@@ -88,6 +113,16 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
       }
       event.dislike = !event.dislike
       state.list?.events[index] = event
+    }
+    if let index = state.map.index(where: {$0.id == action.eventId}) {
+      var event = state.map[index]
+      if event.dislike {
+        event.dislikes -= 1
+      } else {
+        event.dislikes += 1
+      }
+      event.dislike = !event.dislike
+      state.map[index] = event
     }
     
 
@@ -171,10 +206,15 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     
   case let action as SentComment:
     
-    let eventIndex = state.list?.events.index(where: { $0.id == action.eventId })
+    let eventListIndex = state.list?.events.index(where: { $0.id == action.eventId })
+    let eventMapIndex = state.map.index(where: { $0.id == action.eventId })
     
-    if let eventIndex = eventIndex {
+    if let eventIndex = eventListIndex {
       state.list?.events[eventIndex].commentsCount += 1
+    }
+    
+    if let eventIndex = eventMapIndex {
+      state.map[eventIndex].commentsCount += 1
     }
     
     state.eventScreens = state.eventScreens.mapValues { screen in
@@ -191,10 +231,19 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
       if screen.outgoingCommentId == action.localId {
         screen.outgoingCommentId = nil
         screen.sendCommentRequest = .success
-        if case .resolve(let commentId) = screen.textInputMode, let index = eventIndex {
-          state.list?.events[index].solutionCommentId = commentId
-          postedComment.replyToId = commentId
-          addCommentToReplyedComments(commentId: commentId)
+        if case .resolve(let commentId) = screen.textInputMode  {
+          if let index = eventListIndex {
+            state.list?.events[index].solutionCommentId = commentId
+            postedComment.replyToId = commentId
+            addCommentToReplyedComments(commentId: commentId)
+          }
+
+          if let index = eventMapIndex {
+            state.map[index].solutionCommentId = commentId
+            postedComment.replyToId = commentId
+            addCommentToReplyedComments(commentId: commentId)
+          }
+
         } else  if case .answer(let commentId) = screen.textInputMode {
           postedComment.replyToId = commentId
           addCommentToReplyedComments(commentId: commentId)

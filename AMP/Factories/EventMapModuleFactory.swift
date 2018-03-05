@@ -8,5 +8,6 @@
 
 protocol EventMapModuleFactory {
   func makeEventMapOutput() -> EventMapView
+  func makeEventDetailOutput(eventId: EventId, screenId: ScreenId) -> EventDetailsView
 }
 

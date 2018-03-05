@@ -57,11 +57,11 @@ struct EventsMapRequest: Codable {
     let maxLat: Double
     let minLon: Double
     let minLat: Double
+    let fromDate: String
     
-    let mapbased = true // TODO: проверить, нужно ли это поле?
     var exclude: [String] = []
     var tzone: String = "+07:00"
-    var onlyactive: Bool = true
+    var onlyactive: Bool = false
     var onlymine = false
     
     var helps: Bool = true

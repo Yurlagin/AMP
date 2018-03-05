@@ -10,7 +10,7 @@ import Foundation
 
 struct EventsMapViewModel {
   
-  let events: Set<EventAnnotation>
+  let events: [Event]
   
   let fetchEventsFor: (_ maxLat: Double, _ maxLon: Double, _ minLat: Double, _ minLon: Double) -> ()
   
@@ -27,11 +27,16 @@ struct EventsMapViewModel {
         
         let excludingTypes = state.eventsState.settings.excludingTypes
         
+        let startDate = Date().addingTimeInterval(-3 * 60 * 60)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
         let filter = EventsMapRequest.Filter(
           maxLon: maxLon,
           maxLat: maxLat,
           minLon: minLon,
           minLat: minLat,
+          fromDate: formatter.string(from: startDate),
           exclude: [],
           tzone: "+07:00",
           onlyactive: false,

@@ -410,11 +410,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Reducers/EventsReducer.swift"
-            timestampString = "541859545.624615"
+            timestampString = "541911330.046201"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "183"
-            endingLineNumber = "183"
+            startingLineNumber = "223"
+            endingLineNumber = "223"
             landmarkName = "eventsReducer(action:state:)"
             landmarkType = "9">
          </BreakpointContent>
@@ -538,11 +538,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Modules/Main/Events Map/EventsMapViewController.swift"
-            timestampString = "541859545.624845"
+            timestampString = "541911330.046721"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
             landmarkName = "mapView(_:regionDidChangeAnimated:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -554,11 +554,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Modules/Main/Events Map/EventsMapViewModel.swift"
-            timestampString = "541859545.624912"
+            timestampString = "541911330.046783"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
             landmarkName = "init(from:)"
             landmarkType = "7">
          </BreakpointContent>

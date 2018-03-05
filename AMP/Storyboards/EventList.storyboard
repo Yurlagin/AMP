@@ -233,7 +233,7 @@
         <!--Детали-->
         <scene sceneID="CUC-87-VlL">
             <objects>
-                <viewController title="Детали" automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="2QH-uW-Ymv" customClass="EventDetailsViewController" customModule="AMP" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EventDetailsViewController" title="Детали" automaticallyAdjustsScrollViewInsets="NO" hidesBottomBarWhenPushed="YES" id="2QH-uW-Ymv" customClass="EventDetailsViewController" customModule="AMP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="t8G-fw-e3U">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="900"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

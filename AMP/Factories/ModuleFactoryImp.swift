@@ -15,6 +15,13 @@ final class ModuleFactoryImp:
     return EventsMapViewController.controllerFromStoryboard(.map)
   }
   
+  func makeEventDetailOutput(eventId: EventId, screenId: ScreenId) -> EventDetailsView {
+    let vc = EventDetailsViewController.controllerFromStoryboard(.list)
+    vc.eventId = eventId
+    vc.screenId = screenId
+    return vc
+  }
+  
   func makeCreateEventOutput() -> CreateEventView {
     return CreateEventViewController.controllerFromStoryboard(.create)
   }

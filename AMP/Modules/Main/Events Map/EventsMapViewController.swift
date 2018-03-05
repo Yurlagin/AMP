@@ -41,7 +41,7 @@ class EventsMapViewController: UIViewController, EventMapView {
   
   var viewModelRendered = true
   
-  var annotations = Set<EventAnnotation>()
+  var annotations = [EventAnnotation]()
   
   var viewModel: EventsMapViewModel! {
     didSet {
@@ -101,9 +101,23 @@ class EventsMapViewController: UIViewController, EventMapView {
   
   
   private func renderUI() {
-    mapView.removeAnnotations(Array(annotations.subtracting(viewModel.events)))
-    mapView.addAnnotations(Array(viewModel.events.subtracting(annotations)))
-    self.annotations = viewModel.events
+    let newAnnotations = viewModel.events.map{EventAnnotation($0)}
+    let removes = annotations.filter{oldAnnotation in !newAnnotations.contains(where: { oldAnnotation.eventId == $0.eventId})}
+    let inserts = newAnnotations.filter{newAnnotation in !annotations.contains(where: { newAnnotation.eventId == $0.eventId})}
+    mapView.removeAnnotations(removes)
+    print (removes.count)
+    print (inserts.count)
+    mapView.addAnnotations(inserts)
+    annotations = newAnnotations
+  }
+  
+  
+  @objc func showEvent (sender: UITapGestureRecognizer) {
+    guard let annotation = (sender.view as? MKAnnotationView)?.annotation as? EventAnnotation else { return }
+    onSelectItem?(annotation.eventId)
+    //    let showCommentID: Int? = nil
+//    performSegue(withIdentifier: Constants.showEventSegueID, sender: (event, showCommentID))
+    
   }
   
   
@@ -147,10 +161,6 @@ extension EventsMapViewController: MKMapViewDelegate   {
   }
   
   
-  func mapView(_ mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
-  }
-  
-  
   func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
     guard let tileOverlay = overlay as? MKTileOverlay else {
       let rendener = MKOverlayRenderer(overlay: overlay)
@@ -158,6 +168,18 @@ extension EventsMapViewController: MKMapViewDelegate   {
     }
     return MKTileOverlayRenderer(tileOverlay: tileOverlay)
   }
+  
+  
+  func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showEvent(sender:)))
+    view.addGestureRecognizer(tapGesture)
+  }
+  
+  
+  func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+    view.gestureRecognizers?.removeAll()
+  }
+
   
 }
 

@@ -12,7 +12,7 @@ import CoreLocation
 struct EventsState: StateType {
   
   var list: (location: CLLocation, events: [Event])?
-  var map: Set<EventAnnotation>
+  var map: [Event]
   var isEndOfListReached: Bool
   var settings: Settings
   var eventScreens: [ScreenId: EventScreen]
@@ -31,7 +31,7 @@ struct EventsState: StateType {
   }
   
   struct Settings {
-    var radius = 20
+    var radius = 3
     var excludingTypes: Set<Event.EventType> = []
     var onlyActive = false
     var onlyMine = false
@@ -67,10 +67,23 @@ enum CommentType {
 
 
 extension EventsState {
-  func getEventBy(id: Int) -> Event? {
+
+  func getEventFromListBy(id: Int) -> Event? {
     guard let index = list?.events.index(where: {$0.id == id }) else { return nil }
     return list?.events[index]
   }
+  
+  
+  func getEventFromMapBy(id: Int) -> Event? {
+    guard let index = map.index(where: {$0.id == id }) else { return nil }
+    return map[index]
+  }
+  
+  
+  func getEventBy(id: Int) -> Event? {
+    return getEventFromListBy(id: id) ?? getEventFromMapBy(id: id)
+  }
+
 }
 
 

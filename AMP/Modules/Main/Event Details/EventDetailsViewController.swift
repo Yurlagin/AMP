@@ -11,7 +11,7 @@ import ReSwift
 import DeepDiff
 import MBProgressHUD
 
-class EventDetailsViewController: UIViewController {
+class EventDetailsViewController: UIViewController, EventDetailsView {
   
   @IBOutlet weak var userNameLabel: UILabel!
   @IBOutlet weak var avatarImageView: UIImageView!

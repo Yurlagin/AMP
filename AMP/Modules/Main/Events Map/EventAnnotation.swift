@@ -10,6 +10,7 @@ import MapKit
 
 class EventAnnotation: NSObject, MKAnnotation {
   
+  let eventId: EventId
   var coordinate: CLLocationCoordinate2D
   var title: String?
   var subtitle: String?
@@ -17,6 +18,7 @@ class EventAnnotation: NSObject, MKAnnotation {
   
   
   init(_ event: Event) {
+    self.eventId = event.id
     self.coordinate = CLLocationCoordinate2DMake(event.latitude, event.longitude)
     self.title = event.userName ?? "Без имени"
     self.subtitle = event.message
