@@ -41,6 +41,15 @@ struct Event: Codable {
     case gibdds
     case alerts
     case news
+    
+    static let allValues: [(EventType, String)] = [(.alerts, "Предупреждения"),
+                                                   (.questions, "Вопросы"),
+                                                   (.helps, "Запросы помощи"),
+                                                   (.founds, "Потери/Находки"),
+                                                   (.chats, "Чатики"),
+                                                   (.witness, "Поиск свидетелей"),
+                                                   (.gibdds, "Гибдд"),
+                                                   (.news, "Новости")]
   }
   
   enum CodingKeys: String, CodingKey {

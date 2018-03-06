@@ -140,3 +140,12 @@ struct SetCommentType: Action {
   let screenId: ScreenId
   let type: CommentType
 }
+
+
+enum CreateEventStatus: Action {
+  case none
+  case run(cancelFunction: Cancel)
+  case error(Error)
+  case success(Event)
+}
+

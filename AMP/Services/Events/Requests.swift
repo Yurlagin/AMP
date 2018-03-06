@@ -154,11 +154,11 @@ struct AddCommentRequest: Codable {
 
 struct CreateEventRequest: Encodable {
   let action = "addEvent"
-  let event: CreateEventParams
+  let params: CreateEventParams
   let token: String
   
   struct CreateEventParams: Encodable {
-    let howlong: Int
+    let howlong: TimeInterval
     let lat: Double
     let lon: Double
     let message: String
