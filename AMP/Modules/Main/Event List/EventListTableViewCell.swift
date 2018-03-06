@@ -44,8 +44,8 @@ class EventListTableViewCell: UITableViewCell {
   func renderUI(event: Event) {
     
     self.event = event
-    userNameLabel.text = event.userName
-    avatarImageView.kf.setImage(with: URL(string: event.avatarUrl!))
+    userNameLabel.text = event.userName ?? " "
+    avatarImageView.kf.setImage(with: URL(string: event.avatarUrl ?? ""))
     addressLabel.text = event.address
     createdLabel.text = event.created.shortDayTimeString
     messageTextView.text = event.message?.stringByTrimingWhitespace()

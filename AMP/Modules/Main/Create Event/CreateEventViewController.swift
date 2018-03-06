@@ -8,6 +8,8 @@
 
 import UIKit
 import MapKit
+import MBProgressHUD
+import ReSwift
 
 class CreateEventViewController: UIViewController, CreateEventView {
   
@@ -15,12 +17,17 @@ class CreateEventViewController: UIViewController, CreateEventView {
   
   var onCancel: (() -> ())?
   
-  private var viewModel: CreateEventViewModel!
+  var viewModelRendered = true
+  private var viewModel: CreateEventViewModel! {
+    didSet {
+      viewModelRendered = false
+      view.setNeedsLayout()
+    }
+  }
   
   private let tileSource = "http://a.tile.openstreetmap.org/{z}/{x}/{y}.png"
   
-  private let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: nil)
-
+  private let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed))
   
   @IBOutlet weak var scrollView: UIScrollView!
   @IBOutlet weak var mapView: MKMapView!
@@ -32,8 +39,6 @@ class CreateEventViewController: UIViewController, CreateEventView {
   @IBOutlet weak var findMeButton: UIButton!
   @IBOutlet weak var pinShadowView: UIView!
   @IBOutlet weak var placeHolderLabel: UILabel!
-  
-
   
   @IBAction func zoomInPressed(_ sender: UIButton) {
     zoomMap(byFactor: 0.5)
@@ -51,6 +56,8 @@ class CreateEventViewController: UIViewController, CreateEventView {
   
   
   @objc private func cancel() {
+    viewModel?.cancelTapped()
+    setInitialState()
     onCancel?()
   }
   
@@ -70,6 +77,10 @@ class CreateEventViewController: UIViewController, CreateEventView {
     navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
     navigationItem.rightBarButtonItem = doneButton
    
+    textView.text = ""
+    eventTypePicker.selectRow(0, inComponent: 0, animated: false)
+    textViewDidChange(textView)
+    
     pinShadowView.layer.cornerRadius = pinShadowView.frame.height / 2
  
     textView.layer.borderWidth = 0.5
@@ -97,11 +108,14 @@ class CreateEventViewController: UIViewController, CreateEventView {
     
     textView.delegate = self
     
+    
   }
+  
   
   @objc private func endEditing() {
     view.endEditing(true)
   }
+  
   
   private func catchUpPin(_ catchUp: Bool) {
     pinHeightConstraint.constant = catchUp ? 20 : 8
@@ -118,6 +132,33 @@ class CreateEventViewController: UIViewController, CreateEventView {
     span.longitudeDelta *= scaleFactor
     region.span = span
     mapView.setRegion(region, animated: true)
+  }
+  
+  
+  var hud: MBProgressHUD?
+  
+  private func renderUI() {
+    guard let viewModel = viewModel else { return }
+    
+    if viewModel.shouldShowHUD, hud == nil {
+      hud = MBProgressHUD.showAdded(to: view, animated: true)
+      hud?.removeFromSuperViewOnHide = true
+      doneButton.isEnabled = false
+    } else {
+      doneButton.isEnabled = true
+      hud?.hide(animated: true)
+      hud = nil
+    }
+    
+    
+    if let error = viewModel.showError {
+      showAlert(title: "Ошибка", message: error.localizedDescription)
+    }
+    
+    if viewModel.shouldCleanForm {
+      setInitialState()
+    }
+    
   }
 
   
@@ -144,12 +185,43 @@ class CreateEventViewController: UIViewController, CreateEventView {
     NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: .UIKeyboardWillShow, object: nil)
 
     setInitialState()
-    textViewDidChange(textView)
+  }
+  
+  
+  override func viewWillLayoutSubviews() {
+    super.viewWillLayoutSubviews()
+    if !viewModelRendered {
+      renderUI()
+      viewModelRendered = true
+    }
+  }
+  
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    store.subscribe(self)
+  }
+  
+  
+  override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    viewModel.onDisappear()
+    store.unsubscribe(self)
   }
   
   let allValues = Event.EventType.allValues
 
 }
+
+
+extension CreateEventViewController: StoreSubscriber {
+  
+  func newState(state: AppState) {
+    self.viewModel = CreateEventViewModel(state: state)
+  }
+  
+}
+
 
 extension CreateEventViewController: UIPickerViewDataSource, UIPickerViewDelegate {
  
@@ -198,8 +270,24 @@ extension CreateEventViewController: MKMapViewDelegate {
 
 
 extension CreateEventViewController: UITextViewDelegate {
+  
   func textViewDidChange(_ textView: UITextView) {
     placeHolderLabel.isHidden = !textView.text.isEmpty
     doneButton.isEnabled = !textView.text.isEmpty
   }
+  
+}
+
+
+extension UIViewController {
+  
+  func showAlert(title: String?, message: String?, completion: (()->())? = nil) {
+    let alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    let okAction = UIAlertAction(title: "Ok", style: .default) { (_) in
+      completion?()
+    }
+    alertVC.addAction(okAction)
+    present(alertVC, animated: true)
+  }
+  
 }

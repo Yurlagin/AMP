@@ -250,6 +250,7 @@ struct EventsService: EventsServiceProtocol {
       Promise { (fulfill, error) in
         task.responseData()
           .then (on: bgq) { data -> () in
+//            print(String(data: data, encoding: .utf8))
             let eventResponse = try JSONDecoder().decode(CreateEventResponse.self, from: data)
             if !canceled {
               fulfill(eventResponse.event)

@@ -10,7 +10,7 @@ import ReSwift
 
 func apiRequestsReducer(action: Action, state: ApiRequestsState?) -> ApiRequestsState {
   
-  var state = state ?? ApiRequestsState(eventsLikeRequests: [:], commentsLikeRequests: [:])
+  var state = state ?? ApiRequestsState(eventsLikeRequests: [:], commentsLikeRequests: [:], createEventStatus: .none)
   
   switch action {
     
@@ -56,6 +56,8 @@ func apiRequestsReducer(action: Action, state: ApiRequestsState?) -> ApiRequests
     state.commentsLikeRequests[action.commentId] = nil
     
     
+  case let action as CreateEventStatus:
+    state.createEventStatus = action
     
   default :
     break

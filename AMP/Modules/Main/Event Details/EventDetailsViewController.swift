@@ -130,8 +130,8 @@ class EventDetailsViewController: UIViewController, EventDetailsView {
     guard let viewModel = eventViewModel else { return }
     
     let event = viewModel.event
-    userNameLabel.text = event.userName
-    avatarImageView.kf.setImage(with: URL(string: event.avatarUrl!))
+    userNameLabel.text = event.userName ?? " "
+    avatarImageView.kf.setImage(with: URL(string: event.avatarUrl ?? ""))
     addressLabel.text = event.address
     createdLabel.text = event.created.shortDayTimeString
     fromMeLabel.text = viewModel.distance

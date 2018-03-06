@@ -154,7 +154,7 @@ struct AddCommentRequest: Codable {
 
 struct CreateEventRequest: Encodable {
   let action = "addEvent"
-  let params: CreateEventParams
+  let event: CreateEventParams
   let token: String
   
   struct CreateEventParams: Encodable {
