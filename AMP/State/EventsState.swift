@@ -12,7 +12,8 @@ import CoreLocation
 struct EventsState: StateType {
   
   var list: (location: CLLocation, events: [Event])?
-  var map: [Event]
+  var mapEvents: [Event]
+  var shouldShowEvent: EventId?
   var isEndOfListReached: Bool
   var settings: Settings
   var eventScreens: [ScreenId: EventScreen]
@@ -75,8 +76,8 @@ extension EventsState {
   
   
   func getEventFromMapBy(id: Int) -> Event? {
-    guard let index = map.index(where: {$0.id == id }) else { return nil }
-    return map[index]
+    guard let index = mapEvents.index(where: {$0.id == id }) else { return nil }
+    return mapEvents[index]
   }
   
   

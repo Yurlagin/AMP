@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import ReSwift
+import Kingfisher
 
 class EventsMapViewController: UIViewController, EventMapView {
   
@@ -50,6 +51,7 @@ class EventsMapViewController: UIViewController, EventMapView {
     }
   }
   
+  
   private func zoomMap(byFactor scaleFactor: Double) {
     var region = mapView.region
     var span = mapView.region.span
@@ -59,8 +61,8 @@ class EventsMapViewController: UIViewController, EventMapView {
     mapView.setRegion(region, animated: true)
   }
   
+  
   fileprivate func getVisibleMapAnnotations() {
-//    print ("mapView.gethAnnotations")
     let deltaX = mapView.visibleMapRect.size.width * (preloadScaleFactor - 1)
     let deltaY = mapView.visibleMapRect.size.height * (preloadScaleFactor - 1)
     let maxPoint = MKMapPointMake(mapView.visibleMapRect.origin.x + mapView.visibleMapRect.size.width + deltaX,
@@ -72,23 +74,20 @@ class EventsMapViewController: UIViewController, EventMapView {
     let maxLon = MKCoordinateForMapPoint(maxPoint).longitude
     let maxLat = MKCoordinateForMapPoint(minPoint).latitude
     viewModel?.fetchEventsFor(maxLat, maxLon, minLat, minLon)
-//    annotationList.fetchAnnotations(maxLat: maxLat, minLat: minLat, maxLon: maxLon, minLon: minLon)
   }
-
   
   
   private func setInitialState() {
     mapView.showsUserLocation = true
     showUserLocation(animated: false)
-//    mapView.
 
     mapView.delegate = self
     mapView.setUserTrackingMode(.follow, animated: false)
     mapView.userTrackingMode = .follow
     let overlay = MKTileOverlay(urlTemplate: tileSource)
-    overlay.canReplaceMapContent = true
+    overlay.canReplaceMapContent = false
     overlay.maximumZ = 18
-    mapView.add(overlay)
+    mapView.insert(overlay, at: 0)
     
     [findMeButton, zoomInButton, zoomOutButton].forEach {
       $0?.layer.masksToBounds = true
@@ -99,25 +98,25 @@ class EventsMapViewController: UIViewController, EventMapView {
   }
   
   
-  
   private func renderUI() {
     let newAnnotations = viewModel.events.map{EventAnnotation($0)}
     let removes = annotations.filter{oldAnnotation in !newAnnotations.contains(where: { oldAnnotation.eventId == $0.eventId})}
     let inserts = newAnnotations.filter{newAnnotation in !annotations.contains(where: { newAnnotation.eventId == $0.eventId})}
     mapView.removeAnnotations(removes)
-    print (removes.count)
-    print (inserts.count)
     mapView.addAnnotations(inserts)
     annotations = newAnnotations
+    if let showingEventId = viewModel.shouldShowEvent, let index = annotations.index(where: {$0.eventId == showingEventId}) {
+      let annotation = annotations[index]
+      mapView.showAnnotations([annotation], animated: true)
+      mapView.selectAnnotation(annotation, animated: true)
+      viewModel.eventShown()
+    }
   }
   
   
   @objc func showEvent (sender: UITapGestureRecognizer) {
     guard let annotation = (sender.view as? MKAnnotationView)?.annotation as? EventAnnotation else { return }
     onSelectItem?(annotation.eventId)
-    //    let showCommentID: Int? = nil
-//    performSegue(withIdentifier: Constants.showEventSegueID, sender: (event, showCommentID))
-    
   }
   
   
@@ -167,6 +166,16 @@ extension EventsMapViewController: MKMapViewDelegate   {
       return rendener
     }
     return MKTileOverlayRenderer(tileOverlay: tileOverlay)
+  }
+  
+  
+  func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+    if annotation.isKind(of: MKUserLocation.self) { return nil }
+    guard let annotation = annotation as? EventAnnotation else { return nil }
+    let pinView = mapView.dequeueReusableAnnotationView(withIdentifier: "pinView") ?? MKPinAnnotationView(annotation: annotation, reuseIdentifier: "pinView")
+    pinView.annotation = annotation
+    pinView.canShowCallout = true
+    return pinView
   }
   
   

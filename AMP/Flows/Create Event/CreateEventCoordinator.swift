@@ -3,7 +3,7 @@ final class CreateEventCoordinator: BaseCoordinator, CreateEventCoordinatorOutpu
   private let factory: CreateEventModuleFactory
   private let router: Router
   
-  var finishFlow: ((EventId?) -> Void)?
+  var finishFlow: ((Created) -> Void)?
   
   init(router: Router, factory: CreateEventModuleFactory) {
     self.factory = factory
@@ -18,21 +18,11 @@ final class CreateEventCoordinator: BaseCoordinator, CreateEventCoordinatorOutpu
   
   private func showCreateEventForm() {
     let createEventOutput = factory.makeCreateEventOutput()
-    createEventOutput.onCancel = { [weak self] in self?.finishFlow?(nil) }
-    createEventOutput.onCreateEvent = { [weak self] in self?.finishFlow?($0) }
-    //TODO: Добавить обработку добавленного события и отмены
+    createEventOutput.onCancel = { [weak self] in self?.finishFlow?(false) }
+    createEventOutput.onCreateEvent = { [weak self] in self?.finishFlow?(true) }
     router.setRootModule(createEventOutput)
   }
   
-  //  private func showEnterName() {
-  //    let enterNameOutput = factory.makeEnterNameOutput()
-  //    enterNameOutput.onComplete = { [weak self] firstName, lastName in
-  //      guard let weakSelf = self, let storage = weakSelf.storage else { return }
-  //      weakSelf.showSendSMSCode(firstName: firstName, lastName: lastName, msisdn: storage.msisdn)
-  //    }
-  //    router.push(enterNameOutput)
-  //  }
-  //
   
 }
 

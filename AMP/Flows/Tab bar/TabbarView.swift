@@ -6,6 +6,8 @@ protocol TabbarView: class {
   var onCreateEventFlowSelect: ((UINavigationController) -> ())? { get set }
   var onFavoritesFlowSelect: ((UINavigationController) -> ())? { get set }
   var onSettingsFlowSelect: ((UINavigationController) -> ())? { get set }
-  
   var onViewDidLoad: ((UINavigationController) -> ())? { get set }
+  
+//  func selectEventsMapFlow()
+  func backToPreviosTab()
 }

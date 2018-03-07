@@ -149,3 +149,5 @@ enum CreateEventStatus: Action {
   case success(Event)
 }
 
+struct EventShown: Action {}
+

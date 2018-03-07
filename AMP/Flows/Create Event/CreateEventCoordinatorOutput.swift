@@ -6,11 +6,11 @@
 //  Copyright © 2018 Dmitry Yurlagin. All rights reserved.
 //
 
+typealias Created = Bool
+
 protocol CreateEventCoordinatorOutput: class {
   
-  typealias Created = Bool
-  
-  var finishFlow: ((EventId?) -> Void)? { get set }
+  var finishFlow: ((Created) -> Void)? { get set }
   
 }
 

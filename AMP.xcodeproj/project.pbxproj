@@ -649,8 +649,8 @@
 		34DA41DB201DB7CA00DDB0D7 /* Create Event */ = {
 			isa = PBXGroup;
 			children = (
-				34DA41E8201DBC8400DDB0D7 /* CreateEventView.swift */,
 				34DA4205201DC32900DDB0D7 /* CreateEventCoordinator.swift */,
+				34DA41E8201DBC8400DDB0D7 /* CreateEventView.swift */,
 				34DA420B201EA1E400DDB0D7 /* CreateEventCoordinatorOutput.swift */,
 			);
 			path = "Create Event";

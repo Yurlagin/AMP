@@ -22,15 +22,5 @@ final class EventListCoordinator: BaseCoordinator {
     eventListOutput.onSelectItem = { _ in }
     router.setRootModule(eventListOutput)
   }
-  
-  //  private func showEnterName() {
-  //    let enterNameOutput = factory.makeEnterNameOutput()
-  //    enterNameOutput.onComplete = { [weak self] firstName, lastName in
-  //      guard let weakSelf = self, let storage = weakSelf.storage else { return }
-  //      weakSelf.showSendSMSCode(firstName: firstName, lastName: lastName, msisdn: storage.msisdn)
-  //    }
-  //    router.push(enterNameOutput)
-  //  }
-  //
-  
+    
 }

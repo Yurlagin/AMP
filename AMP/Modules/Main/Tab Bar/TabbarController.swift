@@ -1,4 +1,5 @@
 import UIKit
+import ReSwift
 
 final class TabbarController: UITabBarController, UITabBarControllerDelegate, TabbarView {
   
@@ -18,14 +19,22 @@ final class TabbarController: UITabBarController, UITabBarControllerDelegate, Ta
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+    store.subscribe(self)
     delegate = self
     if let controller = customizableViewControllers?.first as? UINavigationController {
       onViewDidLoad?(controller)
     }
   }
   
+  deinit {
+    store.unsubscribe(self)
+  }
   
+  
+  func backToPreviosTab() {
+    selectedIndex = previosIndex
+  }
+
   func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
     guard let controller = viewControllers?[selectedIndex] as? UINavigationController else { return }
     
@@ -69,5 +78,18 @@ final class TabbarController: UITabBarController, UITabBarControllerDelegate, Ta
     return nil
   }
 
+  
+}
+
+
+extension TabbarController: StoreSubscriber {
+  
+  func newState(state: AppState) {
+    if case .success = state.apiRequestsState.createEventStatus {
+      selectedIndex = 1
+      guard let controller = viewControllers?[selectedIndex] as? UINavigationController else { return }
+      onEventsMapFlowSelect?(controller)
+    }
+  }
   
 }

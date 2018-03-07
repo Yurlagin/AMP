@@ -12,11 +12,19 @@ struct EventsMapViewModel {
   
   let events: [Event]
   
+  let shouldShowEvent: EventId?
+  
+  let eventShown: () -> ()
+  
   let fetchEventsFor: (_ maxLat: Double, _ maxLon: Double, _ minLat: Double, _ minLon: Double) -> ()
   
   init (from state: AppState ) {
     
-    self.events = state.eventsState.map
+    self.events = state.eventsState.mapEvents
+    
+    self.shouldShowEvent = state.eventsState.shouldShowEvent
+    
+    self.eventShown = { store.dispatch(EventShown()) }
     
     self.fetchEventsFor = { maxLat, maxLon, minLat, minLon in
       
@@ -65,7 +73,6 @@ struct EventsMapViewModel {
       }
       
       
-      print ("\(maxLat), \(maxLon), \(minLat), \(minLon)\n")
       
     }
   }

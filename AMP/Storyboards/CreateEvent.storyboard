@@ -15,7 +15,7 @@
         <!--Создать-->
         <scene sceneID="LUp-r8-2B9">
             <objects>
-                <viewController storyboardIdentifier="CreateEventViewController" title="Создать" id="e0M-Ow-fI7" customClass="CreateEventViewController" customModule="AMP" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CreateEventViewController" title="Создать" automaticallyAdjustsScrollViewInsets="NO" id="e0M-Ow-fI7" customClass="CreateEventViewController" customModule="AMP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="HNO-Z6-yEc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

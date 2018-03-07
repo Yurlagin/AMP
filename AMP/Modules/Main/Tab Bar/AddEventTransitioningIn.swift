@@ -17,7 +17,7 @@ class AddEventTransitioningIn: NSObject, UIViewControllerAnimatedTransitioning {
     let toVC = transitionContext.viewController(forKey: .to)!
     let containerView = transitionContext.containerView
         
-//    toVC.tabBarController?.tabBar.isHidden = true
+    toVC.tabBarController?.tabBar.isHidden = true
     containerView.addSubview(toVC.view)
     toVC.view.frame.origin = CGPoint(x: 0, y: containerView.bounds.maxY)
 
@@ -27,6 +27,7 @@ class AddEventTransitioningIn: NSObject, UIViewControllerAnimatedTransitioning {
       fromVC.view.transform = CGAffineTransform(scaleX: self.dissapearScale, y: self.dissapearScale)
     }) { success in
       fromVC.view.transform = CGAffineTransform(scaleX: 1, y: 1)
+      fromVC.view.alpha = 1
       transitionContext.completeTransition(true)
     }
   }

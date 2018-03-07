@@ -212,7 +212,6 @@ class EventListTableViewController: UITableViewController, EventListView {
       detailsVC.screenId = screenId
       // TODO: Remove cheat
       store.dispatch(CreateCommentsScreen(screenId: screenId, eventId: eventId))
-//      tabBarItem.
     }
   }
   

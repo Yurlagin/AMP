@@ -25,6 +25,23 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
     tabbarView.onSettingsFlowSelect = runSettingsFlow()
   }
   
+  override func start(with option: DeepLinkOption?) {
+
+    guard let option = option else {
+      start()
+      return
+    }
+    
+    switch option {
+    case .showEventOnMap(let eventId):
+//      tabbarView.selectEventsMapFlow()
+      break
+    default:
+      start()
+    }
+    
+  }
+  
   
   private func runEventListFlow() -> ((UINavigationController) -> ()) {
     return { navController in
@@ -40,9 +57,9 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
   private func runEventMapFlow() -> ((UINavigationController) -> ()) {
     return { navController in
       if navController.viewControllers.isEmpty == true {
-        let settingsCoordinator = self.coordinatorFactory.makeEventMapCoordinator(navController: navController)
-        settingsCoordinator.start()
-        self.addDependency(settingsCoordinator)
+        let mapCoordinator = self.coordinatorFactory.makeEventMapCoordinator(navController: navController)
+        mapCoordinator.start()
+        self.addDependency(mapCoordinator)
       }
     }
   }
@@ -52,8 +69,13 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
     return { navController in
       if navController.viewControllers.isEmpty == true {
         let createEventCoordinator = self.coordinatorFactory.makeCreateEventCoordinatorBox(navController: navController)
-        createEventCoordinator.finishFlow = { eventId in
-          
+        createEventCoordinator.finishFlow = { [weak self] created in
+          if created {
+//            self?.tabbarView.selectEventsMapFlow()
+            
+          } else {
+            self?.tabbarView.backToPreviosTab()
+          }
         }
         createEventCoordinator.start()
         self.addDependency(createEventCoordinator)

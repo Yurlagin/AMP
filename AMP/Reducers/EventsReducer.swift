@@ -7,10 +7,11 @@
 //
 
 import ReSwift
+import CoreLocation
 
 func eventsReducer(action: Action, state: EventsState?) -> EventsState {
   
-  var state = state ?? EventsState(list: nil, map: [], isEndOfListReached: false, settings: EventsState.Settings(), eventScreens: [:], listRequest: .none)
+  var state = state ?? EventsState(list: nil, mapEvents: [], shouldShowEvent: nil, isEndOfListReached: false, settings: EventsState.Settings(), eventScreens: [:], listRequest: .none)
   
   func updateEventCounters(fromNewEvent event: Event) {
     if let index = state.list?.events.index(of: event) {
@@ -23,14 +24,14 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
       state.list!.events[index] = oldEvent
     }
     
-    if let index = state.map.index(of: event) {
-      var newEvent = state.map[index]
+    if let index = state.mapEvents.index(of: event) {
+      var newEvent = state.mapEvents[index]
       newEvent.like = event.like
       newEvent.likes = event.likes
       newEvent.dislike = event.dislike
       newEvent.dislikes = event.dislikes
       newEvent.commentsCount = event.commentsCount
-      state.map[index] = newEvent
+      state.mapEvents[index] = newEvent
     }
 
   }
@@ -59,10 +60,10 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     
   case let action as AppendEventsToMap:
     action.events.forEach{
-      if let index = state.map.index(of: $0) {
-        state.map[index] = $0
+      if let index = state.mapEvents.index(of: $0) {
+        state.mapEvents[index] = $0
       } else {
-        state.map.append($0)
+        state.mapEvents.append($0)
       }
     }
     
@@ -90,15 +91,15 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
       event.like = !event.like
       state.list?.events[index] = event
     }
-    if let index = state.map.index(where: {$0.id == action.eventId}) {
-      var event = state.map[index]
+    if let index = state.mapEvents.index(where: {$0.id == action.eventId}) {
+      var event = state.mapEvents[index]
       if event.like {
         event.likes -= 1
       } else {
         event.likes += 1
       }
       event.like = !event.like
-      state.map[index] = event
+      state.mapEvents[index] = event
     }
 
     
@@ -114,15 +115,15 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
       event.dislike = !event.dislike
       state.list?.events[index] = event
     }
-    if let index = state.map.index(where: {$0.id == action.eventId}) {
-      var event = state.map[index]
+    if let index = state.mapEvents.index(where: {$0.id == action.eventId}) {
+      var event = state.mapEvents[index]
       if event.dislike {
         event.dislikes -= 1
       } else {
         event.dislikes += 1
       }
       event.dislike = !event.dislike
-      state.map[index] = event
+      state.mapEvents[index] = event
     }
     
 
@@ -207,14 +208,14 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
   case let action as SentComment:
     
     let eventListIndex = state.list?.events.index(where: { $0.id == action.eventId })
-    let eventMapIndex = state.map.index(where: { $0.id == action.eventId })
+    let eventMapIndex = state.mapEvents.index(where: { $0.id == action.eventId })
     
     if let eventIndex = eventListIndex {
       state.list?.events[eventIndex].commentsCount += 1
     }
     
     if let eventIndex = eventMapIndex {
-      state.map[eventIndex].commentsCount += 1
+      state.mapEvents[eventIndex].commentsCount += 1
     }
     
     state.eventScreens = state.eventScreens.mapValues { screen in
@@ -239,7 +240,7 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
           }
 
           if let index = eventMapIndex {
-            state.map[index].solutionCommentId = commentId
+            state.mapEvents[index].solutionCommentId = commentId
             postedComment.replyToId = commentId
             addCommentToReplyedComments(commentId: commentId)
           }
@@ -273,6 +274,20 @@ func eventsReducer(action: Action, state: EventsState?) -> EventsState {
     
   case let action as SetCommentType:
     state.eventScreens[action.screenId]?.textInputMode = action.type
+    
+    
+  case let action as CreateEventStatus:
+    if case .success(let event) = action {
+      state.mapEvents.append(event)
+      if let listLocation = state.list?.location, listLocation.distance(from: CLLocation(latitude: event.latitude, longitude: event.longitude)) / 1000 < Double(state.settings.radius) {
+        state.list?.events.insert(event, at: 0)
+      }
+      state.shouldShowEvent = event.id
+    }
+    
+    
+  case _ as EventShown:
+    state.shouldShowEvent = nil
     
     
   default:

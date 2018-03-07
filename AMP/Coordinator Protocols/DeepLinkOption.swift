@@ -1,6 +1,7 @@
 import Foundation
 
 struct DeepLinkURLConstants {
+  static let ShowEventOnMap = "showEventOnMap"
   static let Onboarding = "onboarding"
   static let Items = "items"
   static let Chat = "chat"
@@ -11,6 +12,7 @@ struct DeepLinkURLConstants {
 }
 
 enum DeepLinkOption {
+  case showEventOnMap(EventId?)
   case onboarding
   case items
   case settings
@@ -32,8 +34,10 @@ enum DeepLinkOption {
     guard let id = dict?["launch_id"] as? String else { return nil }
     
     let chatID = dict?["chatId"] as? String
+    let eventId = dict?["eventId"] as? Int
     
     switch id {
+    case DeepLinkURLConstants.ShowEventOnMap: return .showEventOnMap(eventId)
       case DeepLinkURLConstants.Onboarding: return .onboarding
       case DeepLinkURLConstants.Items: return .items
       case DeepLinkURLConstants.Chat: return .chat(chatID)

@@ -14,7 +14,7 @@ struct CreateEventViewModel {
   
   let sendEvent: (_ latitude: CLLocationDegrees, _ longitude: CLLocationDegrees, Event.EventType, _ howLong: TimeInterval, String) -> ()
   
-  let shouldCleanForm: Bool
+  let shouldCleanFormAfterPostEvent: Bool
   
   let showError: Error?
   
@@ -25,9 +25,9 @@ struct CreateEventViewModel {
   init(state: AppState) {
     
     if case .success = state.apiRequestsState.createEventStatus {
-      shouldCleanForm = true
+      shouldCleanFormAfterPostEvent = true
     } else {
-      shouldCleanForm = false
+      shouldCleanFormAfterPostEvent = false
     }
     
     if case .run(_) = state.apiRequestsState.createEventStatus {

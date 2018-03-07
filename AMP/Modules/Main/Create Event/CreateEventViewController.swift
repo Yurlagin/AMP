@@ -13,7 +13,7 @@ import ReSwift
 
 class CreateEventViewController: UIViewController, CreateEventView {
   
-  var onCreateEvent: ((EventId) -> ())?
+  var onCreateEvent: (() -> ())?
   
   var onCancel: (() -> ())?
   
@@ -155,8 +155,9 @@ class CreateEventViewController: UIViewController, CreateEventView {
       showAlert(title: "Ошибка", message: error.localizedDescription)
     }
     
-    if viewModel.shouldCleanForm {
+    if viewModel.shouldCleanFormAfterPostEvent {
       setInitialState()
+      onCreateEvent?()
     }
     
   }
