@@ -88,6 +88,13 @@
 			<key>orderHint</key>
 			<integer>12</integer>
 		</dict>
+		<key>RSKImageCropper.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+			<key>orderHint</key>
+			<integer>16</integer>
+		</dict>
 		<key>ReSwift.xcscheme</key>
 		<dict>
 			<key>isShown</key>

@@ -150,6 +150,5 @@ extension Event: Hashable {
       like.hashValue +
       dislike.hashValue +
       visible.hashValue
-    
   }
 }

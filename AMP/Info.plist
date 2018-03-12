@@ -49,11 +49,14 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
-  <key>NSAppTransportSecurity</key>
-  <dict>
-    <key>NSAllowsArbitraryLoads</key>
-    <true/>
-  </dict>
-
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Разрешите доступ к фото-библиотеке для возможности прикреплять снимки к событиям, комментариям, а так же использовать в качестве аватарки.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Разрешите доступ к камере для возможности делать снимки и прикреплять их к событиям или комментариям.</string>
 </dict>
 </plist>

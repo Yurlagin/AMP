@@ -264,6 +264,34 @@ struct EventsService: EventsServiceProtocol {
   }
 
   
+  static func uploadAvatar(imageData: Data, request: AMPUploadRequest) -> Promise<[AMPFile]> {
+    return Promise { (fulfill, error) in
+//      let body = try JSONEncoder().encode(request)
+      Alamofire.upload(multipartFormData: { (multipartFormData) in
+        multipartFormData.append("{\"action\": \"\(request.action)\", \"token\": \"\(request.token)\"}".data(using: .utf8)!, withName: "body")
+        multipartFormData.append(imageData, withName: "file", fileName: "userImage.png", mimeType: "image/png")
+//        multipartFormData.append(body, withName: "body")
+      }, to: baseURL) { (result) in
+        switch result {
+        case .success(let request, _, _):
+          request
+            .responseData()
+            .then { data -> () in
+              let answer = try JSONDecoder().decode(AMPUploadResponse.self, from: data)
+              fulfill(answer.files)
+            }.catch { ampError in
+              error(ampError)
+          }
+          
+        case .failure(let networkError):
+          error(networkError)
+        }
+      }
+    }
+  }
+
+
+  
   
   enum EventsServiceError: Error {
     case unexpectedAnswer

@@ -33,9 +33,6 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
     }
     
     switch option {
-    case .showEventOnMap(let eventId):
-//      tabbarView.selectEventsMapFlow()
-      break
     default:
       start()
     }

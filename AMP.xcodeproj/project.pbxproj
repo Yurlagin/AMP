@@ -46,6 +46,8 @@
 		3484C29D2037B7AD002F3A10 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3484C29C2037B7AD002F3A10 /* CommentCell.swift */; };
 		348D69ED20145B5F0051E4B5 /* AuthReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348D69EC20145B5F0051E4B5 /* AuthReducer.swift */; };
 		348D69EF20145B950051E4B5 /* AuthActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348D69EE20145B950051E4B5 /* AuthActions.swift */; };
+		3492C0AA2054B11D001B8D60 /* UserProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3492C0A92054B11D001B8D60 /* UserProfileTableViewController.swift */; };
+		3492C0AC2054BC80001B8D60 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3492C0AB2054BC80001B8D60 /* UserProfileViewModel.swift */; };
 		349954CF2012C53B006CFD87 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349954CE2012C53B006CFD87 /* SignInViewController.swift */; };
 		349954D12012C5A8006CFD87 /* StoryboardsEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349954D02012C5A8006CFD87 /* StoryboardsEnum.swift */; };
 		349954D42012C656006CFD87 /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 349954D32012C656006CFD87 /* Auth.storyboard */; };
@@ -170,6 +172,8 @@
 		3484C29C2037B7AD002F3A10 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		348D69EC20145B5F0051E4B5 /* AuthReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthReducer.swift; sourceTree = "<group>"; };
 		348D69EE20145B950051E4B5 /* AuthActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthActions.swift; sourceTree = "<group>"; };
+		3492C0A92054B11D001B8D60 /* UserProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTableViewController.swift; sourceTree = "<group>"; };
+		3492C0AB2054BC80001B8D60 /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
 		349954CE2012C53B006CFD87 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		349954D02012C5A8006CFD87 /* StoryboardsEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardsEnum.swift; sourceTree = "<group>"; };
 		349954D32012C656006CFD87 /* Auth.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Auth.storyboard; sourceTree = "<group>"; };
@@ -281,14 +285,6 @@
 				3422E5EC201B38A200DAF175 /* SignInViewModel.swift */,
 			);
 			path = "View Model";
-			sourceTree = "<group>";
-		};
-		3435663E202B30640039B051 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				34DA41FD201DBFB000DDB0D7 /* SettingsTableViewController.swift */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		34356F8B20130254001EE568 /* State */ = {
@@ -424,6 +420,15 @@
 				34EBBB922031A548000FF513 /* ApiRequestsReducer.swift */,
 			);
 			path = Reducers;
+			sourceTree = "<group>";
+		};
+		3492C0A82054B0E9001B8D60 /* User Profile */ = {
+			isa = PBXGroup;
+			children = (
+				3492C0A92054B11D001B8D60 /* UserProfileTableViewController.swift */,
+				3492C0AB2054BC80001B8D60 /* UserProfileViewModel.swift */,
+			);
+			path = "User Profile";
 			sourceTree = "<group>";
 		};
 		349954C82012C4A4006CFD87 /* Modules */ = {
@@ -682,6 +687,7 @@
 				34DA41F8201DBEE200DDB0D7 /* Create Event */,
 				34DA41F6201DBECE00DDB0D7 /* Favourites */,
 				34DA41F7201DBED600DDB0D7 /* Settings */,
+				3492C0A82054B0E9001B8D60 /* User Profile */,
 				34DA41F3201DBEAA00DDB0D7 /* Tab Bar */,
 			);
 			path = Main;
@@ -729,7 +735,7 @@
 		34DA41F7201DBED600DDB0D7 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				3435663E202B30640039B051 /* View */,
+				34DA41FD201DBFB000DDB0D7 /* SettingsTableViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -946,6 +952,7 @@
 				"${BUILT_PRODUCTS_DIR}/MBProgressHUD/MBProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/PhoneNumberKit/PhoneNumberKit.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
+				"${BUILT_PRODUCTS_DIR}/RSKImageCropper/RSKImageCropper.framework",
 				"${BUILT_PRODUCTS_DIR}/ReSwift/ReSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
@@ -963,6 +970,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MBProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PhoneNumberKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RSKImageCropper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
@@ -1064,7 +1072,9 @@
 				34BFAE37201C105C0079D566 /* CreateMiddleware.swift in Sources */,
 				349954CF2012C53B006CFD87 /* SignInViewController.swift in Sources */,
 				34ED71DB204A899500B62115 /* EventsMapViewModel.swift in Sources */,
+				3492C0AA2054B11D001B8D60 /* UserProfileTableViewController.swift in Sources */,
 				348D69EF20145B950051E4B5 /* AuthActions.swift in Sources */,
+				3492C0AC2054BC80001B8D60 /* UserProfileViewModel.swift in Sources */,
 				34356F8F201302A7001EE568 /* AuthState.swift in Sources */,
 				34DA41D7201DB0B100DDB0D7 /* TabbarController.swift in Sources */,
 				34996F222005B9FC00D53875 /* NSObjectExtensions.swift in Sources */,

@@ -79,17 +79,14 @@ class SettingsTableViewController: UITableViewController, BaseView {
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
    
-    guard let viewModel = viewModel else { return }
     
     let section = indexPath.section; let row = indexPath.row
     switch section {
     case 0:
       if row == 0 {
-        if viewModel.canEditProfile {
+//        if viewModel.canEditProfile {
           didTap?(.profile)
-        }
-      } else if row == 1 {
-        viewModel.didTapLogout?()
+//        }
       }
     case 1:
       if row == 0 {
@@ -116,25 +113,14 @@ struct SettingsViewModel {
   let avatarURL: String?
   let userName: String?
   let about: String?
-  let canEditProfile: Bool
-  let didTapLogout: (()->())?
   
   init? (state: AppState) {
-//    print (state)
     guard let user = state.authState.loginStatus.getUserCredentials() else { return nil }
     avatarURL = user.avaurl
     userName = user.name
     about = "Coming soon =]"
-    canEditProfile = user.level >= 5
-    didTapLogout = {
-      store.dispatch { (state, store) in
-        guard let logoutStatus = state.authState.loginStatus.getLogoutStatus() else { return nil }
-        switch logoutStatus {
-        case .error, .none: return Logout()
-        case .request: return nil
-        }
-      }
-    }
+//    canEditProfile = user.level >= 5
+    
   }
   
 }

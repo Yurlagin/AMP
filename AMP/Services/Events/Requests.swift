@@ -46,6 +46,7 @@ struct EventListRequest: Codable {
   }
 }
 
+
 struct EventsMapRequest: Codable {
   
   let action = "getEventsOnMap"
@@ -72,10 +73,8 @@ struct EventsMapRequest: Codable {
     var alerts: Bool = true
     var news: Bool = true
     var questions: Bool = true
-    
   }
 }
-
 
 
 struct LikeEventRequest: Encodable {
@@ -190,6 +189,26 @@ struct CreateEventResponse: Decodable {
       throw NSError(domain: "CreateEventResponse", code: 2, userInfo: ["reason": "Unexpected create event response"])
     }
   }
+}
+
+
+struct AMPUploadRequest: Encodable {
+  let action = "uploadFile"
+  let token: String
+}
+
+
+struct AMPFile: Decodable {
+  let userid: Int
+  let type: String
+  let size: Int
+  let url: String
+}
+
+
+struct AMPUploadResponse: Decodable {
+  let answer = "uploadFile"
+  let files: [AMPFile]
 }
 
 
