@@ -70,6 +70,8 @@ class UserProfileTableViewController: UITableViewController {
     super.viewDidLoad()
     let avatarTapGesture = UITapGestureRecognizer(target: self, action: #selector(showAvatarPicker))
     avatarImageView.addGestureRecognizer(avatarTapGesture)
+    avatarImageView.layer.cornerRadius = avatarImageView.frame.height / 2
+    avatarImageView.layer.masksToBounds = true
   }
   
   
