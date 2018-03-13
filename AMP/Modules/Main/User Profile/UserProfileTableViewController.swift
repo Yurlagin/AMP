@@ -26,15 +26,17 @@ class UserProfileTableViewController: UITableViewController {
   var viewModel: UserProfileViewModel! {
     didSet {
       viewModelRendered = false
-      view.layoutSubviews()
+      view.setNeedsLayout()
     }
   }
   
   
   @objc private func donePressed() {
-    
+    viewModel.didPressDoneButton(usernameTextField.text, aboutTextField.text)
   }
   
+  
+  var hud: MBProgressHUD?
   
   private func renderUI() {
     
@@ -43,6 +45,20 @@ class UserProfileTableViewController: UITableViewController {
     if let url = viewModel.avatarURL {
       avatarImageView.kf.setImage(with: URL(string: url))
     }
+    
+    if viewModel.showHud {
+      if hud == nil {
+        hud = MBProgressHUD.showAdded(to: view, animated: true)
+        hud?.removeFromSuperViewOnHide = true
+      }
+    } else {
+      hud?.hide(animated: true)
+      hud = nil
+    }
+    
+    doneButton.isEnabled = !viewModel.showHud
+    
+    navigationItem.rightBarButtonItem = viewModel.canEditProfile ? doneButton : nil
     
     usernameTextField.text = viewModel.userName
     aboutTextField.text = viewModel.about
@@ -68,6 +84,7 @@ class UserProfileTableViewController: UITableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+//    navigationItem.rightBarButtonItem = doneButton
     let avatarTapGesture = UITapGestureRecognizer(target: self, action: #selector(showAvatarPicker))
     avatarImageView.addGestureRecognizer(avatarTapGesture)
     avatarImageView.layer.cornerRadius = avatarImageView.frame.height / 2
@@ -129,6 +146,7 @@ extension UserProfileTableViewController: RSKImageCropViewControllerDelegate {
     controller.dismiss(animated: true)
   }
   
+  
   func imageCropViewController(_ controller: RSKImageCropViewController, didCropImage croppedImage: UIImage, usingCropRect cropRect: CGRect, rotationAngle: CGFloat) {
     let cropedSize = CGSize(width: avatarImageView.frame.width * UIScreen.main.scale, height: avatarImageView.frame.height * UIScreen.main.scale)
     let sendingImage = croppedImage.kf.resize(to: cropedSize, for: .aspectFit)
@@ -139,16 +157,13 @@ extension UserProfileTableViewController: RSKImageCropViewControllerDelegate {
     controller.dismiss(animated: true)
   }
   
-  func imageCropViewController(_ controller: RSKImageCropViewController, willCropImage originalImage: UIImage) {
-    print (originalImage)
-  }
 }
 
 
 extension UserProfileTableViewController: StoreSubscriber {
   
   func newState(state: AppState) {
-    viewModel = UserProfileViewModel(state: state)
+    viewModel = UserProfileViewModel(state: state, sendProfileFunction: EventsService.sendProfileSettings)
   }
   
 }

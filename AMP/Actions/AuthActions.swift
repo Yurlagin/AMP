@@ -26,3 +26,8 @@ struct LogoutErrorAction: Action {
   let error: Error
   init (_ error: Error) { self.error = error }
 }
+
+struct UpdateUserProfile: Action {
+  let userName: String?
+  let about: String?
+}

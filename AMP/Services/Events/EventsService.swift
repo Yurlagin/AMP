@@ -151,7 +151,6 @@ struct EventsService: EventsServiceProtocol {
       return Alamofire.request(commentsRequest).responseData()
         .then (on: EventsService.bgq) { data in
           let commentsResponse = try JSONDecoder().decode(CommentsResponse.self, from: data)
-//          print (commentsResponse)
           if commentsResponse.answer == "getComments" {
             return Promise(value: CommentsAndQuotes(comments: commentsResponse.comments ?? [], replayedComments: commentsResponse.replyedComments))
           } else {
@@ -250,7 +249,6 @@ struct EventsService: EventsServiceProtocol {
       Promise { (fulfill, error) in
         task.responseData()
           .then (on: bgq) { data -> () in
-//            print(String(data: data, encoding: .utf8))
             let eventResponse = try JSONDecoder().decode(CreateEventResponse.self, from: data)
             if !canceled {
               fulfill(eventResponse.event)
@@ -291,6 +289,28 @@ struct EventsService: EventsServiceProtocol {
   }
 
 
+  static var sendProfileSettings: (_ userName: String?, _ about: String?, _ token: String) -> Promise<()> = { userName, about, token in
+    let sendProfilerequest = SendProfileRequest(token: token, keyvalues: [["key": "name", "value": userName ?? ""],
+                                                               ["key": "about", "value": about ?? ""]])
+    return Promise(resolvers: { (fulfill, error) in
+      let urlRequest = try makeURLRequest(parameters: sendProfilerequest)
+      Alamofire.request(urlRequest).responseData()
+        .then (on: bgq) { data -> () in
+          let answer = try JSONDecoder().decode(DefaultAnswer.self, from: data)
+          if answer.answer == "setSettings" {
+            UserDefaults.standard.set(userName, forKey: "name")
+            UserDefaults.standard.set(about, forKey: "about")
+            fulfill(())
+          } else {
+            error (EventsServiceError.unexpectedAnswer)
+          }
+        }.catch { requestError in
+          error(requestError)
+      }
+    })
+    
+    
+  }
   
   
   enum EventsServiceError: Error {

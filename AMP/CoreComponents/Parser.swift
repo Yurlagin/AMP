@@ -15,10 +15,11 @@ struct AmpFirAuthAnswer: Codable {
 
 struct UserCredentials: Codable {
   let phone: String?
-  let name: String?
+  var name: String?
   let email: String?
   let level: Int
   let avaurl: String?
+  var about: String?
   let token: String
 }
 

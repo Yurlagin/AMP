@@ -8,6 +8,8 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
   var finishFlow: (() -> ())?
 
   private let locationTracker = LocationTracker()
+  private let locationSender = LocationSender(sendLocation: LocationService.sendLocation)
+  
   
   init(tabbarView: TabbarView, coordinatorFactory: CoordinatorFactory) {
     self.tabbarView = tabbarView

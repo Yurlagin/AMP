@@ -11,8 +11,17 @@ import CoreLocation
 
 struct LocationState: StateType {
   
-  var location: CLLocation?
-  var sent: Date?
+  var currentlocation: CLLocation? = nil
+  
+  var lastSentLocation: CLLocation? = nil
+  
+  var sendLocationRequest: SendLocationRequest = .none
   
 }
 
+enum SendLocationRequest {
+  case none
+  case run(CLLocation)
+  case error(Error)
+  case success
+}

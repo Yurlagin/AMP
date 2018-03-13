@@ -48,6 +48,9 @@
 		348D69EF20145B950051E4B5 /* AuthActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348D69EE20145B950051E4B5 /* AuthActions.swift */; };
 		3492C0AA2054B11D001B8D60 /* UserProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3492C0A92054B11D001B8D60 /* UserProfileTableViewController.swift */; };
 		3492C0AC2054BC80001B8D60 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3492C0AB2054BC80001B8D60 /* UserProfileViewModel.swift */; };
+		3492C0B020575984001B8D60 /* SettingsActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3492C0AF20575984001B8D60 /* SettingsActions.swift */; };
+		3492C0B22057F087001B8D60 /* LocationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3492C0B12057F087001B8D60 /* LocationSender.swift */; };
+		3492C0B42057F67A001B8D60 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3492C0B32057F67A001B8D60 /* LocationService.swift */; };
 		349954CF2012C53B006CFD87 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349954CE2012C53B006CFD87 /* SignInViewController.swift */; };
 		349954D12012C5A8006CFD87 /* StoryboardsEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349954D02012C5A8006CFD87 /* StoryboardsEnum.swift */; };
 		349954D42012C656006CFD87 /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 349954D32012C656006CFD87 /* Auth.storyboard */; };
@@ -174,6 +177,9 @@
 		348D69EE20145B950051E4B5 /* AuthActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthActions.swift; sourceTree = "<group>"; };
 		3492C0A92054B11D001B8D60 /* UserProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTableViewController.swift; sourceTree = "<group>"; };
 		3492C0AB2054BC80001B8D60 /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
+		3492C0AF20575984001B8D60 /* SettingsActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsActions.swift; sourceTree = "<group>"; };
+		3492C0B12057F087001B8D60 /* LocationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSender.swift; sourceTree = "<group>"; };
+		3492C0B32057F67A001B8D60 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		349954CE2012C53B006CFD87 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		349954D02012C5A8006CFD87 /* StoryboardsEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardsEnum.swift; sourceTree = "<group>"; };
 		349954D32012C656006CFD87 /* Auth.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Auth.storyboard; sourceTree = "<group>"; };
@@ -275,6 +281,7 @@
 			children = (
 				340D91032026F2E500B1B90A /* EventsService.swift */,
 				342DECAD203A695B007157FB /* Requests.swift */,
+				3492C0B32057F67A001B8D60 /* LocationService.swift */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -313,6 +320,7 @@
 			children = (
 				344E57862025BF4000C5CF39 /* Parser.swift */,
 				34B9EF5F202FB64200F31CB0 /* LocationTracker.swift */,
+				3492C0B12057F087001B8D60 /* LocationSender.swift */,
 			);
 			path = CoreComponents;
 			sourceTree = "<group>";
@@ -407,6 +415,7 @@
 				348D69EE20145B950051E4B5 /* AuthActions.swift */,
 				340D90FE2026EC0400B1B90A /* EventActions.swift */,
 				34B9EF5D202FB41300F31CB0 /* LocationActions.swift */,
+				3492C0AF20575984001B8D60 /* SettingsActions.swift */,
 			);
 			path = Actions;
 			sourceTree = "<group>";
@@ -1056,10 +1065,12 @@
 				344EB9CC20351357009DDC65 /* EventDetailsViewController.swift in Sources */,
 				34B9EF5C202FB22F00F31CB0 /* LocationReducer.swift in Sources */,
 				3484C2962036761D002F3A10 /* Event.swift in Sources */,
+				3492C0B42057F67A001B8D60 /* LocationService.swift in Sources */,
 				34EBBB932031A548000FF513 /* ApiRequestsReducer.swift in Sources */,
 				34DA41EF201DBDFB00DDB0D7 /* FavouritesModuleFactory.swift in Sources */,
 				3484C29820367F59002F3A10 /* Date.swift in Sources */,
 				34996F132005B85400D53875 /* AuthCoordinatorOutput.swift in Sources */,
+				3492C0B020575984001B8D60 /* SettingsActions.swift in Sources */,
 				34DA4202201DC01500DDB0D7 /* EventsMapViewController.swift in Sources */,
 				34BFAE39201C105C0079D566 /* MiddlewareItem.swift in Sources */,
 				34DA4204201DC2B900DDB0D7 /* EventsMapCoordinator.swift in Sources */,
@@ -1114,6 +1125,7 @@
 				34DA41E7201DBB7900DDB0D7 /* EventMapView.swift in Sources */,
 				344E3249202F10B30062F5D2 /* LocationState.swift in Sources */,
 				34996F1B2005B91500D53875 /* ModuleFactoryImp.swift in Sources */,
+				3492C0B22057F087001B8D60 /* LocationSender.swift in Sources */,
 				34DA41FC201DBF8900DDB0D7 /* CreateEventViewController.swift in Sources */,
 				343297C4204D48FE000D5A9A /* CreateEventViewModel.swift in Sources */,
 				34996F242005B9FC00D53875 /* UIImage+Hex.swift in Sources */,

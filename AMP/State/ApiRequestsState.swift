@@ -15,5 +15,6 @@ struct ApiRequestsState: StateType {
   var eventsLikeRequests: [Int: EventTasks]
   var commentsLikeRequests: [CommentId: Cancel]
   var createEventStatus: CreateEventStatus = .none
+  var setUserProfileSettingsRequest: SetUserProfileRequestStatus = .none
   
 }

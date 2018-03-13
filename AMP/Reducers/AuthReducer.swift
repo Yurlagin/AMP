@@ -37,13 +37,18 @@ func authReducer(action: Action, state: AuthState?) -> AuthState {
       }
     }
     
+  case let action as SetUserProfileRequestStatus:
+    if case .success(let userName, let about) = action, let userCredentials = state.loginStatus.getUserCredentials()  {
+      var newCredentials = userCredentials
+      newCredentials.name = userName
+      newCredentials.about = about
+      state.loginStatus = .loggedIn(user: newCredentials, logoutStatus: state.loginStatus.getLogoutStatus()!)
+    }
+    
   default:
     break
   }
   
-//  print ("§§§ auth Action: \(action)\n")
-//  print ("§§§ new auth state: \(state)\n")
-
   return state
 }
 

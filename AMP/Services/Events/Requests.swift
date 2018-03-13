@@ -212,6 +212,15 @@ struct AMPUploadResponse: Decodable {
 }
 
 
+struct SendProfileRequest: Encodable {
+  let action = "setSettings"
+  let token: String
+  let keyvalues: [[String: String]]
+}
+
+
+
+
 extension EventListRequest: CustomStringConvertible {
   
   var description: String {

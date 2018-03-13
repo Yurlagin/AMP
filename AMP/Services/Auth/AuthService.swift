@@ -8,7 +8,6 @@
 
 import PromiseKit
 import FirebaseAuth
-import RealmSwift
 import Locksmith
 
 
@@ -35,9 +34,6 @@ struct AuthService: AuthServiceProtocol {
   func logout() -> Promise<()> {
     return Promise {  (fulfill, error) in
       try Locksmith.deleteDataForUserAccount(userAccount: "AMP")
-      let realm = try Realm()
-      let settings = realm.objects(RLMSettings.self)
-      try realm.write { realm.delete(settings) }
       fulfill(())
     }
   }
@@ -47,41 +43,31 @@ struct AuthService: AuthServiceProtocol {
     return Promise { (fulfill, error) in
       
       try Locksmith.updateData(data: ["token": userCredentials.token], forUserAccount: "AMP")
-      let realm = try Realm()
-      let settings: RLMSettings
-      if let rlmSettings = realm.objects(RLMSettings.self).first {
-        settings = rlmSettings
-      } else {
-        settings = RLMSettings(); try realm.write { realm.add(settings) }
-      }
-      try realm.write {
-        settings.avaurl = userCredentials.avaurl
-        settings.email = userCredentials.email
-        settings.level = userCredentials.level
-        settings.name = userCredentials.name
-        settings.phone = userCredentials.phone
-      }
+      UserDefaults.standard.set(userCredentials.avaurl, forKey: "avatarURL")
+      UserDefaults.standard.set(userCredentials.email, forKey: "email")
+      UserDefaults.standard.set(userCredentials.level, forKey: "level")
+      UserDefaults.standard.set(userCredentials.name, forKey: "name")
+      UserDefaults.standard.set(userCredentials.phone, forKey: "phone")
+      UserDefaults.standard.set(userCredentials.about, forKey: "about")
 
       fulfill(userCredentials)
-      
     }
   }
   
   
   func loadCredentials() -> UserCredentials? {
     guard let data = Locksmith.loadDataForUserAccount(userAccount: "AMP"), let token = data["token"] as? String else { return nil }
-    let rlmSettings = (try? Realm())?.objects(RLMSettings.self).first ?? RLMSettings()
-    return UserCredentials(phone: rlmSettings.phone,
-                           name: rlmSettings.name,
-                           email: rlmSettings.email,
-                           level: rlmSettings.level,
-                           avaurl: rlmSettings.avaurl,
+    return UserCredentials(phone: UserDefaults.standard.string(forKey: "phone"),
+                           name: UserDefaults.standard.string(forKey: "name"),
+                           email: UserDefaults.standard.string(forKey: "email"),
+                           level: UserDefaults.standard.object(forKey: "level") as? Int ?? 0,
+                           avaurl: UserDefaults.standard.string(forKey: "avatarURL"),
+                           about: UserDefaults.standard.string(forKey: "about"),
                            token: token)
   }
   
   
   let baseURL = "https://usefulness.club/amp/sitebackend/0"
-  
   
   enum AuthError: Error {
     case cantVerifyPhone
@@ -89,7 +75,6 @@ struct AuthService: AuthServiceProtocol {
     case codeIncorrect
   }
   
-  //MARK: FireBase phone auth
   
   func getAuthCode(for phone: String) -> (Promise<String>, Cancel) {
     
@@ -102,7 +87,6 @@ struct AuthService: AuthServiceProtocol {
           error(authError!)
           return
         }
-//        print ("Got verificationId: \(verificationId!)")
         fulfill(verificationId!)
       }
     }, {

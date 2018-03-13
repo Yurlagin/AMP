@@ -10,7 +10,7 @@ import ReSwift
 
 func locationReducer(action: Action, state: LocationState?) -> LocationState {
   
-  var state = state ?? LocationState(location: nil, sent: nil)
+  var state = state ?? LocationState(location: nil, lastSent: nil)
   
   switch action {
     
