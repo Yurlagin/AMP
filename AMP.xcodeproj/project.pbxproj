@@ -11,7 +11,7 @@
 		340D90FB2026AE7B00B1B90A /* EventsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340D90FA2026AE7B00B1B90A /* EventsState.swift */; };
 		340D90FD2026B36900B1B90A /* EventsReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340D90FC2026B36900B1B90A /* EventsReducer.swift */; };
 		340D90FF2026EC0400B1B90A /* EventActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340D90FE2026EC0400B1B90A /* EventActions.swift */; };
-		340D91042026F2E500B1B90A /* EventsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340D91032026F2E500B1B90A /* EventsService.swift */; };
+		340D91042026F2E500B1B90A /* ApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340D91032026F2E500B1B90A /* ApiService.swift */; };
 		3422E5ED201B38A200DAF175 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3422E5EC201B38A200DAF175 /* SignInViewModel.swift */; };
 		342DECAE203A695B007157FB /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 342DECAD203A695B007157FB /* Requests.swift */; };
 		343297C4204D48FE000D5A9A /* CreateEventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 343297C3204D48FE000D5A9A /* CreateEventViewModel.swift */; };
@@ -50,7 +50,6 @@
 		3492C0AC2054BC80001B8D60 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3492C0AB2054BC80001B8D60 /* UserProfileViewModel.swift */; };
 		3492C0B020575984001B8D60 /* SettingsActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3492C0AF20575984001B8D60 /* SettingsActions.swift */; };
 		3492C0B22057F087001B8D60 /* LocationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3492C0B12057F087001B8D60 /* LocationSender.swift */; };
-		3492C0B42057F67A001B8D60 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3492C0B32057F67A001B8D60 /* LocationService.swift */; };
 		349954CF2012C53B006CFD87 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349954CE2012C53B006CFD87 /* SignInViewController.swift */; };
 		349954D12012C5A8006CFD87 /* StoryboardsEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349954D02012C5A8006CFD87 /* StoryboardsEnum.swift */; };
 		349954D42012C656006CFD87 /* Auth.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 349954D32012C656006CFD87 /* Auth.storyboard */; };
@@ -138,7 +137,7 @@
 		340D90FA2026AE7B00B1B90A /* EventsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsState.swift; sourceTree = "<group>"; };
 		340D90FC2026B36900B1B90A /* EventsReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsReducer.swift; sourceTree = "<group>"; };
 		340D90FE2026EC0400B1B90A /* EventActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventActions.swift; sourceTree = "<group>"; };
-		340D91032026F2E500B1B90A /* EventsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsService.swift; sourceTree = "<group>"; };
+		340D91032026F2E500B1B90A /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
 		3422E5EC201B38A200DAF175 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		342DECAD203A695B007157FB /* Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requests.swift; sourceTree = "<group>"; };
 		343297C3204D48FE000D5A9A /* CreateEventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEventViewModel.swift; sourceTree = "<group>"; };
@@ -179,7 +178,6 @@
 		3492C0AB2054BC80001B8D60 /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
 		3492C0AF20575984001B8D60 /* SettingsActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsActions.swift; sourceTree = "<group>"; };
 		3492C0B12057F087001B8D60 /* LocationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSender.swift; sourceTree = "<group>"; };
-		3492C0B32057F67A001B8D60 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		349954CE2012C53B006CFD87 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		349954D02012C5A8006CFD87 /* StoryboardsEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardsEnum.swift; sourceTree = "<group>"; };
 		349954D32012C656006CFD87 /* Auth.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Auth.storyboard; sourceTree = "<group>"; };
@@ -279,9 +277,8 @@
 		340D91022026F2C500B1B90A /* Events */ = {
 			isa = PBXGroup;
 			children = (
-				340D91032026F2E500B1B90A /* EventsService.swift */,
+				340D91032026F2E500B1B90A /* ApiService.swift */,
 				342DECAD203A695B007157FB /* Requests.swift */,
-				3492C0B32057F67A001B8D60 /* LocationService.swift */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -1065,7 +1062,6 @@
 				344EB9CC20351357009DDC65 /* EventDetailsViewController.swift in Sources */,
 				34B9EF5C202FB22F00F31CB0 /* LocationReducer.swift in Sources */,
 				3484C2962036761D002F3A10 /* Event.swift in Sources */,
-				3492C0B42057F67A001B8D60 /* LocationService.swift in Sources */,
 				34EBBB932031A548000FF513 /* ApiRequestsReducer.swift in Sources */,
 				34DA41EF201DBDFB00DDB0D7 /* FavouritesModuleFactory.swift in Sources */,
 				3484C29820367F59002F3A10 /* Date.swift in Sources */,
@@ -1131,7 +1127,7 @@
 				34996F242005B9FC00D53875 /* UIImage+Hex.swift in Sources */,
 				34DA41DF201DB85600DDB0D7 /* EventListCoordinator.swift in Sources */,
 				340D90FF2026EC0400B1B90A /* EventActions.swift in Sources */,
-				340D91042026F2E500B1B90A /* EventsService.swift in Sources */,
+				340D91042026F2E500B1B90A /* ApiService.swift in Sources */,
 				34996EFF2005B36D00D53875 /* DeepLinkOption.swift in Sources */,
 				34DA41E1201DB8F300DDB0D7 /* EventListFactory.swift in Sources */,
 				84045BC4203E7D7E00BC230C /* EventSideEffects.swift in Sources */,

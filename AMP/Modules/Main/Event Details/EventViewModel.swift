@@ -53,7 +53,7 @@ struct EventViewModel {
     self.comments = screen.comments
     self.replyedComments = screen.replyedComments
     
-    if let distance = state.locationState.location?.distance(from: CLLocation(latitude: event.latitude, longitude: event.longitude)) {
+    if let distance = state.locationState.currentlocation?.distance(from: CLLocation(latitude: event.latitude, longitude: event.longitude)) {
       self.distance = String(format: "%.1f км.", arguments: [distance / 1000])
     } else {
       self.distance = "?.? км."
@@ -69,7 +69,7 @@ struct EventViewModel {
           let event = state.eventsState.list!.events[index]
           guard let token = token else { return SetLoginState(.none) }
           let likeRequest = LikeEventRequest(token: token, action: event.like ? .removeLike : .addLike , eventid: eventId)
-          let (eventPromise, cancel) = EventsService.make(likeRequest)
+          let (eventPromise, cancel) = ApiService.make(likeRequest)
           cancelTask = cancel
           eventPromise
             .then { store.dispatch(EventLikeSent(event: $0)) }
@@ -90,7 +90,7 @@ struct EventViewModel {
           guard let event = state.eventsState.getEventBy(id: eventId) else { return nil }
           guard let token = token else {  return SetLoginState(.none)  }
           let dislikeRequest = LikeEventRequest(token: token, action: event.dislike ? .removeDisLike : .addDisLike, eventid: eventId)
-          let (eventPromise, cancel) = EventsService.make(dislikeRequest)
+          let (eventPromise, cancel) = ApiService.make(dislikeRequest)
           cancelTask = cancel
           eventPromise
             .then {  store.dispatch( EventDislikeSent(event: $0) )}
@@ -175,7 +175,7 @@ struct EventViewModel {
           } else {
             guard let token = token else { return SetLoginState(.none) }
             let likeRequest = LikeCommentRequest(token: token, action: comment.like ? .removeLikeComment : .addLikeComment, id: comment.id)
-            let (likeCommentPromise, cancel) = EventsService.send(likeRequest)
+            let (likeCommentPromise, cancel) = ApiService.send(likeRequest)
             cancelTask = cancel
             likeCommentPromise
               .then {

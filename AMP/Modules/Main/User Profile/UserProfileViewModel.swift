@@ -28,7 +28,7 @@ struct UserProfileViewModel {
     self.sendProfileFunction = sendProfileFunction
     avatarURL = user.avaurl
     userName = user.name
-    about = "Coming soon =]"
+    about = user.about
     canEditProfile = user.level >= 5
     showHud = state.apiRequestsState.setUserProfileSettingsRequest.isRunningRequest()
     
@@ -47,7 +47,7 @@ struct UserProfileViewModel {
     didSelectAvatar = { imageData in
       store.dispatch { (state, store) in
         guard let token = state.authState.loginStatus.getUserCredentials()?.token else { return nil }
-        EventsService.uploadAvatar(imageData: imageData, request: AMPUploadRequest(token: token))
+        ApiService.uploadAvatar(imageData: imageData, request: AMPUploadRequest(token: token))
           .then {
             print ($0)
           }.catch {

@@ -57,7 +57,7 @@ struct CreateEventViewModel {
         guard let token = state.authState.loginStatus.getUserCredentials()?.token else { return nil }
         let params = CreateEventRequest.CreateEventParams(howlong: howLong, lat: lat, lon: lon, message: message, type: type)
         let request = CreateEventRequest(event: params, token: token)
-        let (eventPromise, cancelFunction) = EventsService.make(request)
+        let (eventPromise, cancelFunction) = ApiService.make(request)
         eventPromise
           .then {
             store.dispatch(CreateEventStatus.success($0))

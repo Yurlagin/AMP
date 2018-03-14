@@ -21,7 +21,7 @@ protocol EventsServiceProtocol {
   func make(_ addCommentRequest: AddCommentRequest) -> Promise<Comment>
 }
 
-struct EventsService: EventsServiceProtocol {
+struct ApiService: EventsServiceProtocol {
   
   private static let bgq = DispatchQueue.global(qos: .userInitiated)
   
@@ -147,9 +147,9 @@ struct EventsService: EventsServiceProtocol {
   
   func makeRequest(_ commentsRequest: CommentsRequest) -> Promise<CommentsAndQuotes> {
     do {
-      let commentsRequest = try EventsService.makeURLRequest(parameters: commentsRequest)
+      let commentsRequest = try ApiService.makeURLRequest(parameters: commentsRequest)
       return Alamofire.request(commentsRequest).responseData()
-        .then (on: EventsService.bgq) { data in
+        .then (on: ApiService.bgq) { data in
           let commentsResponse = try JSONDecoder().decode(CommentsResponse.self, from: data)
           if commentsResponse.answer == "getComments" {
             return Promise(value: CommentsAndQuotes(comments: commentsResponse.comments ?? [], replayedComments: commentsResponse.replyedComments))
@@ -166,9 +166,9 @@ struct EventsService: EventsServiceProtocol {
   
   func makeRequest(_ eventRequest: EventRequest) -> Promise<Event> {
     do {
-      let request = try EventsService.makeURLRequest(parameters: eventRequest)
+      let request = try ApiService.makeURLRequest(parameters: eventRequest)
       return Alamofire.request(request).responseData()
-        .then (on: EventsService.bgq) {
+        .then (on: ApiService.bgq) {
           let response = try JSONDecoder().decode(EventsAnswer.self, from: $0)
           if response.answer == "getEvent", let event = response.events?.first {
             return Promise(value: event)
@@ -216,9 +216,9 @@ struct EventsService: EventsServiceProtocol {
   
   func make(_ addCommentRequest: AddCommentRequest) -> Promise<Comment> {
     do {
-      let request = try EventsService.makeURLRequest(parameters: addCommentRequest)
+      let request = try ApiService.makeURLRequest(parameters: addCommentRequest)
       return Alamofire.request(request).responseData()
-        .then (on: EventsService.bgq) { data in
+        .then (on: ApiService.bgq) { data in
           let response = try JSONDecoder().decode(CommentsResponse.self, from: data)
           if response.answer == "addComment", let comment = response.comments?.first {
             return Promise(value: comment)
@@ -311,6 +311,40 @@ struct EventsService: EventsServiceProtocol {
     
     
   }
+  
+  
+  static func sendLocation (_ location: CLLocation, token: String) -> (Promise<()>, Cancel) {
+    
+    let setLocationRequest = SetLocationRequest(token: token, filter: ["lat": location.coordinate.latitude, "lon": location.coordinate.longitude])
+    let urlRequest = try! makeURLRequest(parameters: setLocationRequest)
+    
+    let task = Alamofire.request(urlRequest)
+    
+    var canceled = false
+    
+    let cancel = {
+      task.cancel()
+      canceled = true
+    }
+    
+    return (
+      Promise { fulfill, error in
+        task.responseData()
+          .then (on: bgq) { data -> () in
+            let response = try JSONDecoder().decode(DefaultAnswer.self, from: data)
+            if response.answer == setLocationRequest.action {
+              fulfill(())
+            } else {
+              error(EventsServiceError.unexpectedAnswer)
+            }
+          }.catch {
+            if !canceled {
+              error($0)
+            }
+        }
+    }, cancel)
+  }
+
   
   
   enum EventsServiceError: Error {

@@ -8,7 +8,7 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
   var finishFlow: (() -> ())?
 
   private let locationTracker = LocationTracker()
-  private let locationSender = LocationSender(sendLocation: LocationService.sendLocation)
+  private let locationSender = LocationSender(sendLocation: ApiService.sendLocation)
   
   
   init(tabbarView: TabbarView, coordinatorFactory: CoordinatorFactory) {
@@ -70,8 +70,6 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
         let createEventCoordinator = self.coordinatorFactory.makeCreateEventCoordinatorBox(navController: navController)
         createEventCoordinator.finishFlow = { [weak self] created in
           if created {
-//            self?.tabbarView.selectEventsMapFlow()
-            
           } else {
             self?.tabbarView.backToPreviosTab()
           }

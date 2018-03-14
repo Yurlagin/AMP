@@ -362,7 +362,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Modules/Main/Tab Bar/TabbarController.swift"
-            timestampString = "542108755.894558"
+            timestampString = "542689839.01994"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "40"
@@ -378,7 +378,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Modules/Main/Tab Bar/TabbarController.swift"
-            timestampString = "542108755.8947051"
+            timestampString = "542689839.0200011"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "75"
@@ -394,7 +394,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Modules/Main/Tab Bar/TabbarController.swift"
-            timestampString = "542108755.894807"
+            timestampString = "542689839.020051"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "62"
@@ -426,7 +426,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Modules/Main/Events Map/EventsMapViewModel.swift"
-            timestampString = "542085351.623136"
+            timestampString = "542689839.0201221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "66"
@@ -442,7 +442,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Modules/Main/Create Event/CreateEventViewModel.swift"
-            timestampString = "542085351.623294"
+            timestampString = "542689839.020172"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "56"
@@ -490,28 +490,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Services/Events/Requests.swift"
-            timestampString = "542603901.063502"
+            timestampString = "542689839.020221"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "180"
             endingLineNumber = "180"
             landmarkName = "init(from:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "AMP/Flows/Tab bar/TabbarCoordinator.swift"
-            timestampString = "542515479.113349"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
-            landmarkName = "runCreateEventFlow()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -538,7 +522,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Modules/Main/Tab Bar/TabbarController.swift"
-            timestampString = "542108755.895908"
+            timestampString = "542689839.020291"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "69"
@@ -554,7 +538,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Modules/Main/Tab Bar/TabbarController.swift"
-            timestampString = "542108755.896006"
+            timestampString = "542689839.020339"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "35"
@@ -570,7 +554,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Modules/Main/Tab Bar/TabbarController.swift"
-            timestampString = "542108755.896108"
+            timestampString = "542689839.020385"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "89"
@@ -586,7 +570,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Modules/Main/User Profile/UserProfileTableViewController.swift"
-            timestampString = "542633316.642285"
+            timestampString = "542689839.020434"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "74"
@@ -602,11 +586,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Services/Events/EventsService.swift"
-            timestampString = "542603901.0638469"
+            timestampString = "542681091.514179"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "280"
-            endingLineNumber = "280"
+            startingLineNumber = "281"
+            endingLineNumber = "281"
             landmarkName = "uploadAvatar(imageData:request:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -618,7 +602,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Services/Events/EventsService.swift"
-            timestampString = "542603901.063931"
+            timestampString = "542681091.514537"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "282"
@@ -681,7 +665,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Services/Events/EventsService.swift"
-            timestampString = "542603901.064015"
+            timestampString = "542681091.514784"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "287"
@@ -697,43 +681,59 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/Services/Events/EventsService.swift"
-            timestampString = "542603901.0641741"
+            timestampString = "542681091.5150191"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "284"
-            endingLineNumber = "284"
+            startingLineNumber = "285"
+            endingLineNumber = "285"
             landmarkName = "uploadAvatar(imageData:request:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AMP/Services/Events/EventsService.swift"
+            timestampString = "542681091.515254"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "310"
+            endingLineNumber = "310"
+            landmarkName = "sendProfileSettings"
+            landmarkType = "24">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (Alamofire.SessionManager.MultipartFormDataEncodingResult) -&gt; () in closure #1 ((Swift.Array&lt;AMP.AMPFile&gt;) -&gt; (), (Swift.Error) -&gt; ()) throws -&gt; () in static AMP.EventsService.uploadAvatar(imageData: Foundation.Data, request: AMP.AMPUploadRequest) -&gt; PromiseKit.Promise&lt;Swift.Array&lt;AMP.AMPFile&gt;&gt;"
+                  symbolName = "closure #1 (Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Swift.String&gt;, Swift.String) -&gt; PromiseKit.Promise&lt;()&gt; in variable initialization expression of static AMP.EventsService.sendProfileSettings : (Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Swift.String&gt;, Swift.String) -&gt; PromiseKit.Promise&lt;()&gt;"
                   moduleName = "AMP"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/DIMONster/Documents/iOS%20projects/AMP/AMP/Services/Events/EventsService.swift"
-                  timestampString = "542512347.995856"
+                  timestampString = "542680950.64061"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "284"
-                  endingLineNumber = "284"
-                  offsetFromSymbolStart = "670">
+                  startingLineNumber = "310"
+                  endingLineNumber = "310"
+                  offsetFromSymbolStart = "2370">
                </Location>
                <Location
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (Swift.Error) -&gt; () in closure #2 (Alamofire.SessionManager.MultipartFormDataEncodingResult) -&gt; () in closure #1 ((Swift.Array&lt;AMP.AMPFile&gt;) -&gt; (), (Swift.Error) -&gt; ()) throws -&gt; () in static AMP.EventsService.uploadAvatar(imageData: Foundation.Data, request: AMP.AMPUploadRequest) -&gt; PromiseKit.Promise&lt;Swift.Array&lt;AMP.AMPFile&gt;&gt;"
+                  symbolName = "closure #1 (() -&gt; (), (Swift.Error) -&gt; ()) throws -&gt; () in closure #1 (Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Swift.String&gt;, Swift.String) -&gt; PromiseKit.Promise&lt;()&gt; in variable initialization expression of static AMP.EventsService.sendProfileSettings : (Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Swift.String&gt;, Swift.String) -&gt; PromiseKit.Promise&lt;()&gt;"
                   moduleName = "AMP"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/DIMONster/Documents/iOS%20projects/AMP/AMP/Services/Events/EventsService.swift"
-                  timestampString = "542512347.9985009"
+                  timestampString = "542680950.643245"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "284"
-                  endingLineNumber = "284"
-                  offsetFromSymbolStart = "69">
+                  startingLineNumber = "310"
+                  endingLineNumber = "310"
+                  offsetFromSymbolStart = "1394">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -741,17 +741,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "AMP/Services/Events/EventsService.swift"
-            timestampString = "542603901.064333"
+            filePath = "AMP/Modules/Main/User Profile/UserProfileViewModel.swift"
+            timestampString = "542689839.020581"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "310"
-            endingLineNumber = "310"
-            landmarkName = "sendProfileSettings"
-            landmarkType = "24">
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "init(state:sendProfileFunction:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -760,13 +760,61 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "AMP/Modules/Main/User Profile/UserProfileViewModel.swift"
-            timestampString = "542633461.969821"
+            filePath = "AMP/Services/Events/ApiService.swift"
+            timestampString = "542689839.020631"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
-            landmarkName = "init(state:sendProfileFunction:)"
+            startingLineNumber = "342"
+            endingLineNumber = "342"
+            landmarkName = "sendLocation(_:token:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AMP/Services/Events/ApiService.swift"
+            timestampString = "542689839.02068"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "338"
+            endingLineNumber = "338"
+            landmarkName = "sendLocation(_:token:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AMP/CoreComponents/LocationSender.swift"
+            timestampString = "542689839.02073"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "newState(state:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AMP/CoreComponents/LocationSender.swift"
+            timestampString = "542689839.021076"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
+            landmarkName = "newState(state:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

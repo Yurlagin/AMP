@@ -219,6 +219,11 @@ struct SendProfileRequest: Encodable {
 }
 
 
+struct SetLocationRequest: Encodable {
+  let action = "setLocation"
+  let token: String
+  let filter: [String: Double]
+}
 
 
 extension EventListRequest: CustomStringConvertible {

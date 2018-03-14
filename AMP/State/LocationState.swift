@@ -19,9 +19,9 @@ struct LocationState: StateType {
   
 }
 
-enum SendLocationRequest {
+enum SendLocationRequest: Action {
   case none
-  case run(CLLocation)
+  case run(Cancel)
   case error(Error)
-  case success
+  case success(CLLocation)
 }

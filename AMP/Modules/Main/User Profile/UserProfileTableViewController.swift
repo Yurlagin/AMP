@@ -163,7 +163,7 @@ extension UserProfileTableViewController: RSKImageCropViewControllerDelegate {
 extension UserProfileTableViewController: StoreSubscriber {
   
   func newState(state: AppState) {
-    viewModel = UserProfileViewModel(state: state, sendProfileFunction: EventsService.sendProfileSettings)
+    viewModel = UserProfileViewModel(state: state, sendProfileFunction: ApiService.sendProfileSettings)
   }
   
 }

@@ -60,7 +60,7 @@ struct EventsMapViewModel {
         
         let request = EventsMapRequest(filter: filter, token: token)
         
-        EventsService
+        ApiService
           .make(request: request)
           .then {
             store.dispatch(AppendEventsToMap(events: $0))

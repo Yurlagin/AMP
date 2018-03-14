@@ -63,7 +63,7 @@ class EventListTableViewCell: UITableViewCell {
 extension EventListTableViewCell: StoreSubscriber {
   
   func newState(state: LocationState) {
-    guard let userLocation = state.location else { return }
+    guard let userLocation = state.currentlocation else { return }
     let eventLocation = CLLocation(latitude: event.latitude, longitude: event.longitude)
     let distance = eventLocation.distance(from: userLocation) / 1000
     fromMeLabel.text = String(format: "%.1f км.", arguments: [distance])

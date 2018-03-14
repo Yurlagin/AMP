@@ -3,7 +3,7 @@ import ReSwift
 import Firebase
 
 let authSideEffects = injectService(service: AuthService(), receivers: authServiceSideEffects)
-let eventsSideEffects = injectService(service: EventsService(), receivers: eventsServiceSideEffects)
+let eventsSideEffects = injectService(service: ApiService(), receivers: eventsServiceSideEffects)
 
 let middleware = createMiddleware(items: authSideEffects + eventsSideEffects)
 
