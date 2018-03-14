@@ -17,17 +17,22 @@ func authReducer(action: Action, state: AuthState?) -> AuthState {
   case _ as ReSwiftInit:
     break
     
+    
   case _ as RequestAnonimousToken:
     state.loginStatus = .anonimousFlow(.request)
+    
     
   case let action as RequestSmsAction:
     state.loginStatus = .phoneFlow(.requestSms(phone: action.phone))
     
+    
   case let action as RequestTokenAction:
     state.loginStatus = .phoneFlow(.requestToken(code: action.smsCode))
     
+    
   case let action as SetLoginState:
     state.loginStatus = action.state
+    
     
   case _ as Logout:
     if case .loggedIn(let user, let logoutStatus) = state.loginStatus {
@@ -37,6 +42,7 @@ func authReducer(action: Action, state: AuthState?) -> AuthState {
       }
     }
     
+    
   case let action as SetUserProfileRequestStatus:
     if case .success(let userName, let about) = action, let userCredentials = state.loginStatus.getUserCredentials()  {
       var newCredentials = userCredentials
@@ -44,6 +50,22 @@ func authReducer(action: Action, state: AuthState?) -> AuthState {
       newCredentials.about = about
       state.loginStatus = .loggedIn(user: newCredentials, logoutStatus: state.loginStatus.getLogoutStatus()!)
     }
+    
+    
+  case let action as DidRecieveFCMToken:
+    if var newCredentials = state.loginStatus.getUserCredentials() {
+      newCredentials.fcmTokenDelivered = newCredentials.fcmToken == action.token
+      newCredentials.fcmToken = action.token
+      state.loginStatus = .loggedIn(user: newCredentials, logoutStatus: state.loginStatus.getLogoutStatus()!)
+    }
+    
+    
+  case _ as FcmTokenDelivered:
+    if var newCredentials = state.loginStatus.getUserCredentials() {
+      newCredentials.fcmTokenDelivered = true
+      state.loginStatus = .loggedIn(user: newCredentials, logoutStatus: state.loginStatus.getLogoutStatus()!)
+    }
+
     
   default:
     break

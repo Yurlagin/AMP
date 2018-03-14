@@ -226,6 +226,13 @@ struct SetLocationRequest: Encodable {
 }
 
 
+struct SetFirebaseToken: Encodable {
+  let action = "setFirebaseToken"
+  let value: String
+  let token: String
+}
+
+
 extension EventListRequest: CustomStringConvertible {
   
   var description: String {

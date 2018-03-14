@@ -1,6 +1,6 @@
-import UIKit
 import ReSwift
 import Firebase
+import UserNotifications
 
 let authSideEffects = injectService(service: AuthService(), receivers: authServiceSideEffects)
 let eventsSideEffects = injectService(service: ApiService(), receivers: eventsServiceSideEffects)
@@ -28,6 +28,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     FirebaseApp.configure()
+    
+    UNUserNotificationCenter.current().delegate = self
+    UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (_, _) in }
+    application.registerForRemoteNotifications()
+    
+    Messaging.messaging().delegate = self
+    
     let notification = launchOptions?[.remoteNotification] as? [String: AnyObject]
     let deepLink = DeepLinkOption.build(with: notification)
     applicationCoordinator.start(with: deepLink)
@@ -54,5 +61,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let deepLink = DeepLinkOption.build(with: userActivity)
     applicationCoordinator.start(with: deepLink)
     return true
+  }
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+  
+}
+
+extension AppDelegate: MessagingDelegate {
+  
+  func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+    store.dispatch(DidRecieveFCMToken(token: fcmToken))
+  }
+  
+  func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
+//    remoteMessage.appData
   }
 }

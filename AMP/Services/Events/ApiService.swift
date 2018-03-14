@@ -346,6 +346,40 @@ struct ApiService: EventsServiceProtocol {
   }
 
   
+  static func sendFcmToken(_ fcmToken: String, token: String) -> (Promise<()>, Cancel) {
+    
+    let setFcmTokenRequest = SetFirebaseToken(value: fcmToken, token: token)
+    
+    let urlRequest = try! makeURLRequest(parameters: setFcmTokenRequest)
+    
+    let task = Alamofire.request(urlRequest)
+    
+    var canceled = false
+    
+    let cancel = {
+      task.cancel()
+      canceled = true
+    }
+    
+    return (
+      Promise { fulfill, error in
+        task.responseData()
+          .then (on: bgq) { data -> () in
+            let response = try JSONDecoder().decode(DefaultAnswer.self, from: data)
+            if response.answer == setFcmTokenRequest.action {
+              
+              fulfill(())
+            } else {
+              error(EventsServiceError.unexpectedAnswer)
+            }
+          }.catch {
+            if !canceled {
+              error($0)
+            }
+        }
+    }, cancel)
+  }
+  
   
   enum EventsServiceError: Error {
     case unexpectedAnswer

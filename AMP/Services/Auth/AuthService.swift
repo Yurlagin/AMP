@@ -7,7 +7,7 @@
 //
 
 import PromiseKit
-import FirebaseAuth
+import Firebase
 import Locksmith
 
 
@@ -30,6 +30,18 @@ protocol AuthServiceProtocol {
 typealias Cancel = () -> ()
 
 struct AuthService: AuthServiceProtocol {
+
+  private let tokenKey = "token"
+  private let fcmTokenKey = "fcmToken"
+  
+  private let avatarURLKey = "avatarURL"
+  private let emailKey = "email"
+  private let levelKey = "level"
+  private let nameKey = "name"
+  private let phoneKey = "phone"
+  private let aboutKey = "about"
+  private let fcmTokenDeliveredKey = "fcmTokenDelivered"
+
   
   func logout() -> Promise<()> {
     return Promise {  (fulfill, error) in
@@ -42,13 +54,14 @@ struct AuthService: AuthServiceProtocol {
   func store(userCredentials: UserCredentials) -> Promise<UserCredentials> {
     return Promise { (fulfill, error) in
       
-      try Locksmith.updateData(data: ["token": userCredentials.token], forUserAccount: "AMP")
-      UserDefaults.standard.set(userCredentials.avaurl, forKey: "avatarURL")
-      UserDefaults.standard.set(userCredentials.email, forKey: "email")
-      UserDefaults.standard.set(userCredentials.level, forKey: "level")
-      UserDefaults.standard.set(userCredentials.name, forKey: "name")
-      UserDefaults.standard.set(userCredentials.phone, forKey: "phone")
-      UserDefaults.standard.set(userCredentials.about, forKey: "about")
+      try Locksmith.updateData(data: [tokenKey: userCredentials.token], forUserAccount: "AMP")
+      UserDefaults.standard.set(userCredentials.avaurl, forKey: avatarURLKey)
+      UserDefaults.standard.set(userCredentials.email, forKey: emailKey)
+      UserDefaults.standard.set(userCredentials.level, forKey: levelKey)
+      UserDefaults.standard.set(userCredentials.name, forKey: nameKey)
+      UserDefaults.standard.set(userCredentials.phone, forKey: phoneKey)
+      UserDefaults.standard.set(userCredentials.about, forKey: aboutKey)
+      UserDefaults.standard.set(userCredentials.fcmTokenDelivered, forKey: fcmTokenDeliveredKey)
 
       fulfill(userCredentials)
     }
@@ -56,14 +69,18 @@ struct AuthService: AuthServiceProtocol {
   
   
   func loadCredentials() -> UserCredentials? {
-    guard let data = Locksmith.loadDataForUserAccount(userAccount: "AMP"), let token = data["token"] as? String else { return nil }
-    return UserCredentials(phone: UserDefaults.standard.string(forKey: "phone"),
-                           name: UserDefaults.standard.string(forKey: "name"),
-                           email: UserDefaults.standard.string(forKey: "email"),
-                           level: UserDefaults.standard.object(forKey: "level") as? Int ?? 0,
-                           avaurl: UserDefaults.standard.string(forKey: "avatarURL"),
-                           about: UserDefaults.standard.string(forKey: "about"),
-                           token: token)
+    guard let data = Locksmith.loadDataForUserAccount(userAccount: "AMP"), let token = data[tokenKey] as? String else { return nil }
+    let fcmToken = Messaging.messaging().fcmToken
+    
+    return UserCredentials(phone: UserDefaults.standard.string(forKey: phoneKey),
+                           name: UserDefaults.standard.string(forKey: nameKey),
+                           email: UserDefaults.standard.string(forKey: emailKey),
+                           level: UserDefaults.standard.object(forKey: levelKey) as? Int ?? 0,
+                           avaurl: UserDefaults.standard.string(forKey: avatarURLKey),
+                           about: UserDefaults.standard.string(forKey: aboutKey),
+                           token: token,
+                           fcmToken: fcmToken,
+                           fcmTokenDelivered: UserDefaults.standard.bool(forKey: fcmTokenDeliveredKey))
   }
   
   

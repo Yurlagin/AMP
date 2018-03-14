@@ -1,5 +1,6 @@
 
 import ReSwift
+import UserNotifications
 
 fileprivate enum LaunchInstructor {
   case main, auth

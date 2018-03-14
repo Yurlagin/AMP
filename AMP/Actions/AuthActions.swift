@@ -31,3 +31,10 @@ struct UpdateUserProfile: Action {
   let userName: String?
   let about: String?
 }
+
+struct DidRecieveFCMToken: Action {
+  let token: String
+}
+
+
+struct FcmTokenDelivered: Action { }

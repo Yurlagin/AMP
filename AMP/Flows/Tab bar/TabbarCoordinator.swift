@@ -8,7 +8,8 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
   var finishFlow: (() -> ())?
 
   private let locationTracker = LocationTracker()
-  private let locationSender = LocationSender(sendLocation: ApiService.sendLocation)
+  private let locationSender = LocationSender(sendLocation: ApiService.sendLocation,
+                                              sendFcmToken: ApiService.sendFcmToken)
   
   
   init(tabbarView: TabbarView, coordinatorFactory: CoordinatorFactory) {
