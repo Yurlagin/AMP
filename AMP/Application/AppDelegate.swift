@@ -48,6 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     )
   }
   
+  
   //MARK: Handle push notifications and deep links
   func application(_ application: UIApplication,
                    didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
@@ -56,15 +57,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     applicationCoordinator.start(with: deepLink)
   }
   
+  
   func application(_ application: UIApplication, continue userActivity: NSUserActivity,
                    restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
     let deepLink = DeepLinkOption.build(with: userActivity)
     applicationCoordinator.start(with: deepLink)
     return true
   }
+  
+  
+  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    
+    print (userInfo)
+    
+    if let type = userInfo["notitype"] as? String {
+      
+      var id: String?
+      
+      switch type {
+      case "eventcreate": id = userInfo["eventid"] as? String
+      case "commentcreate": id = userInfo["comid"] as? String
+      default: break
+      }
+      
+      if let id = id {
+        let content = UNMutableNotificationContent()
+        content.title = userInfo["title"] as? String ?? ""
+        content.body = userInfo["body"] as? String ?? ""
+        let request = UNNotificationRequest(identifier: type + id, content: content, trigger: UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false))
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+      }
+
+    }
+    completionHandler(.noData)
+  }
+
+  
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
+ 
+  func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    print (notification)
+    completionHandler([.alert])
+  }
   
 }
 
@@ -75,6 +111,7 @@ extension AppDelegate: MessagingDelegate {
   }
   
   func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
+    print (remoteMessage)
 //    remoteMessage.appData
   }
 }

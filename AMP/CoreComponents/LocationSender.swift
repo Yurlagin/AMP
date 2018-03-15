@@ -1,4 +1,4 @@
-//
+
 //  LocationSender.swift
 //  AMP
 //
@@ -64,15 +64,16 @@ class LocationSender: StoreSubscriber {
     self.sendingFcmToken = newFcmToken
     
     sendingPromise
-      .always { [weak self] in
-        self?.sendFcmCancelFunction = nil
-        self?.sendingFcmToken = nil
-      }
       .then { _ -> () in
         UserDefaults.standard.set(true, forKey: "fcmTokenDelivered")
         UserDefaults.standard.synchronize()
         store.dispatch(FcmTokenDelivered())
       }
+      .always { [weak self] in
+        self?.sendFcmCancelFunction = nil
+        self?.sendingFcmToken = nil
+    }
+
   }
   
 

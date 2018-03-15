@@ -22,7 +22,7 @@ struct UserCredentials: Codable {
   var about: String?
   let token: String
   var fcmToken: String?
-  var fcmTokenDelivered: Bool
+  var fcmTokenDelivered: Bool?
 }
 
 struct EventsAnswer: Decodable {

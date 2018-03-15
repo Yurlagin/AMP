@@ -146,8 +146,12 @@ struct AuthService: AuthServiceProtocol {
   private func getFirTokenFor(user: User) -> Promise<String> {
     return Promise(resolvers: { (resolve, error) in
       user.getIDToken(completion: { (token, firError) in
-        if let firError = firError { error(firError) }
-        else { resolve(token!) }
+        if let firError = firError {
+          error(firError)
+        }
+        else {
+          resolve(token!)
+        }
       })
     })
   }
@@ -165,8 +169,9 @@ struct AuthService: AuthServiceProtocol {
   }
   
   func signInAnonymously() -> Promise<UserCredentials> {
-    return firstly {
-      firSignInAnonymously()
+    return
+      firstly {
+        firSignInAnonymously()
       }.then {
         self.getFirTokenFor(user: $0)
       }.then {
