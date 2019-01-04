@@ -1,8 +1,8 @@
 let authServiceSideEffects = [
-  requestSms,
-  logIn
+  AuthMiddleWare.requestSms,
+  AuthMiddleWare.logIn
 ]
 
 let eventsServiceSideEffects = [
-  eventsEffects
+  EventsSideEffects.eventsEffects
 ]

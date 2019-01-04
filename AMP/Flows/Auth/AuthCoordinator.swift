@@ -14,22 +14,10 @@ final class AuthCoordinator: BaseCoordinator, AuthCoordinatorOutput {
     showSighInForm()
   }
   
-  //MARK: - Run current flow's controllers
-  
   private func showSighInForm() {
-    let signInOutput = factory.makeSignInOutput()
-    signInOutput.onComplete = finishFlow
-    router.setRootModule(signInOutput)
+    let (signInView, moduleOutput) = factory.makeSignInOutput()
+    moduleOutput.onComplete = finishFlow
+    router.setRootModule(signInView)
   }
-  
-//  private func showEnterName() {
-//    let enterNameOutput = factory.makeEnterNameOutput()
-//    enterNameOutput.onComplete = { [weak self] firstName, lastName in
-//      guard let weakSelf = self, let storage = weakSelf.storage else { return }
-//      weakSelf.showSendSMSCode(firstName: firstName, lastName: lastName, msisdn: storage.msisdn)
-//    }
-//    router.push(enterNameOutput)
-//  }
-//  
   
 }

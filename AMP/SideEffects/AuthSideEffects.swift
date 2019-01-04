@@ -8,59 +8,62 @@
 
 import ReSwift
 
-func requestSms(authService: AuthServiceProtocol) -> MiddlewareItem {
-  return { (action: Action, dispatch: @escaping DispatchFunction) in
-    
-    switch action {
-      
-    case let action as RequestSmsAction:
+enum AuthMiddleWare {}
 
-      let (promise, _) = authService.getAuthCode(for: action.phone)
+extension AuthMiddleWare {
+  
+  static func requestSms(authService: AuthServiceProtocol) -> MiddlewareItem {
+    return { (action: Action, dispatch: @escaping DispatchFunction) in
       
-      promise
-        .then { dispatch(SetLoginState(.phoneFlow(.smsRequestSuccess(verificationId: $0)))) }
-        .catch { dispatch(SetLoginState(.phoneFlow(.smsRequestFail($0)))) }
-      
-    default:
-      break
+      switch action {
+        
+      case let action as RequestSmsAction:
+        
+        let (authPromise, _) = authService.getAuthCode(for: action.phone)
+        
+        authPromise
+          .then { dispatch(SetLoginState(.phoneFlow(.smsRequestSuccess(verificationId: $0)))) }
+          .catch { dispatch(SetLoginState(.phoneFlow(.smsRequestFail($0)))) }
+        
+      default:
+        break
+      }
     }
   }
-}
-
-
-func logIn(authService: AuthServiceProtocol) -> MiddlewareItem {
-  return { (action: Action, dispatch: @escaping DispatchFunction) in
-   
-    let bgQeue = DispatchQueue.global(qos: .userInitiated)
-
-    switch action {
+  
+  static func logIn(authService: AuthServiceProtocol) -> MiddlewareItem {
+    return { (action: Action, dispatch: @escaping DispatchFunction) in
       
-    case let action as RequestTokenAction:
+      let bgQeue = DispatchQueue.global(qos: .userInitiated)
       
-      authService.login(smsCode: action.smsCode, verificationId: action.verificationId)
-        .then (on: bgQeue) { authService.store(userCredentials: $0) }
-        .then { dispatch(SetLoginState(.loggedIn(user: $0, logoutStatus: .none))) }
-        .catch { dispatch(SetLoginState(.phoneFlow(.requestTokenFail(verificationId: action.verificationId, $0)))) }
-
-    case _ as RequestAnonimousToken:
-      
-      authService.signInAnonymously()
-        .then (on: bgQeue) { authService.store(userCredentials: $0) }
-        .then { dispatch(SetLoginState(.loggedIn(user: $0, logoutStatus: .none))) }
-        .catch { dispatch(SetLoginState(.anonimousFlow(.failed($0)))) }
-      
-    case _ as Logout:
-      
-      authService.logout()
-        .then { dispatch (SetLoginState(.none)) }
-        .catch { dispatch (LogoutErrorAction($0)) }
-      
-    default:
-      break
+      switch action {
+        
+      case let action as RequestTokenAction:
+        
+        authService.login(smsCode: action.smsCode, verificationId: action.verificationId)
+          .then (on: bgQeue) { authService.store(userCredentials: $0) }
+          .then { dispatch(SetLoginState(.loggedIn(user: $0, logoutStatus: .none))) }
+          .catch { dispatch(SetLoginState(.phoneFlow(.requestTokenFail(verificationId: action.verificationId, $0)))) }
+        
+      case _ as RequestAnonimousToken:
+        
+        authService.signInAnonymously()
+          .then (on: bgQeue) { authService.store(userCredentials: $0) }
+          .then { dispatch(SetLoginState(.loggedIn(user: $0, logoutStatus: .none))) }
+          .catch { dispatch(SetLoginState(.anonimousFlow(.fail($0)))) }
+        
+      case _ as Logout:
+        
+        authService.logout()
+          .then { dispatch (SetLoginState(.none)) }
+          .catch { dispatch (LogoutErrorAction($0)) }
+        
+      default:
+        break
+      }
     }
   }
+  
+  
 }
-
-
-
 

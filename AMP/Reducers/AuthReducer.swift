@@ -19,7 +19,7 @@ func authReducer(action: Action, state: AuthState?) -> AuthState {
     
     
   case _ as RequestAnonimousToken:
-    state.loginStatus = .anonimousFlow(.request)
+    state.loginStatus = .anonimousFlow(.loading)
     
     
   case let action as RequestSmsAction:

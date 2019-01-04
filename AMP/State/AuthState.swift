@@ -9,15 +9,13 @@
 import ReSwift
 
 struct AuthState: StateType {
-  
   var loginStatus: LoginStatus
-  
 }
 
 enum LoginStatus {
   case none
   case phoneFlow(PhoneLoginStatus)
-  case anonimousFlow(AnonimousLoginStatus)
+  case anonimousFlow(AnonymousLoginStatus)
   case loggedIn(user: UserCredentials, logoutStatus: LogoutStatus)
   
   enum PhoneLoginStatus {
@@ -28,9 +26,9 @@ enum LoginStatus {
     case requestTokenFail(verificationId: String, Error)
   }
   
-  enum AnonimousLoginStatus {
-    case request
-    case failed(Error)
+  enum AnonymousLoginStatus {
+    case loading
+    case fail(Error)
   }
   
   enum LogoutStatus {

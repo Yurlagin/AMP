@@ -1,25 +1,24 @@
 
 extension SignInViewController {
   
-  struct ViewModel {
+  struct Props {
+    
+    // MARK: state
     
     var isUserInteractionEnabled = true
     var showHud = false
     
     var phoneFormEnabled = false
-    
     var smsFormHidden = true
     var smsFormEnabled = false
-    
+    var isAuthComplete = false
     var phoneButtonEnabled = true // never mutates
     var anonimousButtonEnabled = true // never mutates
-    
-    var phoneButtonTapped: ((String?, String?)->())? = nil
-    var anonimousButtonTapped: (()->())? = nil
-  
     var showAlert: (title: String?, text: String?)?
-    
-    var isAuthComplete = false
+
+    // MARK: interaction
+    var onSingInAttempt: ((_ phone: String?, _ smsCode: String?) -> Void)? = nil
+    var onAnonymousAttempt: (() -> ())? = nil
     
     init (state: AuthState) {
       
@@ -45,7 +44,7 @@ extension SignInViewController {
         break
       }
       
-      phoneButtonTapped = { phone, code in
+      onSingInAttempt = { phone, code in
         store.dispatch { (state, store) in
           if case .none = state.authState.loginStatus {
             return RequestSmsAction(phone: phone!)
@@ -62,13 +61,14 @@ extension SignInViewController {
         }
       }
       
-      anonimousButtonTapped = {
+      onAnonymousAttempt = {
         store.dispatch(RequestAnonimousToken())
       }
       
       if let error = state.loginStatus.currentError() {
         showAlert = (title: "Oops!", text: error.localizedDescription)
       }
+      
     }
   }
 }
@@ -81,7 +81,7 @@ extension LoginStatus {
       case .requestSms, .requestToken: return true
       default: return false
       }
-    } else if case .anonimousFlow(let status) = self, case .request = status {
+    } else if case .anonimousFlow(let status) = self, case .loading = status {
       return true
     }
     return false
@@ -93,7 +93,7 @@ extension LoginStatus {
       case .requestTokenFail(_, let error), .smsRequestFail(let error): return error
       default: return nil
       }
-    } else if case .anonimousFlow(let status) = self, case .failed(let error) = status {
+    } else if case .anonimousFlow(let status) = self, case .fail(let error) = status {
       return error
     }
     return nil

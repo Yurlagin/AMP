@@ -18,3 +18,13 @@ extension UIViewController {
     return controllerInStoryboard(UIStoryboard(name: storyboard.rawValue, bundle: nil), identifier: nameOfClass)
   }
 }
+
+extension UIViewController {
+  
+  func showOkAlert(title: String?, description: String?) {
+    let alert = UIAlertController(title: title, message: description, preferredStyle: .alert)
+    alert.addAction(UIAlertAction(title: "Ok", style: .default))
+    present(alert, animated: true)
+  }
+
+}
