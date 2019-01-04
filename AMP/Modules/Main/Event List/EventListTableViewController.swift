@@ -44,8 +44,8 @@ class EventListTableViewController: UITableViewController, EventListView {
     DispatchQueue.global(qos: .userInitiated).async {
       let changes = diff(old: self.events, new: viewModel.events)
       
-      let insertionsSet = Set(changes.flatMap{$0.insert?.index})
-      let deletionsSet = Set(changes.flatMap{$0.delete?.index})
+      let insertionsSet = Set(changes.compactMap{$0.insert?.index})
+      let deletionsSet = Set(changes.compactMap{$0.delete?.index})
       let reloadsSet = deletionsSet.intersection(insertionsSet)
       
       let insertions = Array(insertionsSet.filter{!reloadsSet.contains($0)}.map{IndexPath(row: $0, section: 0)})
