@@ -23,6 +23,8 @@ protocol SignInViewOutput: class {
 class SignInViewController: UIViewController, SignInViewInput {
   
   private let phoneNumberKit = PhoneNumberKit()
+  private let notificationCenter = NotificationCenter.default
+
   var output: SignInViewOutput!
   
   private var isPropsRendered = false
@@ -41,11 +43,13 @@ class SignInViewController: UIViewController, SignInViewInput {
   @IBOutlet private weak var scrollViewBottomConstraint: NSLayoutConstraint!
   
   @IBAction func nextButtonTapped(_ sender: UIButton) {
-    guard let phone = try? phoneNumberKit.parse(phoneTextField.text ?? "") else { return }
+    guard let phone = try? phoneNumberKit.parse(phoneTextField.text ?? "") else {
+      return
+    }
     props.onSingInAttempt?("+" + String(phone.countryCode) + String(phone.nationalNumber), smsTextField.text!)
   }
   
-  @IBAction func enterAnonimouslyTapped(_ sender: UIButton) {
+  @IBAction func enterAnonymouslyTapped(_ sender: UIButton) {
     props.onAnonymousAttempt?()
   }
 
@@ -57,16 +61,14 @@ class SignInViewController: UIViewController, SignInViewInput {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    setKbInteraction()
     phoneTextField.delegate = self
+    setKbInteraction()
   }
   
   private func setKbInteraction() {
-    NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: .UIKeyboardWillHide, object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: .UIKeyboardWillShow, object: nil)
-    let hideKeyboardGR = UITapGestureRecognizer(target: self, action: #selector(cancelEdit))
-    hideKeyboardGR.cancelsTouchesInView = false
-    view.addGestureRecognizer(hideKeyboardGR)
+    let hidingKeyboardGR = UITapGestureRecognizer(target: self, action: #selector(cancelEdit))
+    hidingKeyboardGR.delegate = self
+    view.addGestureRecognizer(hidingKeyboardGR)
   }
 
   @objc private func cancelEdit() {
@@ -100,11 +102,15 @@ class SignInViewController: UIViewController, SignInViewInput {
     
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
+    notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: .UIKeyboardWillShow, object: nil)
+    notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: .UIKeyboardWillHide, object: nil)
     output.onViewWillAppear()
   }
   
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
+    notificationCenter.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
+    notificationCenter.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
     output.onViewDidDissapear()
   }
   
@@ -142,3 +148,10 @@ extension SignInViewController: UITextFieldDelegate {
 }
 
 extension SignInViewController: SignInView { }
+
+
+extension SignInViewController: UIGestureRecognizerDelegate {
+  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+    return !(touch.view?.isKind(of: UIButton.self) == true)
+  }
+}
