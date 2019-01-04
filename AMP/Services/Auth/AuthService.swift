@@ -124,11 +124,11 @@ struct AuthService: AuthServiceProtocol {
   private func firSmsCodeSignIn(smsCode: String, verificationId: String) -> Promise<User> {
     let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationId, verificationCode: smsCode)
     return Promise { (fulfill, error) in
-      Auth.auth().signIn(with: credential) { (user, firError) in
+      Auth.auth().signInAndRetrieveData(with: credential) { (result, firError) in
         if let firError = firError {
           error(firError)
         } else {
-          fulfill(user!)
+          fulfill(result!.user)
         }
       }
     }
@@ -136,9 +136,9 @@ struct AuthService: AuthServiceProtocol {
   
   private func firSignInAnonymously() -> Promise<User> {
     return Promise(resolvers: { (resolve, error) in
-      Auth.auth().signInAnonymously { (user, authError) in
+      Auth.auth().signInAnonymously { (result, authError) in
         if let authError = authError { error(authError) }
-        else { resolve(user!) }
+        else { resolve(result!.user) }
       }
     })
   }
