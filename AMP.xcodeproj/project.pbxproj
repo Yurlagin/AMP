@@ -29,7 +29,6 @@
 		344EB9D32035C42E009DDC65 /* UINavigationControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344EB9D22035C42E009DDC65 /* UINavigationControllerExtensions.swift */; };
 		345162BC21DF63A800D3130B /* SignInPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345162BB21DF63A800D3130B /* SignInPresenter.swift */; };
 		345162BE21DF85F100D3130B /* SignInModuleOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345162BD21DF85F100D3130B /* SignInModuleOutput.swift */; };
-		34693CE1202B012800E4EE8E /* RLMSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34693CE0202B012800E4EE8E /* RLMSettings.swift */; };
 		34745CB1200593CE00D19835 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34745CB0200593CE00D19835 /* AppDelegate.swift */; };
 		34745CB6200593CE00D19835 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34745CB4200593CE00D19835 /* Main.storyboard */; };
 		34745CB8200593CE00D19835 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34745CB7200593CE00D19835 /* Assets.xcassets */; };
@@ -67,7 +66,6 @@
 		34996F132005B85400D53875 /* AuthCoordinatorOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34996F0E2005B85300D53875 /* AuthCoordinatorOutput.swift */; };
 		34996F142005B85400D53875 /* AuthCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34996F0F2005B85300D53875 /* AuthCoordinator.swift */; };
 		34996F162005B85400D53875 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34996F112005B85400D53875 /* SignInView.swift */; };
-		34996F172005B85400D53875 /* EnterNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34996F122005B85400D53875 /* EnterNameView.swift */; };
 		34996F192005B88700D53875 /* AuthModuleFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34996F182005B88700D53875 /* AuthModuleFactory.swift */; };
 		34996F1B2005B91500D53875 /* ModuleFactoryImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34996F1A2005B91400D53875 /* ModuleFactoryImp.swift */; };
 		34996F222005B9FC00D53875 /* NSObjectExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34996F1D2005B9FC00D53875 /* NSObjectExtensions.swift */; };
@@ -157,7 +155,6 @@
 		344EB9D22035C42E009DDC65 /* UINavigationControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtensions.swift; sourceTree = "<group>"; };
 		345162BB21DF63A800D3130B /* SignInPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInPresenter.swift; sourceTree = "<group>"; };
 		345162BD21DF85F100D3130B /* SignInModuleOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInModuleOutput.swift; sourceTree = "<group>"; };
-		34693CE0202B012800E4EE8E /* RLMSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RLMSettings.swift; sourceTree = "<group>"; };
 		34745CAD200593CE00D19835 /* AMP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AMP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34745CB0200593CE00D19835 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		34745CB5200593CE00D19835 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -197,7 +194,6 @@
 		34996F0E2005B85300D53875 /* AuthCoordinatorOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthCoordinatorOutput.swift; sourceTree = "<group>"; };
 		34996F0F2005B85300D53875 /* AuthCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthCoordinator.swift; sourceTree = "<group>"; };
 		34996F112005B85400D53875 /* SignInView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
-		34996F122005B85400D53875 /* EnterNameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnterNameView.swift; sourceTree = "<group>"; };
 		34996F182005B88700D53875 /* AuthModuleFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthModuleFactory.swift; sourceTree = "<group>"; };
 		34996F1A2005B91400D53875 /* ModuleFactoryImp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModuleFactoryImp.swift; sourceTree = "<group>"; };
 		34996F1D2005B9FC00D53875 /* NSObjectExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSObjectExtensions.swift; sourceTree = "<group>"; };
@@ -345,14 +341,6 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
-		34693CDF202B010500E4EE8E /* Realm Models */ = {
-			isa = PBXGroup;
-			children = (
-				34693CE0202B012800E4EE8E /* RLMSettings.swift */,
-			);
-			path = "Realm Models";
-			sourceTree = "<group>";
-		};
 		34745CA4200593CE00D19835 = {
 			isa = PBXGroup;
 			children = (
@@ -379,7 +367,6 @@
 			children = (
 				3484C292203674FF002F3A10 /* Models */,
 				34EE683320326C50004D2D1A /* Extentions */,
-				34693CDF202B010500E4EE8E /* Realm Models */,
 				34DB65E2202553D5000D3BDC /* AMP.entitlements */,
 				34BFAE3A201C12DB0079D566 /* SideEffects */,
 				34BFAE2F201C068F0079D566 /* Services */,
@@ -583,7 +570,6 @@
 			children = (
 				34996F0F2005B85300D53875 /* AuthCoordinator.swift */,
 				34996F0E2005B85300D53875 /* AuthCoordinatorOutput.swift */,
-				34996F122005B85400D53875 /* EnterNameView.swift */,
 				34996F112005B85400D53875 /* SignInView.swift */,
 			);
 			path = Auth;
@@ -1031,7 +1017,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				34693CE1202B012800E4EE8E /* RLMSettings.swift in Sources */,
 				34996F192005B88700D53875 /* AuthModuleFactory.swift in Sources */,
 				34996EFE2005B36D00D53875 /* Coordinator.swift in Sources */,
 				34763976204A60BE00EB221E /* AddEventTransitioningIn.swift in Sources */,
@@ -1076,7 +1061,6 @@
 				34996EFD2005B36D00D53875 /* BaseView.swift in Sources */,
 				349954D12012C5A8006CFD87 /* StoryboardsEnum.swift in Sources */,
 				34356F8A2012F9A8001EE568 /* CoordinatorFactoryImp.swift in Sources */,
-				34996F172005B85400D53875 /* EnterNameView.swift in Sources */,
 				34DA41E5201DBB4B00DDB0D7 /* EventMapModuleFactory.swift in Sources */,
 				34DA4208201DC3CD00DDB0D7 /* FavouritesCoordinator.swift in Sources */,
 				34763975204A60BE00EB221E /* AddEventTransitioningOut.swift in Sources */,
