@@ -1,6 +1,6 @@
 final class AuthCoordinator: BaseCoordinator, AuthCoordinatorOutput {
   
-  var finishFlow: (() -> ())?
+  var onFinishFlow: (() -> ())?
   
   private let factory: AuthModuleFactory
   private let router: Router
@@ -16,7 +16,7 @@ final class AuthCoordinator: BaseCoordinator, AuthCoordinatorOutput {
   
   private func showSighInForm() {
     let (signInView, moduleOutput) = factory.makeSignInOutput()
-    moduleOutput.onComplete = finishFlow
+    moduleOutput.onComplete = onFinishFlow
     router.setRootModule(signInView)
   }
   

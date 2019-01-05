@@ -57,7 +57,7 @@ final class ApplicationCoordinator: BaseCoordinator {
   
   private func runAuthFlow() {
     let coordinator = coordinatorFactory.makeAuthCoordinatorBox(router: router)
-    coordinator.finishFlow = { [weak self, weak coordinator] in
+    coordinator.onFinishFlow = { [weak self, weak coordinator] in
       self?.removeDependency(coordinator)
       self?.start()
     }
