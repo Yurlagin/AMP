@@ -41,7 +41,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Разрешите доступ к камере для возможности делать снимки и прикреплять их к событиям или комментариям.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>"Разрешите доступ к местоположения, чтобы мы могли отображать события рядом с вами"</string>
+	<string>Разрешите доступ к службе геолокации, чтобы мы могли отображать события рядом с вами</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Разрешите доступ к фото-библиотеке для возможности прикреплять снимки к событиям, комментариям, а так же использовать в качестве аватарки.</string>
 	<key>UIBackgroundModes</key>
@@ -58,6 +58,8 @@
 	</array>
 	<key>UIRequiresFullScreen</key>
 	<true/>
+	<key>BaseURL</key>
+	<string>https://usefulness.club/amp/sitebackend/0</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

@@ -38,7 +38,7 @@ class SignInViewController: UIViewController, SignInViewInput {
   @IBOutlet private weak var smsTextField: UITextField!
   @IBOutlet private weak var nextButton: UIButton!
   @IBOutlet private weak var stackView: UIStackView!
-  @IBOutlet private weak var enterAnonimouslyButton: UIButton!
+  @IBOutlet private weak var enterAnonymouslyButton: UIButton!
   @IBOutlet private weak var scrollView: UIScrollView!
   @IBOutlet private weak var scrollViewBottomConstraint: NSLayoutConstraint!
   
@@ -59,20 +59,14 @@ class SignInViewController: UIViewController, SignInViewInput {
     }
   }
   
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    super.touchesBegan(touches, with: event)
+    view.endEditing(true)
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     phoneTextField.delegate = self
-    setKbInteraction()
-  }
-  
-  private func setKbInteraction() {
-    let hidingKeyboardGR = UITapGestureRecognizer(target: self, action: #selector(cancelEdit))
-    hidingKeyboardGR.delegate = self
-    view.addGestureRecognizer(hidingKeyboardGR)
-  }
-
-  @objc private func cancelEdit() {
-    view.endEditing(true)
   }
   
   private func renderProps() {
@@ -94,7 +88,7 @@ class SignInViewController: UIViewController, SignInViewInput {
     smsLabel.isEnabled = props.smsFormEnabled
     smsTextField.isEnabled = props.smsFormEnabled
     
-    if let alertData = props.showAlert {
+    if let alertData = props.showAlertPrompt {
       showOkAlert(title: alertData.title, description: alertData.text)
     }
     
@@ -148,10 +142,3 @@ extension SignInViewController: UITextFieldDelegate {
 }
 
 extension SignInViewController: SignInView { }
-
-
-extension SignInViewController: UIGestureRecognizerDelegate {
-  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-    return !(touch.view?.isKind(of: UIButton.self) == true)
-  }
-}

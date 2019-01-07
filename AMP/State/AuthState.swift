@@ -15,20 +15,20 @@ struct AuthState: StateType {
 enum LoginStatus {
   case none
   case phoneFlow(PhoneLoginStatus)
-  case anonimousFlow(AnonymousLoginStatus)
+  case anonymousFlow(AnonymousLoginStatus)
   case loggedIn(user: UserCredentials, logoutStatus: LogoutStatus)
   
   enum PhoneLoginStatus {
     case requestSms(phone: String)
-    case smsRequestFail(Error)
+    case smsRequestFail(AuthServiceError)
     case smsRequestSuccess(verificationId: String)
     case requestToken(code: String)
-    case requestTokenFail(verificationId: String, Error)
+    case requestTokenFail(verificationId: String, error: Error)
   }
   
   enum AnonymousLoginStatus {
     case loading
-    case fail(Error)
+    case fail(AuthServiceError)
   }
   
   enum LogoutStatus {

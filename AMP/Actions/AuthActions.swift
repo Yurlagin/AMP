@@ -13,7 +13,7 @@ struct RequestTokenAction: Action {
   let verificationId: String
 }
 
-struct RequestAnonimousToken: Action { }
+struct RequestAnonymousToken: Action { }
 
 struct SetLoginState: Action {
   let state: LoginStatus
