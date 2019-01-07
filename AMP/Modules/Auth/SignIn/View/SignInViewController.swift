@@ -11,72 +11,67 @@ import ReSwift
 import PhoneNumberKit
 import MBProgressHUD
 
-class SignInViewController: UIViewController, SignInView {
+protocol SignInViewInput: class {
+  var props: SignInViewController.Props! { get set }
+}
+
+protocol SignInViewOutput: class {
+  func onViewWillAppear()
+  func onViewDidDissapear()
+}
+
+class SignInViewController: UIViewController, SignInViewInput {
   
-  let phoneNumberKit = PhoneNumberKit()
+  private let phoneNumberKit = PhoneNumberKit()
+  private let notificationCenter = NotificationCenter.default
+
+  var output: SignInViewOutput!
   
-  private var viewModelRendered = false
-  private var firstStart = true
+  private var isPropsRendered = false
+  private var isFirstStart = true
   
-  var viewModel: ViewModel! {
-    didSet {
-      viewModelRendered = false
-      view.setNeedsLayout()
+  private var hud: MBProgressHUD?
+  
+  @IBOutlet private weak var phoneLabel: UILabel!
+  @IBOutlet private weak var phoneTextField: UITextField!
+  @IBOutlet private weak var smsLabel: UILabel!
+  @IBOutlet private weak var smsTextField: UITextField!
+  @IBOutlet private weak var nextButton: UIButton!
+  @IBOutlet private weak var stackView: UIStackView!
+  @IBOutlet private weak var enterAnonymouslyButton: UIButton!
+  @IBOutlet private weak var scrollView: UIScrollView!
+  @IBOutlet private weak var scrollViewBottomConstraint: NSLayoutConstraint!
+  
+  @IBAction func nextButtonTapped(_ sender: UIButton) {
+    guard let phone = try? phoneNumberKit.parse(phoneTextField.text ?? "") else {
+      return
     }
+    props.onSingInAttempt?("+" + String(phone.countryCode) + String(phone.nationalNumber), smsTextField.text!)
+  }
+  
+  @IBAction func enterAnonymouslyTapped(_ sender: UIButton) {
+    props.onAnonymousAttempt?()
+  }
+
+  var props: Props! {
+    didSet {
+      renderProps()
+    }
+  }
+  
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    super.touchesBegan(touches, with: event)
+    view.endEditing(true)
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    setCancelEditGesture()
     phoneTextField.delegate = self
-    NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: .UIKeyboardWillHide, object: nil)
-    NotificationCenter.default.addObserver(self, selector: #selector(adjustForKeyboard), name: .UIKeyboardWillShow, object: nil)
-    nextButton.isExclusiveTouch = true
-
   }
   
-  private func setCancelEditGesture() {
-    let cancelEditGesture = UITapGestureRecognizer(target: self, action: #selector(cancelEdit))
-    cancelEditGesture.cancelsTouchesInView = false
-    view.addGestureRecognizer(cancelEditGesture)
-  }
-  
-  @objc
-  private func cancelEdit() {
-    view.endEditing(true)
-  }
-  
-  @IBOutlet weak var phoneLabel: UILabel!
-  @IBOutlet weak var phoneTextField: UITextField!
-  @IBOutlet weak var smsLabel: UILabel!
-  @IBOutlet weak var smsTextField: UITextField!
-  @IBOutlet weak var nextButton: UIButton!
-  @IBOutlet weak var stackView: UIStackView!
-  @IBOutlet weak var enterAnonimouslyButton: UIButton!
-  @IBOutlet weak var scrollView: UIScrollView!
-  @IBOutlet weak var scrollViewBottomConstraint: NSLayoutConstraint!
-
-  
-  @IBAction func nextButtonTapped(_ sender: UIButton) {
-    let phone = try! phoneNumberKit.parse(phoneTextField.text!)
-    viewModel.phoneButtonTapped?("+" + String(phone.countryCode) + String(phone.nationalNumber), smsTextField.text!)
-  }
+  private func renderProps() {
     
-  @IBAction func enterAnonimouslyTapped(_ sender: UIButton) {
-    viewModel.anonimousButtonTapped?()
-  }
-  
-  var hud: MBProgressHUD?
-  
-  var onComplete: (() -> ())?
-    
-  private func renderViewModel(animated: Bool) {
-    
-    guard !viewModel.isAuthComplete else {
-      onComplete?(); return
-    }
-    
-    if viewModel.showHud {
+    if props.showHud {
       if let hud = hud {
         hud.show(animated: true)
       } else {
@@ -86,81 +81,51 @@ class SignInViewController: UIViewController, SignInView {
       hud.hide(animated: true)
     }
     
-    phoneLabel.isEnabled = viewModel.phoneFormEnabled
-    phoneTextField.isEnabled = viewModel.phoneFormEnabled
-    smsLabel.isHidden = viewModel.smsFormHidden
-    smsTextField.isHidden = viewModel.smsFormHidden
-    smsLabel.isEnabled = viewModel.smsFormEnabled
-    smsTextField.isEnabled = viewModel.smsFormEnabled
+    phoneLabel.isEnabled = props.phoneFormEnabled
+    phoneTextField.isEnabled = props.phoneFormEnabled
+    smsLabel.isHidden = props.smsFormHidden
+    smsTextField.isHidden = props.smsFormHidden
+    smsLabel.isEnabled = props.smsFormEnabled
+    smsTextField.isEnabled = props.smsFormEnabled
     
-    if animated {
-      UIView.animate(withDuration: 0.5) {
-        self.stackView.layoutIfNeeded()
-      }
+    if let alertData = props.showAlertPrompt {
+      showOkAlert(title: alertData.title, description: alertData.text)
     }
     
-    if let alertData = viewModel.showAlert {
-      showErrorAlert(title: alertData.title, description: alertData.text)
-    }
-
   }
-  
-  private func showErrorAlert(title: String?, description: String?) {
-    let alert = UIAlertController(title: title, message: description, preferredStyle: .alert)
-    alert.addAction(UIAlertAction(title: "Ok", style: .default))
-    present(alert, animated: true)
-  }
-  
+    
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    
-    store.subscribe(self) { subcription in
-      subcription.select { $0.authState }
-    }
+    notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: .UIKeyboardWillShow, object: nil)
+    notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: .UIKeyboardWillHide, object: nil)
+    output.onViewWillAppear()
   }
   
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    store.unsubscribe(self)
+  override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    notificationCenter.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
+    notificationCenter.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
+    output.onViewDidDissapear()
   }
   
-  override func viewWillLayoutSubviews() {
-    super.viewWillLayoutSubviews()
-    if viewModelRendered == false {
-      renderViewModel(animated: !firstStart)
-      viewModelRendered = true
-      firstStart = false
-    }
-  }
-  
-  
-  @objc
-  private func adjustForKeyboard(notification: Notification) {
+  @objc private func adjustForKeyboard(notification: Notification) {
     let userInfo = notification.userInfo!
     let kbDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! Double
     let finalKBFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-    let isShowing = notification.name == Notification.Name.UIKeyboardWillShow
+    let isShowing = notification.name == .UIKeyboardWillShow
     scrollViewBottomConstraint.constant = isShowing ? finalKBFrame.height : 0
     UIView.animate(withDuration: kbDuration, animations: {
       self.view.layoutIfNeeded()
     }) { _ in
       if isShowing {
         for textView in [self.phoneTextField, self.smsTextField] {
-          if textView!.isFirstResponder {
+          if textView?.isFirstResponder == true {
             self.scrollView.scrollRectToVisible(textView!.frame, animated: true)
             break
           }
         }
       }
     }
-  }
-  
-}
-
-extension SignInViewController: StoreSubscriber {
-  
-  func newState(state: AuthState) {
-    viewModel = ViewModel(state: state)
   }
   
 }
@@ -176,3 +141,4 @@ extension SignInViewController: UITextFieldDelegate {
   
 }
 
+extension SignInViewController: SignInView { }

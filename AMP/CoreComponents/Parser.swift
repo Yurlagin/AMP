@@ -37,45 +37,31 @@ enum Parser {
   
   static func ampUser(data: Data) -> Promise<UserCredentials> {
     return Promise(resolvers: { (resolve, error) in
-      do {
-        let answer = try JSONDecoder().decode(AmpFirAuthAnswer.self, from: data)
-        if let userCredentials = answer.info {
-          resolve(userCredentials)
-        } else {
-          error(NSError(domain: "Parser", code: 1, userInfo: ["rawData": data]))
-        }
-      } catch let parseError {
-        error(parseError)
+      let answer = try JSONDecoder().decode(AmpFirAuthAnswer.self, from: data)
+      if let userCredentials = answer.info {
+        resolve(userCredentials)
+      } else {
+        error(ApiError.parsingError)
       }
     })
   }
   
-  static func parseData<T: Decodable>(_ data: Data) -> Promise<T> {
-    return Promise(resolvers: { (resolve, error) in
-      do {
-        let decodedStruct = try JSONDecoder().decode(T.self, from: data)
-        resolve(decodedStruct)
-      } catch let parseError {
-        error(parseError)
-      }
-    })
+  static func parse<T: Decodable>(_ data: Data) -> Promise<T> {
+    return Promise { (resolve, error) in
+      let decodedStruct = try JSONDecoder().decode(T.self, from: data)
+      resolve(decodedStruct)
+    }
   }
   
   static func parseEventList(data: Data) -> Promise<[Event]> {
-    return Promise(resolvers: { (resolve, error) in
-      do {
-        let answer = try JSONDecoder().decode(EventsAnswer.self, from: data)
-        if let events = answer.events {
-          resolve(events)
-        } else {
-          error(NSError(domain: "Parser", code: 1, userInfo: ["rawData": data]))
-        }
-      } catch let parseError {
-        error(parseError)
+    return Promise { (resolve, error) in
+      let answer = try JSONDecoder().decode(EventsAnswer.self, from: data)
+      if let events = answer.events {
+        resolve(events)
+      } else {
+        error(ApiError.parsingError)
       }
-    })
-
+    }
   }
-  
   
 }

@@ -10,7 +10,7 @@
 extension AuthState {
   
   static func initFromDefaults() -> AuthState {
-    if let credentials = AuthService().loadCredentials() {
+    if let credentials = AuthStorageImpl().loadCredentials() {
       return AuthState(loginStatus: .loggedIn(user: credentials, logoutStatus: .none))
     }
     return AuthState(loginStatus: .none)

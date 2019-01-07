@@ -1,3 +1,3 @@
 protocol AuthModuleFactory {
-  func makeSignInOutput() -> SignInView
+  func makeSignInOutput() -> (SignInView, SignInModuleOutput)
 }

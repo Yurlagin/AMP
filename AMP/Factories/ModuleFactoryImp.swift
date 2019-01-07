@@ -34,10 +34,11 @@ final class ModuleFactoryImp:
     return SettingsTableViewController.controllerFromStoryboard(.settings)
   }
   
-  func makeSignInOutput() -> SignInView {
+  func makeSignInOutput() -> (SignInView, SignInModuleOutput) {
     let vc = SignInViewController.controllerFromStoryboard(.auth)
-    vc.viewModel = SignInViewController.ViewModel(state: store.state.authState)
-    return vc
+    let presenter = SignInPresenter(view: vc)
+    vc.output = presenter
+    return (vc, presenter)
   }
   
 }

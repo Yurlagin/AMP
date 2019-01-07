@@ -2,7 +2,8 @@ import ReSwift
 import Firebase
 import UserNotifications
 
-let authSideEffects = injectService(service: AuthService(), receivers: authServiceSideEffects)
+let authSideEffects = injectService(service: AuthServiceImpl(authStorage: AuthStorageImpl()),
+                                    receivers: authServiceSideEffects)
 let eventsSideEffects = injectService(service: ApiService(), receivers: eventsServiceSideEffects)
 
 let middleware = createMiddleware(items: authSideEffects + eventsSideEffects)
