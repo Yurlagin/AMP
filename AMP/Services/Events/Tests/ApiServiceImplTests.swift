@@ -1,18 +1,16 @@
 //
-//  EventViewModelTests.swift
+//  ApiServiceImplTests.swift
 //  AMPTests
 //
-//  Created by local admin on 22/02/2018.
-//  Copyright © 2018 Dmitry Yurlagin. All rights reserved.
+//  Created by Dmitry Yurlagin on 15/01/2019.
+//  Copyright © 2019 Dmitry Yurlagin. All rights reserved.
 //
 
 import XCTest
-import CoreLocation
-import ReSwift
 
 @testable import AMP
 
-class EventViewModelTests: XCTestCase {
+class ApiServiceImplTests: XCTestCase {
   
   override func setUp() {
     super.setUp()
@@ -25,8 +23,6 @@ class EventViewModelTests: XCTestCase {
   }
   
   func testExample() {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
   }
   
   func testPerformanceExample() {
@@ -37,3 +33,4 @@ class EventViewModelTests: XCTestCase {
   }
   
 }
+

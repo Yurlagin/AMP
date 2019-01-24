@@ -19,10 +19,13 @@ final class CreateEventCoordinator: BaseCoordinator, CreateEventCoordinatorOutpu
   private func showCreateEventForm() {
     let createEventOutput = factory.makeCreateEventOutput()
     createEventOutput.onCancel = { [weak self] in self?.finishFlow?(false) }
-    createEventOutput.onCreateEvent = { [weak self] in self?.finishFlow?(true) }
+    createEventOutput.onCreateEvent = { [weak self] in self?.showEvent(id: $0) }
     router.setRootModule(createEventOutput)
   }
   
-  
+  private func showEvent(id: EventId) {
+    let eventDetailOutput = factory.makeEventDetailOutput(eventId: id)
+    router.push(eventDetailOutput)
+  }
 }
 

@@ -44,26 +44,26 @@ func authReducer(action: Action, state: AuthState?) -> AuthState {
     
     
   case let action as SetUserProfileRequestStatus:
-    if case .success(let userName, let about) = action, let userCredentials = state.loginStatus.getUserCredentials()  {
+    if case .success(let userName, let about) = action, let userCredentials = state.loginStatus.userCredentials  {
       var newCredentials = userCredentials
       newCredentials.name = userName
       newCredentials.about = about
-      state.loginStatus = .loggedIn(user: newCredentials, logoutStatus: state.loginStatus.getLogoutStatus()!)
+      state.loginStatus = .loggedIn(user: newCredentials, logoutStatus: state.loginStatus.logoutStatus!)
     }
     
     
   case let action as DidRecieveFCMToken:
-    if var newCredentials = state.loginStatus.getUserCredentials() {
+    if var newCredentials = state.loginStatus.userCredentials {
       newCredentials.fcmTokenDelivered = newCredentials.fcmToken == action.token
       newCredentials.fcmToken = action.token
-      state.loginStatus = .loggedIn(user: newCredentials, logoutStatus: state.loginStatus.getLogoutStatus()!)
+      state.loginStatus = .loggedIn(user: newCredentials, logoutStatus: state.loginStatus.logoutStatus!)
     }
     
     
   case is FcmTokenDelivered:
-    if var newCredentials = state.loginStatus.getUserCredentials() {
+    if var newCredentials = state.loginStatus.userCredentials {
       newCredentials.fcmTokenDelivered = true
-      state.loginStatus = .loggedIn(user: newCredentials, logoutStatus: state.loginStatus.getLogoutStatus()!)
+      state.loginStatus = .loggedIn(user: newCredentials, logoutStatus: state.loginStatus.logoutStatus!)
     }
 
     

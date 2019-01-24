@@ -1,6 +1,11 @@
 PODS:
   - Alamofire (4.8.0)
-  - DeepDiff (1.3.0)
+  - DifferenceKit (0.8.0):
+    - DifferenceKit/Core (= 0.8.0)
+    - DifferenceKit/UIKitExtension (= 0.8.0)
+  - DifferenceKit/Core (0.8.0)
+  - DifferenceKit/UIKitExtension (0.8.0):
+    - DifferenceKit/Core
   - Firebase (5.15.0):
     - Firebase/Core (= 5.15.0)
   - Firebase/Auth (5.15.0):
@@ -101,9 +106,10 @@ PODS:
   - Protobuf (3.6.1)
   - ReSwift (4.0.1)
   - RSKImageCropper (2.2.1)
+  - TableKit (2.8.0)
 
 DEPENDENCIES:
-  - DeepDiff
+  - DifferenceKit
   - Firebase
   - Firebase/Auth
   - Firebase/Core
@@ -117,11 +123,12 @@ DEPENDENCIES:
   - PromiseKit/CoreLocation
   - ReSwift
   - RSKImageCropper
+  - TableKit
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
-    - DeepDiff
+    - DifferenceKit
     - Firebase
     - FirebaseAnalytics
     - FirebaseAnalyticsInterop
@@ -142,10 +149,11 @@ SPEC REPOS:
     - Protobuf
     - ReSwift
     - RSKImageCropper
+    - TableKit
 
 SPEC CHECKSUMS:
   Alamofire: 3ec537f71edc9804815215393ae2b1a8ea33a844
-  DeepDiff: 0d52be4ac0822b38f1ce1ad1514c841d7166a67b
+  DifferenceKit: edcc9da33f545a49a70eefcf1a5327162cb72eb8
   Firebase: 8bb9268bff82374f2cbaaabb143e725743c316ae
   FirebaseAnalytics: c06f9d70577d79074214700a71fd5d39de5550fb
   FirebaseAnalyticsInterop: e5f21be9af6548372e2f0815834ff909bff395a2
@@ -166,7 +174,8 @@ SPEC CHECKSUMS:
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   ReSwift: f4012c613e13da7398827fe5aebdb938eaed40a3
   RSKImageCropper: 98296ad26b41753f796b6898d015509598f13d97
+  TableKit: d635663343d00e209f258e35d4ee0072ad1beb1a
 
-PODFILE CHECKSUM: e7d067bbc0de9af324bc6fbdc0415b388685feee
+PODFILE CHECKSUM: 0d38072d6be6e0539e0581729c42b395d94f1f22
 
 COCOAPODS: 1.5.3

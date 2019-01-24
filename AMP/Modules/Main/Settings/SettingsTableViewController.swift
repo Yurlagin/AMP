@@ -115,7 +115,7 @@ struct SettingsViewModel {
   let about: String?
   
   init? (state: AppState) {
-    guard let user = state.authState.loginStatus.getUserCredentials() else { return nil }
+    guard let user = state.authState.loginStatus.userCredentials else { return nil }
     avatarURL = user.avaurl
     userName = user.name
     about = user.about    
@@ -125,17 +125,16 @@ struct SettingsViewModel {
 
 extension LoginStatus {
   
-  func getLoginData() -> (UserCredentials, LogoutStatus)? {
+  private func getLoginData() -> (UserCredentials, LogoutStatus)? {
     guard case .loggedIn(let user, let logoutStatus) = self else { return nil }
     return (user, logoutStatus)
-
   }
   
-  func getUserCredentials() -> UserCredentials? {
+  var userCredentials: UserCredentials? {
     return getLoginData()?.0
   }
   
-  func getLogoutStatus() -> LogoutStatus? {
+  var logoutStatus: LogoutStatus? {
     return getLoginData()?.1
   }
   

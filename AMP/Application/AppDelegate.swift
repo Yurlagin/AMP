@@ -4,7 +4,7 @@ import UserNotifications
 
 let authSideEffects = injectService(service: AuthServiceImpl(authStorage: AuthStorageImpl()),
                                     receivers: authServiceSideEffects)
-let eventsSideEffects = injectService(service: ApiService(), receivers: eventsServiceSideEffects)
+let eventsSideEffects = injectService(service: ApiServiceImpl(), receivers: eventsServiceSideEffects)
 
 let middleware = createMiddleware(items: authSideEffects + eventsSideEffects)
 
@@ -24,7 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
   
   private lazy var applicationCoordinator: Coordinator = self.makeCoordinator()
-  
   
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -49,8 +48,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     )
   }
   
+  // MARK: - Handle push notifications and deep links
   
-  //MARK: Handle push notifications and deep links
   func application(_ application: UIApplication,
                    didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
     let dict = userInfo as? [String: AnyObject]
@@ -65,7 +64,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     applicationCoordinator.start(with: deepLink)
     return true
   }
-  
   
   func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
     
@@ -92,8 +90,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     completionHandler(.noData)
   }
-
-  
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {

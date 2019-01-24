@@ -93,13 +93,13 @@ struct LikeEventRequest: Encodable {
 
 struct LikeCommentRequest: Encodable {
   let token: String
-  let action: RequestType
+  let action: CommentLikeAction
   let id: Int
-  
-  enum RequestType: String, Encodable {
-    case addLikeComment
-    case removeLikeComment
-  }
+}
+
+enum CommentLikeAction: String, Encodable {
+  case addLikeComment
+  case removeLikeComment
 }
 
 
@@ -134,10 +134,38 @@ struct EventRequest: Codable {
 }
 
 
-struct CommentsResponse: Codable {
+struct CommentsResponse: Decodable {
   let answer: String
   let comments: [Comment]?
-  let replyedComments: [Comment]?
+  
+  enum CodingKeys: String, CodingKey {
+    case answer
+    case comments
+    case replyedComments
+  }
+  
+  init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    let comments = try container.decodeIfPresent([Comment].self, forKey: .comments)
+    let replyedComments = try container.decodeIfPresent([Comment].self, forKey: .replyedComments)
+    let allCommentsDict = ((comments ?? []) + (replyedComments ?? []))
+      .reduce([CommentId: Comment]()) { (commentDict, comment) in
+        var newCommentDict = commentDict
+        newCommentDict[comment.id] = comment
+        return newCommentDict
+    }
+    
+    self.answer = try container.decode(String.self, forKey: .answer)
+    self.comments = comments?.compactMap({ (comment) in
+      if let quoteId = comment.replyToId, let repliedComment = allCommentsDict[quoteId] {
+        var commentWithQuote = comment
+        commentWithQuote.quote = CommentQuote(userName: repliedComment.userName ?? "Без имени", message: repliedComment.message ?? "")
+        return commentWithQuote
+      } else {
+        return comment
+      }
+    })
+  }
 }
 
 

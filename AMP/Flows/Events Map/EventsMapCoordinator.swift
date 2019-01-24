@@ -19,22 +19,16 @@ final class EventsMapCoordinator: BaseCoordinator {
   
   private func showEventsMap() {
     let eventsMapOutput = factory.makeEventMapOutput()
-    eventsMapOutput.onSelectItem = { [weak self] eventId in
-      self?.showEventDetails(eventId: eventId)
+    eventsMapOutput.onSelect = { [weak self] eventId in
+      self?.showEventDetails(id: eventId)
     }
     router.setRootModule(eventsMapOutput)
   }
   
-  
-  private func showEventDetails(eventId: EventId) {
-    let screenId = UUID().uuidString
-    let vcOutput = factory.makeEventDetailOutput(eventId: eventId, screenId: screenId)
-    store.dispatch(CreateCommentsScreen(screenId: screenId, eventId: eventId))
-    vcOutput.eventId = eventId
-    vcOutput.screenId = screenId
-    store.dispatch(CreateCommentsScreen(screenId: screenId, eventId: eventId))
-    router.push(vcOutput)
+  private func showEventDetails(id: EventId, showKeyboard: Bool = true) {
+    let eventVcOutput = factory.makeEventDetailOutput(eventId: id)
+    router.push(eventVcOutput)
   }
-    
+
 }
 

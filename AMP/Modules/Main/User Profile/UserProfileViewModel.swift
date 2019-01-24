@@ -23,19 +23,20 @@ struct UserProfileViewModel {
   private let sendProfileFunction: (String?, String?, String) -> Promise<()>
   
   init? (state: AppState, sendProfileFunction: @escaping (String?, String?, String) -> Promise<()>) {
-    guard let user = state.authState.loginStatus.getUserCredentials() else { return nil }
+    guard let user = state.authState.loginStatus.userCredentials else { return nil }
    
     self.sendProfileFunction = sendProfileFunction
     avatarURL = user.avaurl
     userName = user.name
     about = user.about
     canEditProfile = user.level >= 5
-    showHud = state.apiRequestsState.setUserProfileSettingsRequest.isRunningRequest()
+    fatalError("implement me")
+//    showHud = state.apiRequestsState.setUserProfileSettingsRequest.isRunningRequest()
     
     
     didTapLogout = {
       store.dispatch { (state, store) in
-        guard let logoutStatus = state.authState.loginStatus.getLogoutStatus() else { return nil }
+        guard let logoutStatus = state.authState.loginStatus.logoutStatus else { return nil }
         switch logoutStatus {
         case .error, .none: return Logout()
         case .request: return nil
@@ -46,8 +47,8 @@ struct UserProfileViewModel {
     
     didSelectAvatar = { imageData in
       store.dispatch { (state, store) in
-        guard let token = state.authState.loginStatus.getUserCredentials()?.token else { return nil }
-        ApiService.uploadAvatar(imageData: imageData, request: AMPUploadRequest(token: token))
+        guard let token = state.authState.loginStatus.userCredentials?.token else { return nil }
+        ApiServiceImpl().uploadAvatar(imageData: imageData, request: AMPUploadRequest(token: token))
           .then {
             print ($0)
           }.catch {
@@ -59,16 +60,17 @@ struct UserProfileViewModel {
     
     
     didPressDoneButton = { userName, about in
-      store.dispatch { state, store in
-        guard let token = state.authState.loginStatus.getUserCredentials()?.token, !state.apiRequestsState.setUserProfileSettingsRequest.isRunningRequest() else { return nil }
-        sendProfileFunction(userName, about, token)
-          .then {
-            store.dispatch(SetUserProfileRequestStatus.success(userName, about))
-          }.catch {
-            store.dispatch(SetUserProfileRequestStatus.error($0))
-        }
-        return SetUserProfileRequestStatus.request
-      }
+      fatalError("implement me")
+//      store.dispatch { state, store in
+//        guard let token = state.authState.loginStatus.userCredentials?.token, !state.apiRequestsState.setUserProfileSettingsRequest.isRunningRequest() else { return nil }
+//        sendProfileFunction(userName, about, token)
+//          .then {
+//            store.dispatch(SetUserProfileRequestStatus.success(userName, about))
+//          }.catch {
+//            store.dispatch(SetUserProfileRequestStatus.error($0))
+//        }
+//        return SetUserProfileRequestStatus.request
+//      }
     }
   }
   

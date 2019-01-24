@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="167" id="Fx0-Qx-441" customClass="EventListCell" customModule="AMP" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="533" height="167"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Fx0-Qx-441" id="0Ms-9g-sP6">
+                <rect key="frame" x="0.0" y="0.0" width="533" height="166.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="760" text="4.3 км" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dbC-qr-GgN">
+                        <rect key="frame" x="473" y="31" width="40" height="16"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23:12" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BXB-Km-V1e">
+                        <rect key="frame" x="479.5" y="15" width="33.5" height="16"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Октябрьская улица, 5" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pc8-Vi-HCx">
+                        <rect key="frame" x="64" y="31" width="137" height="16"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label contentMode="left" horizontalHuggingPriority="220" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Dmitry Yurlagin" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="89s-JA-cx3">
+                        <rect key="frame" x="64" y="11" width="124" height="20"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ulN-Nu-3Ea">
+                        <rect key="frame" x="20" y="11" width="36" height="36"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="36" id="CRE-SI-SeQ"/>
+                            <constraint firstAttribute="width" secondItem="ulN-Nu-3Ea" secondAttribute="height" multiplier="1:1" id="Wzz-MZ-9zU"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" alpha="0.64999997615814209" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="GPS Device-64" translatesAutoresizingMaskIntoConstraints="NO" id="ZBb-mb-1T6">
+                        <rect key="frame" x="455" y="31" width="16" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="ZBb-mb-1T6" secondAttribute="height" multiplier="1:1" id="SlU-eB-Mv2"/>
+                            <constraint firstAttribute="height" constant="16" id="cMc-y4-Oor"/>
+                        </constraints>
+                    </imageView>
+                    <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tnw-r9-S1d">
+                        <rect key="frame" x="88.5" y="118.5" width="68" height="50"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="0.35471960619999998" colorSpace="calibratedRGB"/>
+                        <inset key="titleEdgeInsets" minX="6" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <state key="normal" title="25" image="Like-50">
+                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                        </state>
+                        <state key="highlighted" image="Like Filled-50"/>
+                        <connections>
+                            <action selector="likePressed:" destination="Fx0-Qx-441" eventType="touchUpInside" id="i7C-v3-y4c"/>
+                        </connections>
+                    </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vLN-nd-j5Z" userLabel="Bottom Separator">
+                        <rect key="frame" x="20" y="121.5" width="493" height="1"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="XwS-v5-z2y"/>
+                        </constraints>
+                    </view>
+                    <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gIf-97-SSo">
+                        <rect key="frame" x="236.5" y="131" width="60" height="25"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="25" id="hNw-oP-1tI"/>
+                        </constraints>
+                        <color key="tintColor" white="0.0" alpha="0.3478970462" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <inset key="titleEdgeInsets" minX="6" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <state key="normal" title="4" image="Dislike-50">
+                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                        </state>
+                        <state key="highlighted" image="Dislike Filled-50"/>
+                        <connections>
+                            <action selector="dislikePressed:" destination="Fx0-Qx-441" eventType="touchUpInside" id="FZq-aD-SoL"/>
+                        </connections>
+                    </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qms-p0-KtJ" userLabel="Title Separator">
+                        <rect key="frame" x="20" y="55" width="493" height="1"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="9GN-27-aP8"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ahq-qu-FQk">
+                        <rect key="frame" x="20" y="64" width="493" height="49.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9j5-TB-7Ts">
+                        <rect key="frame" x="376.5" y="118.5" width="64" height="50"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" red="0.64705882349999999" green="1" blue="0.59607843140000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <inset key="titleEdgeInsets" minX="6" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <state key="normal" title="11" image="Comments-50">
+                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                        </state>
+                        <state key="highlighted" image="Comments Filled-50"/>
+                        <connections>
+                            <action selector="commentPressed:" destination="Fx0-Qx-441" eventType="touchUpInside" id="dED-KQ-Jmk"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="BXB-Km-V1e" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="89s-JA-cx3" secondAttribute="trailing" constant="8" symbolic="YES" id="3bA-YU-tYZ"/>
+                    <constraint firstItem="qms-p0-KtJ" firstAttribute="top" secondItem="0Ms-9g-sP6" secondAttribute="top" constant="55" id="6i6-Mo-Zsl"/>
+                    <constraint firstItem="ulN-Nu-3Ea" firstAttribute="leading" secondItem="0Ms-9g-sP6" secondAttribute="leadingMargin" id="6mm-U8-BKF"/>
+                    <constraint firstItem="89s-JA-cx3" firstAttribute="top" secondItem="ulN-Nu-3Ea" secondAttribute="top" id="788-FT-GxY"/>
+                    <constraint firstItem="vLN-nd-j5Z" firstAttribute="top" secondItem="ahq-qu-FQk" secondAttribute="bottom" constant="8" symbolic="YES" id="7Ec-Jf-HRl"/>
+                    <constraint firstItem="ZBb-mb-1T6" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="pc8-Vi-HCx" secondAttribute="trailing" constant="8" symbolic="YES" id="7qy-HX-7SC"/>
+                    <constraint firstItem="qms-p0-KtJ" firstAttribute="centerX" secondItem="0Ms-9g-sP6" secondAttribute="centerX" id="8Vi-hW-urF"/>
+                    <constraint firstItem="gIf-97-SSo" firstAttribute="centerX" secondItem="vLN-nd-j5Z" secondAttribute="centerX" id="Eqp-Dh-i58"/>
+                    <constraint firstItem="dbC-qr-GgN" firstAttribute="firstBaseline" secondItem="pc8-Vi-HCx" secondAttribute="firstBaseline" id="GxO-5c-HFT"/>
+                    <constraint firstItem="vLN-nd-j5Z" firstAttribute="width" secondItem="qms-p0-KtJ" secondAttribute="width" id="IjA-gH-UAi"/>
+                    <constraint firstItem="ahq-qu-FQk" firstAttribute="leading" secondItem="0Ms-9g-sP6" secondAttribute="leadingMargin" id="Ojd-X1-xdW"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="BXB-Km-V1e" secondAttribute="trailing" id="Pyf-NJ-d6o"/>
+                    <constraint firstItem="pc8-Vi-HCx" firstAttribute="leading" secondItem="89s-JA-cx3" secondAttribute="leading" id="Rpc-D6-ShW"/>
+                    <constraint firstItem="89s-JA-cx3" firstAttribute="leading" secondItem="ulN-Nu-3Ea" secondAttribute="trailing" constant="8" id="TR4-Pi-dQV"/>
+                    <constraint firstItem="qms-p0-KtJ" firstAttribute="width" secondItem="0Ms-9g-sP6" secondAttribute="width" constant="-40" id="Uo1-H6-RZG"/>
+                    <constraint firstItem="vLN-nd-j5Z" firstAttribute="centerX" secondItem="qms-p0-KtJ" secondAttribute="centerX" id="WS4-GE-Cuy"/>
+                    <constraint firstItem="gIf-97-SSo" firstAttribute="top" secondItem="vLN-nd-j5Z" secondAttribute="bottom" constant="8.5" id="Xaw-6y-dUe"/>
+                    <constraint firstItem="ulN-Nu-3Ea" firstAttribute="top" secondItem="0Ms-9g-sP6" secondAttribute="topMargin" id="Xta-F8-39B"/>
+                    <constraint firstItem="gIf-97-SSo" firstAttribute="leading" secondItem="tnw-r9-S1d" secondAttribute="trailing" constant="80" id="f6A-EQ-YBM"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="ahq-qu-FQk" secondAttribute="trailing" id="gBk-g2-khY"/>
+                    <constraint firstItem="dbC-qr-GgN" firstAttribute="leading" secondItem="ZBb-mb-1T6" secondAttribute="trailing" constant="2" id="hrq-D2-Epz"/>
+                    <constraint firstItem="dbC-qr-GgN" firstAttribute="trailing" secondItem="BXB-Km-V1e" secondAttribute="trailing" id="iRn-DU-ZTW"/>
+                    <constraint firstItem="ahq-qu-FQk" firstAttribute="top" secondItem="qms-p0-KtJ" secondAttribute="bottom" constant="8" symbolic="YES" id="jdM-vi-ykh"/>
+                    <constraint firstAttribute="bottom" secondItem="vLN-nd-j5Z" secondAttribute="bottom" constant="44" id="lJL-cG-2cj"/>
+                    <constraint firstItem="BXB-Km-V1e" firstAttribute="bottom" secondItem="89s-JA-cx3" secondAttribute="bottom" id="mCJ-qu-ytm"/>
+                    <constraint firstItem="9j5-TB-7Ts" firstAttribute="centerY" secondItem="gIf-97-SSo" secondAttribute="centerY" id="omx-ce-fdx"/>
+                    <constraint firstItem="9j5-TB-7Ts" firstAttribute="leading" secondItem="gIf-97-SSo" secondAttribute="trailing" constant="80" id="p9F-6R-X7y"/>
+                    <constraint firstItem="pc8-Vi-HCx" firstAttribute="bottom" secondItem="ulN-Nu-3Ea" secondAttribute="bottom" id="sEK-hp-644"/>
+                    <constraint firstItem="dbC-qr-GgN" firstAttribute="centerY" secondItem="ZBb-mb-1T6" secondAttribute="centerY" id="sQy-sN-F90"/>
+                    <constraint firstItem="tnw-r9-S1d" firstAttribute="centerY" secondItem="gIf-97-SSo" secondAttribute="centerY" id="ugm-FT-LRu"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="addressLabel" destination="pc8-Vi-HCx" id="kiL-cV-4Kz"/>
+                <outlet property="avatarImageView" destination="ulN-Nu-3Ea" id="3NI-px-Rvg"/>
+                <outlet property="commentsButton" destination="9j5-TB-7Ts" id="f22-lU-8or"/>
+                <outlet property="createdLabel" destination="BXB-Km-V1e" id="ygi-8V-biI"/>
+                <outlet property="dislikesButton" destination="gIf-97-SSo" id="Ltb-Zd-vWA"/>
+                <outlet property="fromMeLabel" destination="dbC-qr-GgN" id="bxf-Td-Nq6"/>
+                <outlet property="likesButton" destination="tnw-r9-S1d" id="1g9-8H-pDz"/>
+                <outlet property="messageLabel" destination="ahq-qu-FQk" id="Qma-ge-xzj"/>
+                <outlet property="userNameLabel" destination="89s-JA-cx3" id="sTa-fF-ByN"/>
+            </connections>
+            <point key="canvasLocation" x="148" y="36.431784107946029"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="Comments Filled-50" width="50" height="50"/>
+        <image name="Comments-50" width="50" height="50"/>
+        <image name="Dislike Filled-50" width="50" height="50"/>
+        <image name="Dislike-50" width="50" height="50"/>
+        <image name="GPS Device-64" width="48" height="48"/>
+        <image name="Like Filled-50" width="50" height="50"/>
+        <image name="Like-50" width="50" height="50"/>
+    </resources>
+</document>

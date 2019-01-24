@@ -8,17 +8,21 @@ final class ModuleFactoryImp:
 {
   
   func makeEventListOutput() -> EventListView {
-    return EventListTableViewController.controllerFromStoryboard(.list)
+    let eventListVc = EventListViewController()
+    let eventListPresenter = EventListPresenter(view: eventListVc)
+    eventListVc.output = eventListPresenter
+    return eventListVc
   }
   
   func makeEventMapOutput() -> EventMapView {
     return EventsMapViewController.controllerFromStoryboard(.map)
   }
   
-  func makeEventDetailOutput(eventId: EventId, screenId: ScreenId) -> EventDetailsView {
-    let vc = EventDetailsViewController.controllerFromStoryboard(.list)
-    vc.eventId = eventId
-    vc.screenId = screenId
+  func makeEventDetailOutput(eventId: EventId) -> EventDetailsView {
+    let vc = EventViewController()
+    vc.hidesBottomBarWhenPushed = true
+    let presenter = EventPresenter(view: vc, eventId: eventId)
+    vc.output = presenter
     return vc
   }
   

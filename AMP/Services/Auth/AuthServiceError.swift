@@ -28,7 +28,7 @@ enum AuthServiceError: Error {
       default: self = .other
       }
     } else if let apiError = error as? ApiError {
-      if apiError == .noNetwork {
+      if case .network = apiError  {
         self = .noNetwork
       } else {
         self = .other

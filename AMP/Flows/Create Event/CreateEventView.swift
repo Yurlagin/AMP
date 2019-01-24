@@ -9,6 +9,6 @@
 import Foundation
 
 protocol CreateEventView: BaseView {
-  var onCreateEvent: (() -> ())? { get set }
-  var onCancel: (() -> ())? { get set }
+  var onCreateEvent: ((EventId) -> Void)? { get set }
+  var onCancel: (() -> Void)? { get set }
 }

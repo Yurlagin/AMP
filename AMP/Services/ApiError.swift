@@ -10,6 +10,6 @@ import Foundation
 
 enum ApiError: Error {
   case noBaseURL
-  case noNetwork
-  case parsingError
+  case network(underlyingError: Error) 
+  case parsingError(underlyingError: Error?)
 }

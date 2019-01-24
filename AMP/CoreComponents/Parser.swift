@@ -41,7 +41,7 @@ enum Parser {
       if let userCredentials = answer.info {
         resolve(userCredentials)
       } else {
-        error(ApiError.parsingError)
+        error(ApiError.parsingError(underlyingError: nil))
       }
     })
   }
@@ -59,7 +59,7 @@ enum Parser {
       if let events = answer.events {
         resolve(events)
       } else {
-        error(ApiError.parsingError)
+        error(ApiError.parsingError(underlyingError: nil))
       }
     }
   }

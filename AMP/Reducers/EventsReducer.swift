@@ -11,290 +11,216 @@ import CoreLocation
 
 func eventsReducer(action: Action, state: EventsState?) -> EventsState {
   
-  var state = state ?? EventsState(list: nil, mapEvents: [], shouldShowEvent: nil, isEndOfListReached: false, settings: EventsState.Settings(), eventScreens: [:], listRequest: .none)
+  var state = state ?? EventsState(allEvents: [:], eventListStatus: .none, settings: EventsState.Settings())
   
-  func updateEventCounters(fromNewEvent event: Event) {
-    if let index = state.list?.events.index(of: event) {
-      var oldEvent = state.list!.events[index]
-      oldEvent.like = event.like
-      oldEvent.likes = event.likes
-      oldEvent.dislike = event.dislike
-      oldEvent.dislikes = event.dislikes
-      oldEvent.commentsCount = event.commentsCount
-      state.list!.events[index] = oldEvent
+  func addOrReplace(newEvents: [Event]) {
+    newEvents.forEach { event in
+      if let _ = state.allEvents[event.id] {
+        state.allEvents[event.id]?.event = event
+      } else {
+        state.allEvents[event.id] = EventState(event: event)
+      }
     }
-    
-    if let index = state.mapEvents.index(of: event) {
-      var newEvent = state.mapEvents[index]
-      newEvent.like = event.like
-      newEvent.likes = event.likes
-      newEvent.dislike = event.dislike
-      newEvent.dislikes = event.dislikes
-      newEvent.commentsCount = event.commentsCount
-      state.mapEvents[index] = newEvent
-    }
-
   }
   
+  func invertLike(eventId: EventId) {
+    guard var event = state.getEventBy(id: eventId) else {
+      assertionFailure("We shouldn't be here")
+      return
+    }
+    event.like = !event.like
+    event.likes += event.like ? 1 : -1
+    addOrReplace(newEvents: [event])
+  }
+  
+  func invertDislike(eventId: EventId) {
+    guard var event = state.getEventBy(id: eventId) else {
+      assertionFailure("We shouldn't be here")
+      return
+    }
+    event.dislike = !event.dislike
+    event.dislikes += event.dislike ? 1 : -1
+    addOrReplace(newEvents: [event])
+  }
+  
+  
   switch action {
-    
   case _ as ReSwiftInit:
     break
     
+    // MARK: - Events
     
-  case let action as SetEventListRequestStatus:
-    state.listRequest = action.status
+  case is LoadEventList:
+    if var eventList = state.eventList {
+      eventList.updatingStatus = .refreshing
+    } else {
+      state.eventListStatus = .loading
+    }
     
+  case is LoadMoreEvents:
+    guard var eventList = state.eventList else {
+      assertionFailure("We should not be here")
+      break
+    }
+    eventList.updatingStatus = .loadMore
+    state.eventListStatus = .done(eventList)
     
   case let action as RefreshEventsList:
-    state.list = (action.location, action.events)
-    state.listRequest = .none
-    state.isEndOfListReached = action.events.count < state.settings.pageLimit
-    
+    addOrReplace(newEvents: action.events)
+    state.eventListStatus = .done (
+      EventsState.EventList (
+        location: action.location,
+        eventIds: Set(action.events.map{$0.id}),
+        hasMore: action.events.count <= state.settings.pageLimit,
+        updatingStatus: .none
+      )
+    )
     
   case let action as AppendEventsToList:
-    state.list?.events.append(contentsOf: action.events)
-    state.listRequest = .none
-    state.isEndOfListReached = action.events.count < state.settings.pageLimit
-    
+    addOrReplace(newEvents: action.events)
+    if var eventList = state.eventList {
+      eventList.eventIds.formUnion(action.events.map{$0.id})
+      eventList.updatingStatus = .none
+      state.eventListStatus = .done(eventList)
+    } else {
+      assertionFailure("AppendEventsToList Action can be invoke when we allready have events in current list")
+    }
     
   case let action as AppendEventsToMap:
-    action.events.forEach{
-      if let index = state.mapEvents.index(of: $0) {
-        state.mapEvents[index] = $0
-      } else {
-        state.mapEvents.append($0)
-      }
-    }
+    addOrReplace(newEvents: action.events)
     
+  case let action as EventPostingResult:
+    if case .done(let event) = action {
+      addOrReplace(newEvents: [event])
+    }
     
   case let action as SetEventListError:
-    state.listRequest = .error(action.error)
+    switch state.eventListStatus {
+    case .loading:
+      state.eventListStatus = .error(action.error)
+      
+    case .done(var eventList):
+      eventList.updatingStatus = .error(action.error)
+      state.eventListStatus = .done(eventList)
+      
+    default:
+      assertionFailure("We shouldn't be here")
+    }
     
+  case let action as EventLikeDislikeSendingResult:
+    switch action {
+    case .sent(_):
+      break
+      
+    case .error(let eventId):
+      invertLike(eventId: eventId)
+    }
     
-  case let action as EventLikeSent:
-    updateEventCounters(fromNewEvent: action.event)
-    
-
-  case let action as EventDislikeSent:
-    updateEventCounters(fromNewEvent: action.event)
-    
-
   case let action as EventLikeInvertAction:
-    if let index = state.list?.events.index(where: {$0.id == action.eventId}) {
-      var event = state.list!.events[index]
-      if event.like {
-        event.likes -= 1
-      } else {
-        event.likes += 1
-      }
-      event.like = !event.like
-      state.list?.events[index] = event
-    }
-    if let index = state.mapEvents.index(where: {$0.id == action.eventId}) {
-      var event = state.mapEvents[index]
-      if event.like {
-        event.likes -= 1
-      } else {
-        event.likes += 1
-      }
-      event.like = !event.like
-      state.mapEvents[index] = event
-    }
-
-    
+    invertLike(eventId: action.eventId)
     
   case let action as EventDislikeInvertAction:
-    if let index = state.list?.events.index(where: {$0.id == action.eventId}) {
-      var event = state.list!.events[index]
-      if event.dislike {
-        event.dislikes -= 1
-      } else {
-        event.dislikes += 1
-      }
-      event.dislike = !event.dislike
-      state.list?.events[index] = event
-    }
-    if let index = state.mapEvents.index(where: {$0.id == action.eventId}) {
-      var event = state.mapEvents[index]
-      if event.dislike {
-        event.dislikes -= 1
-      } else {
-        event.dislikes += 1
-      }
-      event.dislike = !event.dislike
-      state.mapEvents[index] = event
-    }
+    invertDislike(eventId: action.eventId)
     
-
-  case let action as CreateCommentsScreen:
-    guard state.eventScreens[action.screenId] == nil else { break }
-    state.eventScreens[action.screenId] = EventsState.EventScreen(
-      comments: [],
-      replyedComments: [:],
-      eventId: action.eventId,
-      isEndReached: false, // TODO: здесь должна быть настоящая проверочка
-      fetchCommentsRequest: .run,
-      sendCommentRequest: .none,
-      outgoingCommentId: nil,
-      textInputMode: .new)
+    // MARK: - Comments
     
+  case let action as LoadCommentsPage:
+    state.allEvents[action.eventId]?.loadCommentsStatus = .loading
     
-  case let action as GetCommentsPage:
-    state.eventScreens[action.screenId]?.fetchCommentsRequest = .run
-    print(action)
-    
-    
-  case let action as GetCommentsError:
-    state.eventScreens[action.screenId]?.fetchCommentsRequest = .error(action.error)
-
-
-  case let action as RemoveCommentsScreen:
-    state.eventScreens[action.screenId] = nil
-    
-    
-  case let action as GotEvent:
-    if let index = state.list?.events.index(of: action.event) {
-      state.list?.events[index] = action.event
-    }
-    
-    state.eventScreens[action.screenId]?.comments = action.event.comments ?? []
-    action.event.replyedComments?.forEach{ state.eventScreens[action.screenId]?.replyedComments[$0.id] = $0 }
-    
-    state.eventScreens[action.screenId]?.fetchCommentsRequest = .none
-    state.eventScreens[action.screenId]?.isEndReached = (action.event.comments?.count ?? 0) == action.event.commentsCount
-    
-    
-  case let action as NewComments:
-    guard var screen = state.eventScreens[action.screenId] else { break }
-    
+  case let action as DidLoadComments:
+    guard var eventState = state.allEvents[action.eventId] else { break }
+    var event = eventState.event
     switch action.action {
-    case .append: screen.comments.insert(contentsOf: action.comments, at: 0)
-    case .replace: screen.comments = action.comments
+    case .append:
+      event.comments?.insert(contentsOf: action.comments, at: 0)
+    case .replace:
+      event.comments = action.comments
     }
+    eventState.event = event
+    eventState.loadCommentsStatus = .none
+    state.allEvents[action.eventId] = eventState
     
-    action.replyedComments.forEach{screen.replyedComments[$0.id] = $0}
-
-    screen.isEndReached = action.comments.count < state.settings.commentPageLimit
-    screen.fetchCommentsRequest = .none
-    
-    state.eventScreens[action.screenId] = screen
-
+  case let action as LoadCommentsError:
+    state.allEvents[action.eventId]?.loadCommentsStatus = .error
     
   case let action as CommentLikeInvertAction:
-    
-    func invertLike(eventId: EventId, commentId: CommentId, screens: [ScreenId: EventsState.EventScreen]) -> [ScreenId: EventsState.EventScreen] {
-      return state.eventScreens.mapValues { (screen) in
-        guard eventId == screen.eventId else { return screen }
-        var screen = screen
-        if let index = screen.comments.index(where: { $0.id == commentId }) {
-          var comment = screen.comments[index]
-          if comment.like { comment.likes -= 1 } else { comment.likes += 1 }
-          comment.like = !comment.like
-          screen.comments[index] = comment
-        }
-        return screen
-      }
+    guard var eventState = state.allEvents[action.eventId],
+      var comments = eventState.event.comments,
+      let index = comments.firstIndex(where: {$0.id == action.commentId}) else {
+        break
     }
+    switch action.action{
+    case .addLikeComment:
+      comments[index].like = true
+      comments[index].likes += 1
+      
+    case .removeLikeComment:
+      comments[index].like = false
+      comments[index].likes -= 1
+    }
+    eventState.event.comments = comments
+    state.allEvents[action.eventId] = eventState
     
-    state.eventScreens = invertLike(eventId: action.eventId, commentId: action.commentId, screens: state.eventScreens)
-  
+  case let action as SendCommentLikeError:
+    guard var eventState = state.allEvents[action.eventId],
+      var comments = eventState.event.comments,
+      let index = comments.firstIndex(where: {$0.id == action.commentId}) else {
+        break
+    }
+    var comment = comments[index]
+    comment.like = !comment.like
+    comment.likes += comment.like ? 1 : -1
+    comments[index] = comment
+    eventState.event.comments = comments
+    state.allEvents[action.eventId] = eventState
+    
+  case let action as ChangeCommentDraftText:
+    state.allEvents[action.eventId]?.commentDraft.text = action.text
+    
+  case let action as ChangeCommentDraftType:
+    state.allEvents[action.eventId]?.commentDraft.type = action.type
     
   case let action as SendComment:
-    state.eventScreens[action.screenId]?.sendCommentRequest = .run
-    state.eventScreens[action.screenId]?.outgoingCommentId = action.localId
-  
+    state.allEvents[action.eventId]?.commentDraft.postingState = .loading
     
   case let action as SentComment:
-    
-    let eventListIndex = state.list?.events.index(where: { $0.id == action.eventId })
-    let eventMapIndex = state.mapEvents.index(where: { $0.id == action.eventId })
-    
-    if let eventIndex = eventListIndex {
-      state.list?.events[eventIndex].commentsCount += 1
-    }
-    
-    if let eventIndex = eventMapIndex {
-      state.mapEvents[eventIndex].commentsCount += 1
-    }
-    
-    state.eventScreens = state.eventScreens.mapValues { screen in
-      guard screen.eventId == action.eventId else { return screen }
-      var screen = screen
-      var postedComment = action.comment
-      
-      func addCommentToReplyedComments(commentId: CommentId) {
-        guard let commentIndex = screen.comments.index(where: {$0.id == commentId}) else { return }
-        screen.replyedComments[commentId] = screen.comments[commentIndex]
+    guard let eventStatus = state.allEvents[action.eventId] else { break }
+    var event = eventStatus.event
+    if let comments = event.comments {
+      var newComment = action.comment
+      if let quoteId = action.comment.replyToId, let quotedComment = comments.first(where: {$0.id == quoteId}) {
+        newComment.quote = CommentQuote(userName: quotedComment.userName ?? "Без Имени",
+                                        message: quotedComment.message ?? "")
       }
-
-      
-      if screen.outgoingCommentId == action.localId {
-        screen.outgoingCommentId = nil
-        screen.sendCommentRequest = .success
-        if case .resolve(let commentId) = screen.textInputMode  {
-          if let index = eventListIndex {
-            state.list?.events[index].solutionCommentId = commentId
-            postedComment.replyToId = commentId
-            addCommentToReplyedComments(commentId: commentId)
-          }
-
-          if let index = eventMapIndex {
-            state.mapEvents[index].solutionCommentId = commentId
-            postedComment.replyToId = commentId
-            addCommentToReplyedComments(commentId: commentId)
-          }
-
-        } else  if case .answer(let commentId) = screen.textInputMode {
-          postedComment.replyToId = commentId
-          addCommentToReplyedComments(commentId: commentId)
-        }
-        
-        screen.textInputMode = .new
-      }
-      
-      screen.comments.append(postedComment)
-      return screen
+      event.comments?.append(newComment)
+    } else {
+      event.comments = [action.comment]
     }
-
+    event.commentsCount += 1
+    if action.isSolution {
+      event.solutionCommentId = action.comment.replyToId
+    }
+    state.allEvents[action.eventId] = EventState(event: event)
     
   case let action as SendCommentError:
-    state.eventScreens = state.eventScreens.mapValues { screen in
-      guard screen.eventId == action.eventId, screen.outgoingCommentId == action.localId else { return screen }
-      var newScreen = screen
-      newScreen.outgoingCommentId = nil
-      newScreen.sendCommentRequest = .error(action.error)
-      return newScreen
-    }
+    state.allEvents[action.eventId]?.commentDraft.postingState = .error
     
-  
-  case let action as NewCommentShown:
-    state.eventScreens[action.screenId]?.sendCommentRequest = .none
-    
-    
-  case let action as SetCommentType:
-    state.eventScreens[action.screenId]?.textInputMode = action.type
-    
-    
-  case let action as CreateEventStatus:
-    if case .success(let event) = action {
-      state.mapEvents.append(event)
-      if let listLocation = state.list?.location, listLocation.distance(from: CLLocation(latitude: event.latitude, longitude: event.longitude)) / 1000 < Double(state.settings.radius) {
-        state.list?.events.insert(event, at: 0)
-      }
-      state.shouldShowEvent = event.id
-    }
-    
-    
-  case _ as EventShown:
-    state.shouldShowEvent = nil
-    
+  case let action as DidShowCommentPostingError:
+    state.allEvents[action.eventId]?.commentDraft.postingState = .none
     
   default:
     break
-    
   }
   
-  
   return state
+}
+
+extension EventsState {
+  var eventList: EventList? {
+    if case .done(let eventList) = self.eventListStatus {
+      return eventList
+    } else {
+      return nil
+    }
+  }
 }

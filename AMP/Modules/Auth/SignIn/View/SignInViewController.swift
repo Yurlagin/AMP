@@ -89,7 +89,7 @@ class SignInViewController: UIViewController, SignInViewInput {
     smsTextField.isEnabled = props.smsFormEnabled
     
     if let alertData = props.showAlertPrompt {
-      showOkAlert(title: alertData.title, description: alertData.text)
+      showOkAlert(title: alertData.title, message: alertData.text)
     }
     
   }
@@ -131,14 +131,12 @@ class SignInViewController: UIViewController, SignInViewInput {
 }
 
 extension SignInViewController: UITextFieldDelegate {
-  
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
     let newString = NSString(string: textField.text!).replacingCharacters(in: range, with: string)
     let number = try? phoneNumberKit.parse(newString)
     nextButton.isEnabled = number != nil
     return true
   }
-  
 }
 
 extension SignInViewController: SignInView { }

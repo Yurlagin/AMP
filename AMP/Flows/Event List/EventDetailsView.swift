@@ -9,8 +9,5 @@
 import Foundation
 
 protocol EventDetailsView: BaseView {
-  
-  var eventId: EventId! {get set}
-  var screenId: ScreenId! {get set}
-  
+    
 }

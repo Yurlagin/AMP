@@ -11,23 +11,28 @@ import CoreLocation
 
 struct EventsState: StateType {
   
-  var list: (location: CLLocation, events: [Event])?
-  var mapEvents: [Event]
-  var shouldShowEvent: EventId?
-  var isEndOfListReached: Bool
+  var allEvents: [EventId: EventState]
+  var eventListStatus: EventListStatus
   var settings: Settings
-  var eventScreens: [ScreenId: EventScreen]
-  var listRequest: RequestStatus
   
-  
-  enum RequestStatus {
+  enum EventListStatus {
     case none
-    case request(RequestType)
+    case loading
+    case done(EventList)
     case error(Error)
+  }
+  
+  struct EventList {
+    var location: CLLocation
+    var eventIds: Set<EventId>
+    var hasMore: Bool
+    var updatingStatus: UpdatingStatus
     
-    enum RequestType {
-      case refresh
+    enum UpdatingStatus {
+      case none
+      case refreshing
       case loadMore
+      case error(Error)
     }
   }
   
@@ -37,55 +42,44 @@ struct EventsState: StateType {
     var onlyActive = false
     var onlyMine = false
     var pageLimit = 20
-    var commentPageLimit = 10
-    let mapBaseURL = "https://usefulness.club/amp/staticmap.php?zoom=15&"
-  }
-  
-  struct EventScreen {
-    var comments: [Comment]
-    var replyedComments: [CommentId: Comment]
-    var eventId: Int
-    var isEndReached: Bool
-    var fetchCommentsRequest: Request
-    var sendCommentRequest: Request
-    var outgoingCommentId: String?
-    var textInputMode: CommentType
-    
-    enum Request {
-      case none
-      case run
-      case error(Error)
-      case success
-    }
+    var commentPageLimit = 5
   }
 }
 
-enum CommentType {
+enum CommentType: Hashable {
   case new
   case answer(CommentId)
   case resolve(CommentId)
 }
 
-
 extension EventsState {
-
-  func getEventFromListBy(id: Int) -> Event? {
-    guard let index = list?.events.index(where: {$0.id == id }) else { return nil }
-    return list?.events[index]
+  func getEventBy(id: EventId) -> Event? {
+    return allEvents[id]?.event
   }
-  
-  
-  func getEventFromMapBy(id: Int) -> Event? {
-    guard let index = mapEvents.index(where: {$0.id == id }) else { return nil }
-    return mapEvents[index]
-  }
-  
-  
-  func getEventBy(id: Int) -> Event? {
-    return getEventFromListBy(id: id) ?? getEventFromMapBy(id: id)
-  }
-
 }
 
+struct EventState: Hashable {
+  var event: Event
+  var commentDraft: CommentDraft
+  var loadCommentsStatus: LoadState = .none
+  
+  struct CommentDraft: Hashable {
+    var type: CommentType
+    var text: String
+    var postingState: LoadState
+  }
+  
+}
 
+extension EventState {
+  init(event: Event) {
+    self.event = event
+    self.commentDraft = CommentDraft(type: .new, text: "", postingState: .none)
+  }
+}
 
+enum LoadState: Hashable {
+  case none
+  case loading
+  case error
+}
