@@ -16,6 +16,13 @@ class EventTableAnimator {
   private lazy var commentsSectionHeaderView = CommentsSectionHeaderView.nib()
   private var onPressComment: () -> Void
   private let onSelectComment: (CommentId) -> Void
+  private var state = State(event: nil, userLocation: nil)
+  private var isTableViewAnimating = false
+
+  private struct State {
+    var event: Event?
+    var userLocation: CLLocation?
+  }
   
   var props: EventViewController.Props? {
     didSet {
@@ -32,22 +39,12 @@ class EventTableAnimator {
     }
   }
   
-  private struct State {
-    var event: Event?
-    var userLocation: CLLocation?
-  }
-  
-  private var state = State(event: nil, userLocation: nil)
-  
   init(tableView: UITableView, onPressComment: @escaping () -> Void, onSelectComment: @escaping (CommentId) -> Void) {
     self.tableView = tableView
     self.onPressComment = onPressComment
     self.onSelectComment = onSelectComment
     tableDirector = TableDirector(tableView: tableView)
   }
-  
-  private var isTableViewAnimating = false
-  
   
   private func makeSection(rows: [Row]) -> TableSection {
     let section = TableSection(rows: rows)
@@ -118,7 +115,6 @@ class EventTableAnimator {
   
   func scheduleTableViewUpdating() {
     guard !isTableViewAnimating else { return }
-    
     var sourceEventSection: ArraySection<Section, AnyDifferentiable>?
     var sourceCommentsSection: ArraySection<Section, AnyDifferentiable>?
     if let event = state.event {
@@ -145,8 +141,8 @@ class EventTableAnimator {
       target: [destinationEventSection, destinationCommentsSection].compactMap{$0}
     )
     
-    
     if !changeSet.isEmpty {
+      var changeStagesCount = changeSet.count
       isTableViewAnimating = true
       tableView?.reload(
         using: changeSet,
@@ -178,11 +174,14 @@ class EventTableAnimator {
               return commentSection
             }
           }
-          self?.state.event = self?.props?.event
-          self?.state.userLocation = self?.props?.userLocation
           tableDirector.replaceAllSections(with: sections)
-          self?.isTableViewAnimating = false
-          self?.scheduleTableViewUpdating()
+          changeStagesCount -= 1
+          if changeStagesCount == 0 {
+            self?.state.event = self?.props?.event
+            self?.state.userLocation = self?.props?.userLocation
+            self?.isTableViewAnimating = false
+            self?.scheduleTableViewUpdating()
+          }
       }
     }
   }

@@ -14,18 +14,18 @@ typealias ScreenId = String // TODO: - might remove!
 
 class EventListViewController: UIViewController, EventListView {
   
-  // MARK: EventListView
+  // MARK: - EventListView
   var onSelect: ((EventId) -> ())?
   var onTapComment: ((EventId) -> ())?
   
+  // MARK: - EventListViewInput
   
-  // MARK: EventListViewInput
   private var props: Props? {
     didSet {
       scheduleTableViewUpdating()
     }
   }
-
+  
   var output: EventListViewOutput?
   
   private lazy var tableView = makeTableView()
@@ -33,14 +33,12 @@ class EventListViewController: UIViewController, EventListView {
   private lazy var tableDirector = TableDirector(tableView: tableView)
   private var bottomSpinner: UIActivityIndicatorView!
   private let tableFooterHeight: CGFloat = 44
-  
   private var isTableViewAnimating = false
   
+  private var state = State(events: [])
   private struct State {
     var events: [Event]
   }
-  
-  private var state = State(events: [])
   
   private func ajustFooterHeight() {
     let footerView = tableView.tableFooterView!
@@ -48,30 +46,28 @@ class EventListViewController: UIViewController, EventListView {
     tableView.tableFooterView = footerView
   }
   
-  private func scheduleTableViewUpdating(animationCompletion: (() -> Void)? = nil) {
+  private func scheduleTableViewUpdating() {
     guard !isTableViewAnimating else { return }
-
     let newEvents = props?.events ?? []
     let changeSet = StagedChangeset(source: self.state.events, target: newEvents)
-
     guard !changeSet.isEmpty else {
       return
     }
-    
-    isTableViewAnimating = true
-
+    var remainingStagesCount = changeSet.count
     tableView.reload(
       using: changeSet,
       with: .none) { [weak self] newRows in
-        self?.state.events = newRows
         let rows = newRows.map(makeEventRow)
         let section = TableSection(rows: rows)
         section.headerHeight = .leastNormalMagnitude
         section.footerHeight = .leastNormalMagnitude
-        
         self?.tableDirector.replaceAllSections(with: [section])
-        self?.isTableViewAnimating = false
-        self?.scheduleTableViewUpdating()
+        remainingStagesCount -= 1
+        if remainingStagesCount == 0 {
+          self?.state.events = newRows
+          self?.isTableViewAnimating = false
+          self?.scheduleTableViewUpdating()
+        }
     }
   }
   
@@ -144,13 +140,13 @@ class EventListViewController: UIViewController, EventListView {
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-      output?.onViewDidDissapear()
+    output?.onViewDidDissapear()
   }
   
   private func makeTableView() -> UITableView {
     let tableView = UITableView(frame: .zero)
     tableView.backgroundColor = .groupTableViewBackground
-
+    
     let refreshControl = UIRefreshControl()
     refreshControl.addTarget(self, action: #selector(onRefresh), for: .valueChanged)
     tableView.refreshControl = refreshControl

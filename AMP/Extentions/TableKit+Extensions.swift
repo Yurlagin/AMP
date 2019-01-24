@@ -25,12 +25,9 @@ extension TableRow: Differentiable where CellType.CellData: Differentiable {
 
 extension TableDirector {
   func replaceAllSections(with sections: [TableSection]) {
-    clear()
+    self.sections.forEach { _ in
+      delete(sectionAt: 0)
+    }
     self += sections
-//    self.sections.enumerated().forEach{ indexedSection in
-//      let (index, _) = indexedSection
-//      delete(sectionAt: index)
-//    }
-//    self += sections
   }
 }
