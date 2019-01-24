@@ -157,5 +157,7 @@ extension Event: Decodable {
 extension Event: Hashable {}
 
 extension Event: Differentiable {
-  var differenceIdentifier: Int  { return self.id }
+  var differenceIdentifier: Int  {
+    return id
+  }
 }
