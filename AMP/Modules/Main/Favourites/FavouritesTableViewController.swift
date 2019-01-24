@@ -18,6 +18,14 @@ class FavouritesTableViewController: UITableViewController, FavouritesView {
     
   }
   
+  override func loadView() {
+    let label = UILabel()
+    label.backgroundColor = .white
+    label.textAlignment = .center
+    label.text = "В разработке ;]"
+    view = label
+  }
+  
   
   override func numberOfSections(in tableView: UITableView) -> Int {
     // #warning Incomplete implementation, return the number of sections
