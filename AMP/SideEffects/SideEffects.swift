@@ -6,3 +6,8 @@ let authServiceSideEffects = [
 let eventsServiceSideEffects = [
   EventsSideEffects.eventsEffects
 ]
+
+let settingsServiceSideEffects = [
+  SettingsSideEffects.settingsSideEffects
+]
+

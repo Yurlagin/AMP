@@ -7,6 +7,7 @@
 //
 
 protocol SettingsModuleFactory {
-  func makeSettingsOutput() -> BaseView
+  func makeSettingsOutput() -> SettingsRootView
+  func makeEditUserProfileOutput() -> UserInfoView
 }
 

@@ -21,6 +21,7 @@
 		34356F8A2012F9A8001EE568 /* CoordinatorFactoryImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34356F892012F9A8001EE568 /* CoordinatorFactoryImp.swift */; };
 		34356F8D2013026B001EE568 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34356F8C2013026B001EE568 /* AppState.swift */; };
 		34356F8F201302A7001EE568 /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34356F8E201302A7001EE568 /* AuthState.swift */; };
+		3447820321FE3379003ACEA4 /* SettingsSideEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3447820221FE3379003ACEA4 /* SettingsSideEffects.swift */; };
 		344E3247202F06040062F5D2 /* EventListPropsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344E3246202F06040062F5D2 /* EventListPropsTests.swift */; };
 		344E3249202F10B30062F5D2 /* LocationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344E3248202F10B30062F5D2 /* LocationState.swift */; };
 		344E57822025630A00C5CF39 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 344E57812025630A00C5CF39 /* GoogleService-Info.plist */; };
@@ -62,7 +63,7 @@
 		348D69ED20145B5F0051E4B5 /* AuthReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348D69EC20145B5F0051E4B5 /* AuthReducer.swift */; };
 		348D69EF20145B950051E4B5 /* AuthActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 348D69EE20145B950051E4B5 /* AuthActions.swift */; };
 		3492C0AA2054B11D001B8D60 /* UserProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3492C0A92054B11D001B8D60 /* UserProfileTableViewController.swift */; };
-		3492C0AC2054BC80001B8D60 /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3492C0AB2054BC80001B8D60 /* UserProfileViewModel.swift */; };
+		3492C0AC2054BC80001B8D60 /* UserProfileProps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3492C0AB2054BC80001B8D60 /* UserProfileProps.swift */; };
 		3492C0B020575984001B8D60 /* SettingsActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3492C0AF20575984001B8D60 /* SettingsActions.swift */; };
 		3492C0B22057F087001B8D60 /* LocationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3492C0B12057F087001B8D60 /* LocationSender.swift */; };
 		3497336821E918F300F41695 /* EventListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3497336721E918F300F41695 /* EventListCell.xib */; };
@@ -96,8 +97,12 @@
 		34996F242005B9FC00D53875 /* UIImage+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34996F1F2005B9FC00D53875 /* UIImage+Hex.swift */; };
 		34996F252005B9FC00D53875 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34996F202005B9FC00D53875 /* UIViewController+Extensions.swift */; };
 		34996F262005B9FC00D53875 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34996F212005B9FC00D53875 /* UIViewExtensions.swift */; };
+		349EBFCF21FB4A16008B6258 /* SettingsRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349EBFCE21FB4A16008B6258 /* SettingsRootView.swift */; };
+		349EBFD121FC8E2F008B6258 /* SettingsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349EBFD021FC8E2F008B6258 /* SettingsState.swift */; };
+		349EBFD321FC8ECD008B6258 /* SettingsReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 349EBFD221FC8ECD008B6258 /* SettingsReducer.swift */; };
 		34A91789204A5BC100A0CCB3 /* CreateEventNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A91788204A5BC100A0CCB3 /* CreateEventNavigationController.swift */; };
 		34ADF3D7202AF50200FA1F06 /* InitialAuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34ADF3D6202AF50200FA1F06 /* InitialAuthState.swift */; };
+		34B7EC1121FF32CA00BB8D32 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B7EC1021FF32CA00BB8D32 /* UserInfoView.swift */; };
 		34B9EF5C202FB22F00F31CB0 /* LocationReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B9EF5B202FB22F00F31CB0 /* LocationReducer.swift */; };
 		34B9EF5E202FB41300F31CB0 /* LocationActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B9EF5D202FB41300F31CB0 /* LocationActions.swift */; };
 		34B9EF60202FB64200F31CB0 /* LocationTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B9EF5F202FB64200F31CB0 /* LocationTracker.swift */; };
@@ -172,6 +177,7 @@
 		34356F892012F9A8001EE568 /* CoordinatorFactoryImp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinatorFactoryImp.swift; sourceTree = "<group>"; };
 		34356F8C2013026B001EE568 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		34356F8E201302A7001EE568 /* AuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthState.swift; sourceTree = "<group>"; };
+		3447820221FE3379003ACEA4 /* SettingsSideEffects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSideEffects.swift; sourceTree = "<group>"; };
 		344E3246202F06040062F5D2 /* EventListPropsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListPropsTests.swift; sourceTree = "<group>"; };
 		344E3248202F10B30062F5D2 /* LocationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationState.swift; sourceTree = "<group>"; };
 		344E57812025630A00C5CF39 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -215,7 +221,7 @@
 		348D69EC20145B5F0051E4B5 /* AuthReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthReducer.swift; sourceTree = "<group>"; };
 		348D69EE20145B950051E4B5 /* AuthActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthActions.swift; sourceTree = "<group>"; };
 		3492C0A92054B11D001B8D60 /* UserProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileTableViewController.swift; sourceTree = "<group>"; };
-		3492C0AB2054BC80001B8D60 /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
+		3492C0AB2054BC80001B8D60 /* UserProfileProps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileProps.swift; sourceTree = "<group>"; };
 		3492C0AF20575984001B8D60 /* SettingsActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsActions.swift; sourceTree = "<group>"; };
 		3492C0B12057F087001B8D60 /* LocationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSender.swift; sourceTree = "<group>"; };
 		3497336721E918F300F41695 /* EventListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventListCell.xib; sourceTree = "<group>"; };
@@ -250,8 +256,12 @@
 		34996F202005B9FC00D53875 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		34996F212005B9FC00D53875 /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		349CF547201C04130011BDD5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		349EBFCE21FB4A16008B6258 /* SettingsRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRootView.swift; sourceTree = "<group>"; };
+		349EBFD021FC8E2F008B6258 /* SettingsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsState.swift; sourceTree = "<group>"; };
+		349EBFD221FC8ECD008B6258 /* SettingsReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsReducer.swift; sourceTree = "<group>"; };
 		34A91788204A5BC100A0CCB3 /* CreateEventNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEventNavigationController.swift; sourceTree = "<group>"; };
 		34ADF3D6202AF50200FA1F06 /* InitialAuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialAuthState.swift; sourceTree = "<group>"; };
+		34B7EC1021FF32CA00BB8D32 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
 		34B9EF5B202FB22F00F31CB0 /* LocationReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationReducer.swift; sourceTree = "<group>"; };
 		34B9EF5D202FB41300F31CB0 /* LocationActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationActions.swift; sourceTree = "<group>"; };
 		34B9EF5F202FB64200F31CB0 /* LocationTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTracker.swift; sourceTree = "<group>"; };
@@ -359,6 +369,7 @@
 				340D90FA2026AE7B00B1B90A /* EventsState.swift */,
 				344E3248202F10B30062F5D2 /* LocationState.swift */,
 				34FAE4EA21F8F3D40087F418 /* CreateEventState.swift */,
+				349EBFD021FC8E2F008B6258 /* SettingsState.swift */,
 			);
 			path = State;
 			sourceTree = "<group>";
@@ -502,8 +513,8 @@
 				348D69EE20145B950051E4B5 /* AuthActions.swift */,
 				340D90FE2026EC0400B1B90A /* EventActions.swift */,
 				34B9EF5D202FB41300F31CB0 /* LocationActions.swift */,
-				3492C0AF20575984001B8D60 /* SettingsActions.swift */,
 				34FAE4EE21F9987F0087F418 /* CreateEventActions.swift */,
+				3492C0AF20575984001B8D60 /* SettingsActions.swift */,
 			);
 			path = Actions;
 			sourceTree = "<group>";
@@ -515,6 +526,7 @@
 				34B9EF5B202FB22F00F31CB0 /* LocationReducer.swift */,
 				340D90FC2026B36900B1B90A /* EventsReducer.swift */,
 				34FAE4EC21F8F4AC0087F418 /* CreateEventReducer.swift */,
+				349EBFD221FC8ECD008B6258 /* SettingsReducer.swift */,
 				3428EBCC21E86CB8008EA793 /* Tests */,
 			);
 			path = Reducers;
@@ -524,7 +536,7 @@
 			isa = PBXGroup;
 			children = (
 				3492C0A92054B11D001B8D60 /* UserProfileTableViewController.swift */,
-				3492C0AB2054BC80001B8D60 /* UserProfileViewModel.swift */,
+				3492C0AB2054BC80001B8D60 /* UserProfileProps.swift */,
 			);
 			path = "User Profile";
 			sourceTree = "<group>";
@@ -775,6 +787,7 @@
 				34BFAE3D201C1F650079D566 /* SideEffects.swift */,
 				34BFAE3B201C12FF0079D566 /* AuthSideEffects.swift */,
 				84045BC3203E7D7E00BC230C /* EventSideEffects.swift */,
+				3447820221FE3379003ACEA4 /* SettingsSideEffects.swift */,
 			);
 			path = SideEffects;
 			sourceTree = "<group>";
@@ -858,6 +871,8 @@
 			isa = PBXGroup;
 			children = (
 				34DA4209201DC49C00DDB0D7 /* SettingsCoordinator.swift */,
+				349EBFCE21FB4A16008B6258 /* SettingsRootView.swift */,
+				34B7EC1021FF32CA00BB8D32 /* UserInfoView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1211,6 +1226,7 @@
 				34763976204A60BE00EB221E /* AddEventTransitioningIn.swift in Sources */,
 				34996F162005B85400D53875 /* SignInView.swift in Sources */,
 				345162BE21DF85F100D3130B /* SignInModuleOutput.swift in Sources */,
+				3447820321FE3379003ACEA4 /* SettingsSideEffects.swift in Sources */,
 				34B9EF60202FB64200F31CB0 /* LocationTracker.swift in Sources */,
 				348B7C9421F48D8200A51157 /* CommentsSectionHeaderView.swift in Sources */,
 				34ED71DD204C0D9900B62115 /* MapView.swift in Sources */,
@@ -1242,7 +1258,7 @@
 				34ED71DB204A899500B62115 /* EventsMapViewModel.swift in Sources */,
 				3492C0AA2054B11D001B8D60 /* UserProfileTableViewController.swift in Sources */,
 				348D69EF20145B950051E4B5 /* AuthActions.swift in Sources */,
-				3492C0AC2054BC80001B8D60 /* UserProfileViewModel.swift in Sources */,
+				3492C0AC2054BC80001B8D60 /* UserProfileProps.swift in Sources */,
 				34356F8F201302A7001EE568 /* AuthState.swift in Sources */,
 				34DA41D7201DB0B100DDB0D7 /* TabbarController.swift in Sources */,
 				34996F222005B9FC00D53875 /* NSObjectExtensions.swift in Sources */,
@@ -1303,9 +1319,12 @@
 				34CE682E21E4E0CB0098B419 /* EventListPresenter.swift in Sources */,
 				345162C721E2359F00D3130B /* AuthServiceError.swift in Sources */,
 				3428EBD121E8B331008EA793 /* Array+extensions.swift in Sources */,
+				349EBFCF21FB4A16008B6258 /* SettingsRootView.swift in Sources */,
+				34B7EC1121FF32CA00BB8D32 /* UserInfoView.swift in Sources */,
 				34EE683520326C6A004D2D1A /* UIColor.swift in Sources */,
 				34996F0B2005B66700D53875 /* CoordinatorFactory.swift in Sources */,
 				34356F8D2013026B001EE568 /* AppState.swift in Sources */,
+				349EBFD321FC8ECD008B6258 /* SettingsReducer.swift in Sources */,
 				344EB9D32035C42E009DDC65 /* UINavigationControllerExtensions.swift in Sources */,
 				345162BC21DF63A800D3130B /* SignInPresenter.swift in Sources */,
 				34356640202B63E90039B051 /* TabbarCoordinatorOutput.swift in Sources */,
@@ -1313,6 +1332,7 @@
 				34BFAE38201C105C0079D566 /* InjectService.swift in Sources */,
 				34BFAE32201C06BC0079D566 /* AuthServiceImpl.swift in Sources */,
 				3484C29420367514002F3A10 /* Comment.swift in Sources */,
+				349EBFD121FC8E2F008B6258 /* SettingsState.swift in Sources */,
 				3497336A21E91E5900F41695 /* EventListCell.swift in Sources */,
 				34996F252005B9FC00D53875 /* UIViewController+Extensions.swift in Sources */,
 				34FAE4EB21F8F3D40087F418 /* CreateEventState.swift in Sources */,

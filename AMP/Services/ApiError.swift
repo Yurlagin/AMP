@@ -12,4 +12,5 @@ enum ApiError: Error {
   case noBaseURL
   case network(underlyingError: Error) 
   case parsingError(underlyingError: Error?)
+  case noToken
 }

@@ -8,18 +8,19 @@
 
 import PromiseKit
 
-struct AmpFirAuthAnswer: Codable {
+struct AmpFirAuthCredentialsResponse: Decodable {
   let answer: String
   let info: UserCredentials?
 }
 
-struct UserCredentials: Codable {
+struct AmpFirAuthUserInfoResponse: Decodable { // TODO: - refactor this shit =]
+  let answer: String
+  let info: UserInfo?
+}
+
+struct UserCredentials: Decodable {
   let phone: String?
-  var name: String?
-  let email: String?
   let level: Int
-  let avaurl: String?
-  var about: String?
   let token: String
   var fcmToken: String?
   var fcmTokenDelivered: Bool?
@@ -32,14 +33,15 @@ struct EventsAnswer: Decodable {
   let maxCommentId: Int?
 }
 
-
 enum Parser {
   
-  static func ampUser(data: Data) -> Promise<UserCredentials> {
+  static func ampUser(data: Data) -> Promise<(UserCredentials, UserInfo)> {
     return Promise(resolvers: { (resolve, error) in
-      let answer = try JSONDecoder().decode(AmpFirAuthAnswer.self, from: data)
-      if let userCredentials = answer.info {
-        resolve(userCredentials)
+      let decoder = JSONDecoder()
+      let credentialsResponse = try decoder.decode(AmpFirAuthCredentialsResponse.self, from: data)
+      let userInfoResponse = try decoder.decode(AmpFirAuthUserInfoResponse.self, from: data)
+      if let credentials = credentialsResponse.info, let userInfo = userInfoResponse.info {
+        resolve((credentials, userInfo))
       } else {
         error(ApiError.parsingError(underlyingError: nil))
       }

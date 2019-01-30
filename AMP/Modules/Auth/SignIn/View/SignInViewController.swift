@@ -127,7 +127,6 @@ class SignInViewController: UIViewController, SignInViewInput {
       }
     }
   }
-  
 }
 
 extension SignInViewController: UITextFieldDelegate {

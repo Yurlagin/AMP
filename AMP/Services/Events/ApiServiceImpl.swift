@@ -26,6 +26,10 @@ protocol ApiService {
   func cancelPostingEvent()
 }
 
+protocol SettingsService {
+  func sendUserInfo(userName: String?, about: String?) -> Promise<()>
+}
+
 class ApiServiceImpl {
   
   private var apiProvider = ApiProvider()
@@ -191,35 +195,7 @@ class ApiServiceImpl {
     }
   }
   
-  func sendProfileSettings(userName: String?, about: String?, token: String) -> Promise<()> {
-    let sendProfilerequest = SendProfileRequest (
-      token: token,
-      keyvalues: [
-        ["key": "name", "value": userName ?? ""],
-        ["key": "about", "value": about ?? ""]
-      ]
-    )
-    return Promise { (fulfill, error) in
-      let urlRequest = try self.makeURLRequest(parameters: sendProfilerequest)
-      Alamofire.request(urlRequest).responseData()
-        .then (on: bgq) { data -> () in
-          let answer = try JSONDecoder().decode(DefaultAnswer.self, from: data)
-          if answer.answer == "setSettings" {
-            UserDefaults.standard.set(userName, forKey: "name")
-            UserDefaults.standard.set(about, forKey: "about")
-            fulfill(())
-          } else {
-            error (EventsServiceError.unexpectedAnswer)
-          }
-        }.catch { requestError in
-          error(requestError)
-      }
-    }
-  }
-  
-  
   func sendLocation (_ location: CLLocation, token: String) -> (Promise<()>, Cancel) {
-    
     let setLocationRequest = SetLocationRequest(token: token, filter: ["lat": location.coordinate.latitude, "lon": location.coordinate.longitude])
     let urlRequest = try! makeURLRequest(parameters: setLocationRequest)
     let task = Alamofire.request(urlRequest)
@@ -399,4 +375,26 @@ extension ApiServiceImpl: ApiService {
 }
 
 
-
+extension ApiServiceImpl: SettingsService {
+  func sendUserInfo(userName: String?, about: String?) -> Promise<()> {
+    return Promise { (fulfill, error) in
+      guard let token = store.state.authState.loginStatus.userCredentials?.token else {
+        error(ApiError.noToken)
+        return
+      }
+      let sendUserInfoRequest = SendProfileRequest (
+        token: token,
+        keyvalues: [
+          ["key": "name", "value": userName ?? ""],
+          ["key": "about", "value": about ?? ""]
+        ]
+      )
+      
+      try apiProvider.makeRequest(
+        parameters: sendUserInfoRequest,
+        onSuccess: { (_: DefaultAnswer) in fulfill(()) },
+        onError: error
+      )
+    }
+  }
+}

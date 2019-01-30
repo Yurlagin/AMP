@@ -7,23 +7,13 @@
 //
 
 import PromiseKit
-import Firebase
-import Locksmith
 
 typealias Cancel = () -> ()
 typealias Token = String
 
 protocol AuthService {
-  
-
   func getVerificationId(for phone: String) -> (Promise<String>, Cancel)
-  
-  func login(smsCode: String, verificationId: String) -> Promise<UserCredentials>
-  
-  func signInAnonymously() -> Promise<UserCredentials>
-  
-//  func store(userCredentials: UserCredentials) -> Promise<UserCredentials>
-  
+  func login(smsCode: String, verificationId: String) -> Promise<(UserCredentials, UserInfo)>
+  func signInAnonymously() -> Promise<(UserCredentials, UserInfo)>
   func logout() -> Promise<()>
-  
 }

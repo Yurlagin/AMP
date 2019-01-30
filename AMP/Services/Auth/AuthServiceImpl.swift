@@ -18,7 +18,7 @@ class AuthServiceImpl {
   }
   
   // MARK: FireBase anonymous auth
-
+  
   private func firSmsCodeSignIn(smsCode: String, verificationId: String) -> Promise<User> {
     let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationId,
                                                              verificationCode: smsCode)
@@ -42,7 +42,7 @@ class AuthServiceImpl {
     }
   }
   
-  private func getFirTokenFor(user: User) -> Promise<String> {
+  private func getFirToken(for user: User) -> Promise<String> {
     return Promise { (resolve, error) in
       user.getIDToken { (token, firError) in
         if let firError = firError {
@@ -57,7 +57,7 @@ class AuthServiceImpl {
   
   // MARK: AMP signIn
   
-  private func ampSignIn(firToken: String) -> Promise<UserCredentials> {
+  private func ampSignIn(firToken: String) -> Promise<(UserCredentials, UserInfo)> {
     let parameters: [String: Any] = ["action": "fauth",
                                      "info": ["gtoken": firToken]]
     guard let baseURL = Constants.baseURL else { return Promise(error: ApiError.noBaseURL) }
@@ -66,11 +66,21 @@ class AuthServiceImpl {
         .responseData()
         .then(execute: Parser.ampUser)
   }
+  
+  // TODO: - Move saving activity to upper level
+  private func saveInfoToStorages(info: (UserCredentials, UserInfo)) -> Promise<(UserCredentials, UserInfo)> {
+    return Promise { fulfill, error in
+      try authStorage.store(userCredentials: info.0)
+      info.1.saveToDefaults()
+      fulfill(info)
+    }
+  }
 }
 
+
+
 extension AuthServiceImpl: AuthService {
-  
-  func logout() -> Promise<Void> {
+  func logout() -> Promise<Void> { // TODO: - add backend notification
     return Promise { (fulfill, error) in
       try authStorage.deleteCredentials()
       fulfill(())
@@ -94,20 +104,19 @@ extension AuthServiceImpl: AuthService {
     return (authPromise, cancel)
   }
   
-  func login(smsCode: String, verificationId: String) -> Promise<UserCredentials> {
+  func login(smsCode: String, verificationId: String) -> Promise<(UserCredentials, UserInfo)> {
     return
       firSmsCodeSignIn(smsCode: smsCode, verificationId: verificationId)
-        .then(execute: getFirTokenFor)
+        .then(execute: getFirToken)
         .then(execute: ampSignIn)
-        .then(execute: authStorage.store)
+        .then(execute: saveInfoToStorages)
   }
   
-  func signInAnonymously() -> Promise<UserCredentials> {
+  func signInAnonymously() -> Promise<(UserCredentials, UserInfo)> {
     return
       firstly(execute: firSignInAnonymously)
-        .then(execute: getFirTokenFor)
+        .then(execute: getFirToken)
         .then(execute: ampSignIn)
-        .then(execute: authStorage.store)
+        .then(execute: saveInfoToStorages)
   }
-
 }

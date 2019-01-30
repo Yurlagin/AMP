@@ -17,14 +17,14 @@ extension Constants {
   }
   
   enum UserDefaultsKeys {
-    static let fcmTokenKey = "fcmToken"
-    static let avatarURLKey = "avatarURL"
-    static let emailKey = "email"
-    static let levelKey = "level"
-    static let nameKey = "name"
-    static let phoneKey = "phone"
-    static let aboutKey = "about"
-    static let fcmTokenDeliveredKey = "fcmTokenDelivered"
+    static let fcmToken = "fcmToken"
+    static let avatarURL = "avatarURL"
+    static let email = "email"
+    static let level = "level"
+    static let userName = "name"
+    static let phone = "phone"
+    static let about = "about"
+    static let usFCMTokenDelivered = "fcmTokenDelivered"
   }
   
   enum PListKeys {
@@ -33,7 +33,7 @@ extension Constants {
   
   enum KeyChainKeys {
     static let userAccount = "AMP"
-    static let tokenKey = "token"
+    static let token = "token"
   }
   
 }

@@ -20,6 +20,11 @@ struct SetLoginState: Action {
   init (_ state: LoginStatus) { self.state = state }
 }
 
+struct SignedIn: Action {
+  let credentials: UserCredentials
+  let userInfo: UserInfo
+}
+
 struct Logout: Action {  }
 
 struct LogoutErrorAction: Action {

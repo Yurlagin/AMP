@@ -39,3 +39,17 @@ enum LoginStatus {
 }
 
 
+extension LoginStatus {
+  private func getLoginData() -> (UserCredentials, LogoutStatus)? {
+    guard case .loggedIn(let user, let logoutStatus) = self else { return nil }
+    return (user, logoutStatus)
+  }
+  
+  var userCredentials: UserCredentials? {
+    return getLoginData()?.0
+  }
+  
+  var logoutStatus: LogoutStatus? {
+    return getLoginData()?.1
+  }
+}

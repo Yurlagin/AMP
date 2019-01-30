@@ -34,10 +34,6 @@ final class ModuleFactoryImp:
     return FavouritesTableViewController.controllerFromStoryboard(.favourites)
   }
   
-  func makeSettingsOutput() -> BaseView {
-    return SettingsTableViewController.controllerFromStoryboard(.settings)
-  }
-  
   func makeSignInOutput() -> (SignInView, SignInModuleOutput) {
     let vc = SignInViewController.controllerFromStoryboard(.auth)
     let presenter = SignInPresenter(view: vc)
@@ -45,4 +41,12 @@ final class ModuleFactoryImp:
     return (vc, presenter)
   }
   
+  func makeSettingsOutput() -> SettingsRootView {
+    return SettingsTableViewController.controllerFromStoryboard(.settings)
+  }
+  
+  func makeEditUserProfileOutput() -> UserInfoView {
+    let vc = UserProfileTableViewController.controllerFromStoryboard(.settings)
+    return vc
+  }
 }

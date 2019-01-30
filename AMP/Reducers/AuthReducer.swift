@@ -33,6 +33,8 @@ func authReducer(action: Action, state: AuthState?) -> AuthState {
   case let action as SetLoginState:
     state.loginStatus = action.state
     
+  case let action as SignedIn:
+    state.loginStatus = .loggedIn(user: action.credentials, logoutStatus: .none)
     
   case is Logout:
     if case .loggedIn(let user, let logoutStatus) = state.loginStatus {
@@ -41,16 +43,6 @@ func authReducer(action: Action, state: AuthState?) -> AuthState {
       case .request: break
       }
     }
-    
-    
-  case let action as SetUserProfileRequestStatus:
-    if case .success(let userName, let about) = action, let userCredentials = state.loginStatus.userCredentials  {
-      var newCredentials = userCredentials
-      newCredentials.name = userName
-      newCredentials.about = about
-      state.loginStatus = .loggedIn(user: newCredentials, logoutStatus: state.loginStatus.logoutStatus!)
-    }
-    
     
   case let action as DidRecieveFCMToken:
     if var newCredentials = state.loginStatus.userCredentials {

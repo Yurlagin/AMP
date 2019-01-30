@@ -50,13 +50,15 @@ extension AuthMiddleWare {
         }
         
         authService.login(smsCode: action.smsCode, verificationId: action.verificationId)
-          .then { dispatch(SetLoginState(.loggedIn(user: $0, logoutStatus: .none))) }
+          .then { dispatch(SignedIn(credentials: $0.0, userInfo: $0.1))}
           .catch (execute: loginErrorHandler)
         
       case is RequestAnonymousToken:
         authService.signInAnonymously()
-          .then { dispatch(SetLoginState(.loggedIn(user: $0, logoutStatus: .none))) }
-          .catch { dispatch(SetLoginState(.anonymousFlow(.fail(AuthServiceError(error: $0))))) }
+          .then { dispatch(SignedIn(credentials: $0.0, userInfo: $0.1)) }
+          .catch { error in
+            dispatch(SetLoginState(.anonymousFlow(.fail(AuthServiceError(error: error))))) // TODO: - replace this action with others
+        }
         
       case is Logout:
         authService.logout()

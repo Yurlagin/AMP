@@ -13,6 +13,7 @@ struct AppState: StateType {
   let eventsState: EventsState
   let createEventState: CreateEventState
   let locationState: LocationState
+  let settingsState: SettingsState
 }
 
 func appReducer(action: Action, state: AppState?) -> AppState {
@@ -21,7 +22,8 @@ func appReducer(action: Action, state: AppState?) -> AppState {
     authState: authReducer(action: action, state: state?.authState),
     eventsState: eventsReducer(action: action, state: state?.eventsState),
     createEventState: createEventReducer(action: action, state: state?.createEventState),
-    locationState: locationReducer(action: action, state: state?.locationState)
+    locationState: locationReducer(action: action, state: state?.locationState),
+    settingsState: settingsReducer(action: action, state: state?.settingsState)
   )
 
   return newState

@@ -10,13 +10,9 @@ import ReSwift
 import CoreLocation
 
 struct LocationState: StateType {
-  
   var currentlocation: CLLocation? = nil
-  
   var lastSentLocation: CLLocation? = nil
-  
   var sendLocationRequest: SendLocationRequest = .none
-  
 }
 
 enum SendLocationRequest: Action {

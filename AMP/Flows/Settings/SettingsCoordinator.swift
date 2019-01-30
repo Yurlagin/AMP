@@ -27,18 +27,28 @@ final class SettingsCoordinator: BaseCoordinator {
   
   private func showSettings() {
     let settingsOutput = factory.makeSettingsOutput()
+    settingsOutput.onSelect = { [weak self] item in
+      switch item {
+      case .profile: self?.showEditProfileScreen()
+      case .notifications: self?.showNotificationsSettings()
+      }
+    }
     router.setRootModule(settingsOutput)
   }
   
-  //  private func showEnterName() {
-  //    let enterNameOutput = factory.makeEnterNameOutput()
-  //    enterNameOutput.onComplete = { [weak self] firstName, lastName in
-  //      guard let weakSelf = self, let storage = weakSelf.storage else { return }
-  //      weakSelf.showSendSMSCode(firstName: firstName, lastName: lastName, msisdn: storage.msisdn)
-  //    }
-  //    router.push(enterNameOutput)
-  //  }
-  //
+  private func showEditProfileScreen() {
+    let userProfileOutput = factory.makeEditUserProfileOutput()
+    userProfileOutput.onDone = { [weak userProfileOutput, weak self] in
+      if userProfileOutput != nil {
+        self?.router.popModule()
+      }
+    }
+    router.push(userProfileOutput)
+  }
+  
+  private func showNotificationsSettings() {
+    
+  }
   
 }
 

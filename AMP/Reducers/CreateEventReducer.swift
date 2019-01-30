@@ -6,8 +6,6 @@
 //  Copyright © 2019 Dmitry Yurlagin. All rights reserved.
 //
 
-import Foundation
-
 import ReSwift
 
 func createEventReducer(action: Action, state: CreateEventState?) -> CreateEventState {
