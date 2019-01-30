@@ -105,7 +105,7 @@
 		34B7EC1121FF32CA00BB8D32 /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B7EC1021FF32CA00BB8D32 /* UserInfoView.swift */; };
 		34B9EF5C202FB22F00F31CB0 /* LocationReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B9EF5B202FB22F00F31CB0 /* LocationReducer.swift */; };
 		34B9EF5E202FB41300F31CB0 /* LocationActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B9EF5D202FB41300F31CB0 /* LocationActions.swift */; };
-		34B9EF60202FB64200F31CB0 /* LocationTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B9EF5F202FB64200F31CB0 /* LocationTracker.swift */; };
+		34B9EF60202FB64200F31CB0 /* UserLocationTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B9EF5F202FB64200F31CB0 /* UserLocationTracker.swift */; };
 		34BFAE32201C06BC0079D566 /* AuthServiceImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BFAE31201C06BC0079D566 /* AuthServiceImpl.swift */; };
 		34BFAE37201C105C0079D566 /* CreateMiddleware.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BFAE34201C105C0079D566 /* CreateMiddleware.swift */; };
 		34BFAE38201C105C0079D566 /* InjectService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BFAE35201C105C0079D566 /* InjectService.swift */; };
@@ -264,7 +264,7 @@
 		34B7EC1021FF32CA00BB8D32 /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
 		34B9EF5B202FB22F00F31CB0 /* LocationReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationReducer.swift; sourceTree = "<group>"; };
 		34B9EF5D202FB41300F31CB0 /* LocationActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationActions.swift; sourceTree = "<group>"; };
-		34B9EF5F202FB64200F31CB0 /* LocationTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTracker.swift; sourceTree = "<group>"; };
+		34B9EF5F202FB64200F31CB0 /* UserLocationTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocationTracker.swift; sourceTree = "<group>"; };
 		34BFAE31201C06BC0079D566 /* AuthServiceImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthServiceImpl.swift; sourceTree = "<group>"; };
 		34BFAE34201C105C0079D566 /* CreateMiddleware.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateMiddleware.swift; sourceTree = "<group>"; };
 		34BFAE35201C105C0079D566 /* InjectService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InjectService.swift; sourceTree = "<group>"; };
@@ -395,7 +395,7 @@
 			isa = PBXGroup;
 			children = (
 				344E57862025BF4000C5CF39 /* Parser.swift */,
-				34B9EF5F202FB64200F31CB0 /* LocationTracker.swift */,
+				34B9EF5F202FB64200F31CB0 /* UserLocationTracker.swift */,
 				3492C0B12057F087001B8D60 /* LocationSender.swift */,
 				345162CA21E287C500D3130B /* AuthStorage.swift */,
 				348B7C9021F33F2D00A51157 /* ApiProvider.swift */,
@@ -1227,7 +1227,7 @@
 				34996F162005B85400D53875 /* SignInView.swift in Sources */,
 				345162BE21DF85F100D3130B /* SignInModuleOutput.swift in Sources */,
 				3447820321FE3379003ACEA4 /* SettingsSideEffects.swift in Sources */,
-				34B9EF60202FB64200F31CB0 /* LocationTracker.swift in Sources */,
+				34B9EF60202FB64200F31CB0 /* UserLocationTracker.swift in Sources */,
 				348B7C9421F48D8200A51157 /* CommentsSectionHeaderView.swift in Sources */,
 				34ED71DD204C0D9900B62115 /* MapView.swift in Sources */,
 				34996F142005B85400D53875 /* AuthCoordinator.swift in Sources */,

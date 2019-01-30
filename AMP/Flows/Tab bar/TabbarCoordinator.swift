@@ -1,4 +1,5 @@
 import UIKit
+import ReSwift
 
 class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
   
@@ -7,13 +8,13 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
 
   var finishFlow: (() -> ())?
 
-  private let locationTracker = LocationTracker()
-  private let locationSender = LocationSender(sendLocation: ApiServiceImpl().sendLocation,
-                                              sendFcmToken: ApiServiceImpl().sendFcmToken)
+  private let locationTracker = UserLocationTracker()
+  private let locationSender = LocationSender(sendLocation: ApiServiceImpl().sendLocation)
   
   init(tabbarView: TabbarView, coordinatorFactory: CoordinatorFactory) {
     self.tabbarView = tabbarView
     self.coordinatorFactory = coordinatorFactory
+    store.subscribe(locationSender) { $0.select{$0.locationState} }
     locationTracker.startForegroundTracking()
   }
   
@@ -27,7 +28,6 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
   }
   
   override func start(with option: DeepLinkOption?) {
-
     guard let option = option else {
       start()
       return
@@ -37,15 +37,14 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
     default:
       start()
     }
-    
   }
   
   private func runEventListFlow() -> ((UINavigationController) -> ()) {
     return { navController in
       if navController.viewControllers.isEmpty {
-        let itemCoordinator = self.coordinatorFactory.makeEventListCoordinator(navController: navController)
-        itemCoordinator.start()
-        self.addDependency(itemCoordinator)
+        let eventListCoordinator = self.coordinatorFactory.makeEventListCoordinator(navController: navController)
+        eventListCoordinator.start()
+        self.addDependency(eventListCoordinator)
       }
     }
   }
@@ -94,5 +93,9 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
         self.addDependency(settingsCoordinator)
       }
     }
+  }
+  
+  deinit {
+    store.unsubscribe(locationSender)
   }
 }
