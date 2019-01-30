@@ -12,12 +12,12 @@ import CoreLocation
 struct LocationState: StateType {
   var currentlocation: CLLocation? = nil
   var lastSentLocation: CLLocation? = nil
-  var sendLocationRequest: SendLocationRequest = .none
+  var sendLocationRequest: SendingLocationStatus = .none
 }
 
-enum SendLocationRequest: Action {
+enum SendingLocationStatus: Action {
   case none
-  case run(Cancel)
+  case sending
   case error(Error)
   case success(CLLocation)
 }

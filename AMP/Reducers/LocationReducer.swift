@@ -23,7 +23,7 @@ func locationReducer(action: Action, state: LocationState?) -> LocationState {
 //    print ("new location: \(action.location)")
     
     
-  case let action as SendLocationRequest:
+  case let action as SendingLocationStatus:
     switch action {
     case .success(let sentLocation):
       state.lastSentLocation = sentLocation

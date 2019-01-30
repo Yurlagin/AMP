@@ -10,71 +10,72 @@ import ReSwift
 import CoreLocation
 import PromiseKit
 
+fileprivate let locationThreshold = 200.0
+
 class LocationSender: StoreSubscriber {
-  
   private let sendLocation: (CLLocation, _ token: String) -> (Promise<()>, Cancel)
-  private let sendFcmToken: (_ fcmToken: String, _ token: String) -> (Promise<()>, Cancel)
+//  private let sendFcmToken: (_ fcmToken: String, _ token: String) -> (Promise<()>, Cancel)
   
-  var sendFcmCancelFunction: Cancel?
-  var sendingFcmToken: String?
+//  private var sendFcmCancelFunction: Cancel?
+//  private var sendingFcmToken: String?
+  private var sendingLocationCancelation: Cancel?
   
-  init (sendLocation: @escaping (CLLocation, _ token: String) -> (Promise<()>, Cancel),
-        sendFcmToken: @escaping (_ fcmToken: String, _ token: String) -> (Promise<()>, Cancel)) {
+  init (sendLocation: @escaping (CLLocation, _ token: String) -> (Promise<()>, Cancel)) {
     self.sendLocation = sendLocation
-    self.sendFcmToken = sendFcmToken
-    store.subscribe(self)
+//    store.subscribe(self)
   }
-  
 
   func newState(state: AppState) {
-    
-    store.dispatch { (appState, store) -> Action? in
-      
+    store.dispatch { [weak self] (appState, store) -> Action? in
       let state = appState.locationState
       
       guard let currentLocation = state.currentlocation,
         let token = appState.authState.loginStatus.userCredentials?.token,
-        state.lastSentLocation == nil || state.lastSentLocation!.distance(from: currentLocation) > 200 else { return nil }
+        state.lastSentLocation == nil || state.lastSentLocation!.distance(from: currentLocation) > locationThreshold
+        else {
+          return nil
+      }
       
-      if case .run = state.sendLocationRequest { return nil }
+      if case .sending = state.sendLocationRequest {
+        self?.sendingLocationCancelation?()
+        self?.sendingLocationCancelation = nil
+      }
       
-      let (sendLocationPromise, cancel) = self.sendLocation(currentLocation, token)
+      guard let strongSelf = self else { return nil }
+      let (sendLocationPromise, cancel) = strongSelf.sendLocation(currentLocation, token)
+      self?.sendingLocationCancelation = cancel
       
       sendLocationPromise
         .then {
-          store.dispatch(SendLocationRequest.success(currentLocation))
+          store.dispatch(SendingLocationStatus.success(currentLocation))
         }.catch {
-          store.dispatch(SendLocationRequest.error($0))
+          store.dispatch(SendingLocationStatus.error($0))
       }
-      
-      return SendLocationRequest.run(cancel)
+      return SendingLocationStatus.sending
     }
     
-    guard let credentials = state.authState.loginStatus.userCredentials,
-      credentials.fcmTokenDelivered == false,
-      let newFcmToken = credentials.fcmToken,
-      let token = state.authState.loginStatus.userCredentials?.token else { return }
-    
-    if newFcmToken != sendingFcmToken {
-      sendFcmCancelFunction?()
-    }
-    
-    let (sendingPromise, cancel) = sendFcmToken(newFcmToken, token)
-    self.sendFcmCancelFunction = cancel
-    self.sendingFcmToken = newFcmToken
-    
-    sendingPromise
-      .then { _ -> () in
-        UserDefaults.standard.set(true, forKey: "fcmTokenDelivered")
-        UserDefaults.standard.synchronize()
-        store.dispatch(FcmTokenDelivered())
-      }
-      .always { [weak self] in
-        self?.sendFcmCancelFunction = nil
-        self?.sendingFcmToken = nil
-    }
-
+//    guard let credentials = state.authState.loginStatus.userCredentials,
+//      credentials.fcmTokenDelivered == false,
+//      let newFcmToken = credentials.fcmToken,
+//      let token = state.authState.loginStatus.userCredentials?.token else { return }
+//
+//    if newFcmToken != sendingFcmToken {
+//      sendFcmCancelFunction?()
+//    }
+//
+//    let (sendingPromise, cancel) = sendFcmToken(newFcmToken, token)
+//    self.sendFcmCancelFunction = cancel
+//    self.sendingFcmToken = newFcmToken
+//
+//    sendingPromise
+//      .then { _ -> () in
+//        UserDefaults.standard.set(true, forKey: "fcmTokenDelivered")
+//        UserDefaults.standard.synchronize()
+//        store.dispatch(FcmTokenDelivered())
+//      }
+//      .always { [weak self] in
+//        self?.sendFcmCancelFunction = nil
+//        self?.sendingFcmToken = nil
+//    }
   }
-  
-
 }
