@@ -12,11 +12,9 @@ import ReSwift
 import Kingfisher
 
 class EventsMapViewController: UIViewController, EventMapView {
-  
   @IBOutlet weak var zoomInButton: UIButton!
   @IBOutlet weak var zoomOutButton: UIButton!
   @IBOutlet weak var findMeButton: UIButton!
-  
   @IBOutlet weak var mapView: MKMapView!
   
   @IBAction func zoomInPressed(_ sender: UIButton) {
@@ -34,23 +32,19 @@ class EventsMapViewController: UIViewController, EventMapView {
   private func showUserLocation(animated: Bool) {
     mapView.showAnnotations([mapView.userLocation], animated: animated)
   }
+
+  var onSelect: ((EventId) -> ())?
   
   private let tileSource = "http://a.tile.openstreetmap.org/{z}/{x}/{y}.png"
   private let preloadScaleFactor = 1.5 //насколько большую площадь, чем отображаемую на карте, запрашивать при загрузке новых пинов
-
-  var onSelectItem: ((EventId) -> ())?
-  
-  var viewModelRendered = true
-  
-  var annotations = [EventAnnotation]()
-  
+  private var viewModelRendered = true
+  private var annotations = [EventAnnotation]()
   var viewModel: EventsMapViewModel! {
     didSet {
       viewModelRendered = false
       view.setNeedsLayout()
     }
   }
-  
   
   private func zoomMap(byFactor scaleFactor: Double) {
     var region = mapView.region
@@ -60,7 +54,6 @@ class EventsMapViewController: UIViewController, EventMapView {
     region.span = span
     mapView.setRegion(region, animated: true)
   }
-  
   
   fileprivate func getVisibleMapAnnotations() {
     let deltaX = mapView.visibleMapRect.size.width * (preloadScaleFactor - 1)
@@ -75,7 +68,6 @@ class EventsMapViewController: UIViewController, EventMapView {
     let maxLat = MKCoordinateForMapPoint(minPoint).latitude
     viewModel?.fetchEventsFor(maxLat, maxLon, minLat, minLon)
   }
-  
   
   private func setInitialState() {
     mapView.showsUserLocation = true
@@ -97,46 +89,38 @@ class EventsMapViewController: UIViewController, EventMapView {
     }
   }
   
-  
   private func renderUI() {
     let newAnnotations = viewModel.events.map{EventAnnotation($0)}
-    let removes = annotations.filter{oldAnnotation in !newAnnotations.contains(where: { oldAnnotation.eventId == $0.eventId})}
-    let inserts = newAnnotations.filter{newAnnotation in !annotations.contains(where: { newAnnotation.eventId == $0.eventId})}
+    let removes = annotations.filter{oldAnnotation in
+      !newAnnotations.contains(where: { oldAnnotation.eventId == $0.eventId})
+    }
+    let inserts = newAnnotations.filter{newAnnotation in
+      !annotations.contains(where: { newAnnotation.eventId == $0.eventId})
+    }
     mapView.removeAnnotations(removes)
     mapView.addAnnotations(inserts)
     annotations = newAnnotations
-    if let showingEventId = viewModel.shouldShowEvent, let index = annotations.index(where: {$0.eventId == showingEventId}) {
-      let annotation = annotations[index]
-      mapView.showAnnotations([annotation], animated: true)
-      mapView.selectAnnotation(annotation, animated: true)
-      viewModel.eventShown()
-    }
   }
   
-  
-  @objc func showEvent (sender: UITapGestureRecognizer) {
+  @objc func onTapEvent(sender: UITapGestureRecognizer) {
     guard let annotation = (sender.view as? MKAnnotationView)?.annotation as? EventAnnotation else { return }
-    onSelectItem?(annotation.eventId)
+    onSelect?(annotation.eventId)
   }
-  
   
   override func viewDidLoad() {
     super.viewDidLoad()
     setInitialState()
   }
   
-  
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     store.subscribe(self)
   }
   
-  
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
     store.unsubscribe(self)
   }
-  
   
   override func viewWillLayoutSubviews() {
     super.viewWillLayoutSubviews()
@@ -146,8 +130,6 @@ class EventsMapViewController: UIViewController, EventMapView {
     }
   }
 }
-
-
 
 extension EventsMapViewController: MKMapViewDelegate   {
   
@@ -159,7 +141,6 @@ extension EventsMapViewController: MKMapViewDelegate   {
     }
   }
   
-  
   func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
     guard let tileOverlay = overlay as? MKTileOverlay else {
       let rendener = MKOverlayRenderer(overlay: overlay)
@@ -167,7 +148,6 @@ extension EventsMapViewController: MKMapViewDelegate   {
     }
     return MKTileOverlayRenderer(tileOverlay: tileOverlay)
   }
-  
   
   func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
     if annotation.isKind(of: MKUserLocation.self) { return nil }
@@ -178,26 +158,18 @@ extension EventsMapViewController: MKMapViewDelegate   {
     return pinView
   }
   
-  
   func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(showEvent(sender:)))
+    let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onTapEvent(sender:)))
     view.addGestureRecognizer(tapGesture)
   }
-  
   
   func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
     view.gestureRecognizers?.removeAll()
   }
-
-  
 }
 
 extension EventsMapViewController: StoreSubscriber {
-  
   func newState(state: AppState) {
     self.viewModel = EventsMapViewModel(from: state)
   }
-  
 }
-
-

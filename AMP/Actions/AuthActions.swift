@@ -13,11 +13,16 @@ struct RequestTokenAction: Action {
   let verificationId: String
 }
 
-struct RequestAnonimousToken: Action { }
+struct RequestAnonymousToken: Action { }
 
 struct SetLoginState: Action {
   let state: LoginStatus
   init (_ state: LoginStatus) { self.state = state }
+}
+
+struct SignedIn: Action {
+  let credentials: UserCredentials
+  let userInfo: UserInfo
 }
 
 struct Logout: Action {  }

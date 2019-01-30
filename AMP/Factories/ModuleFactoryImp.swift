@@ -8,17 +8,21 @@ final class ModuleFactoryImp:
 {
   
   func makeEventListOutput() -> EventListView {
-    return EventListTableViewController.controllerFromStoryboard(.list)
+    let eventListVc = EventListViewController()
+    let eventListPresenter = EventListPresenter(view: eventListVc)
+    eventListVc.output = eventListPresenter
+    return eventListVc
   }
   
   func makeEventMapOutput() -> EventMapView {
     return EventsMapViewController.controllerFromStoryboard(.map)
   }
   
-  func makeEventDetailOutput(eventId: EventId, screenId: ScreenId) -> EventDetailsView {
-    let vc = EventDetailsViewController.controllerFromStoryboard(.list)
-    vc.eventId = eventId
-    vc.screenId = screenId
+  func makeEventDetailOutput(eventId: EventId) -> EventDetailsView {
+    let vc = EventViewController()
+    vc.hidesBottomBarWhenPushed = true
+    let presenter = EventPresenter(view: vc, eventId: eventId)
+    vc.output = presenter
     return vc
   }
   
@@ -30,14 +34,19 @@ final class ModuleFactoryImp:
     return FavouritesTableViewController.controllerFromStoryboard(.favourites)
   }
   
-  func makeSettingsOutput() -> BaseView {
+  func makeSignInOutput() -> (SignInView, SignInModuleOutput) {
+    let vc = SignInViewController.controllerFromStoryboard(.auth)
+    let presenter = SignInPresenter(view: vc)
+    vc.output = presenter
+    return (vc, presenter)
+  }
+  
+  func makeSettingsOutput() -> SettingsRootView {
     return SettingsTableViewController.controllerFromStoryboard(.settings)
   }
   
-  func makeSignInOutput() -> SignInView {
-    let vc = SignInViewController.controllerFromStoryboard(.auth)
-    vc.viewModel = SignInViewController.ViewModel(state: store.state.authState)
+  func makeEditUserProfileOutput() -> UserInfoView {
+    let vc = UserProfileTableViewController.controllerFromStoryboard(.settings)
     return vc
   }
-  
 }

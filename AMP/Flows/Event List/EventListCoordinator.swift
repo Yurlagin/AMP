@@ -15,12 +15,16 @@ final class EventListCoordinator: BaseCoordinator {
     showEventList()
   }
   
-  //MARK: - Run current flow's controllers
-  
   private func showEventList() {
     let eventListOutput = factory.makeEventListOutput()
-    eventListOutput.onSelectItem = { _ in }
+    eventListOutput.onSelect = { [weak self] in self?.showEventDetails(id: $0, showKeyboard: false) }
+    eventListOutput.onTapComment = { [weak self] in self?.showEventDetails(id: $0, showKeyboard: true) }
     router.setRootModule(eventListOutput)
   }
-    
+  
+  private func showEventDetails(id: EventId, showKeyboard: Bool) {
+    let eventOutput = factory.makeEventDetailOutput(eventId: id)
+    router.push(eventOutput)
+  }
+
 }

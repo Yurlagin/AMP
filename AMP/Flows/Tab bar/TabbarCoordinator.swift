@@ -8,16 +8,14 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
   var finishFlow: (() -> ())?
 
   private let locationTracker = LocationTracker()
-  private let locationSender = LocationSender(sendLocation: ApiService.sendLocation,
-                                              sendFcmToken: ApiService.sendFcmToken)
-  
+  private let locationSender = LocationSender(sendLocation: ApiServiceImpl().sendLocation,
+                                              sendFcmToken: ApiServiceImpl().sendFcmToken)
   
   init(tabbarView: TabbarView, coordinatorFactory: CoordinatorFactory) {
     self.tabbarView = tabbarView
     self.coordinatorFactory = coordinatorFactory
     locationTracker.startForegroundTracking()
   }
-  
   
   override func start() {
     tabbarView.onViewDidLoad = runEventListFlow()
@@ -42,17 +40,15 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
     
   }
   
-  
   private func runEventListFlow() -> ((UINavigationController) -> ()) {
     return { navController in
-      if navController.viewControllers.isEmpty == true {
-        let itemCoordinator = self.coordinatorFactory.makeEventListCoordinator(navController: navController )
+      if navController.viewControllers.isEmpty {
+        let itemCoordinator = self.coordinatorFactory.makeEventListCoordinator(navController: navController)
         itemCoordinator.start()
         self.addDependency(itemCoordinator)
       }
     }
   }
-  
   
   private func runEventMapFlow() -> ((UINavigationController) -> ()) {
     return { navController in
@@ -63,7 +59,6 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
       }
     }
   }
-  
   
   private func runCreateEventFlow() -> ((UINavigationController) -> ()) {
     return { navController in
@@ -81,7 +76,6 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
     }
   }
   
-  
   private func runFavoritesFlow() -> ((UINavigationController) -> ()) {
     return { navController in
       if navController.viewControllers.isEmpty == true {
@@ -91,7 +85,6 @@ class TabbarCoordinator: BaseCoordinator, TabbarCoordinatorOutput {
       }
     }
   }
-  
   
   private func runSettingsFlow() -> ((UINavigationController) -> ()) {
     return { navController in

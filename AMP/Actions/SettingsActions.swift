@@ -8,9 +8,17 @@
 
 import ReSwift
 
-enum SetUserProfileRequestStatus: Action {
-  case none
-  case request
-  case error(Error)
-  case success(String?, String?)
+struct SendUserInfo: Action {
+  let userInfo: UserInfo
+  init(_ userInfo: UserInfo) { self.userInfo = userInfo }
 }
+
+enum SendingUserInfoResult: Action {
+  case success
+  case error(Error)
+}
+
+struct ShownUserInfoErrorAlert: Action {}
+struct LeftUserInfoScreen: Action {}
+
+//struct

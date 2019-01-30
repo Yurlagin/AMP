@@ -1,3 +1,1 @@
-protocol SignInView: BaseView {
-  var onComplete: (() -> ())? { get set }
-}
+protocol SignInView: BaseView { }

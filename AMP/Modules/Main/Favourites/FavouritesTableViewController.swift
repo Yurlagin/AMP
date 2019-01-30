@@ -10,12 +10,20 @@ import UIKit
 
 class FavouritesTableViewController: UITableViewController, FavouritesView {
   
-  var onSelectItem: ((Int) -> ())?
+  var onSelect: ((Int) -> ())?
   
   
   override func viewDidLoad() {
     super.viewDidLoad()
     
+  }
+  
+  override func loadView() {
+    let label = UILabel()
+    label.backgroundColor = .white
+    label.textAlignment = .center
+    label.text = "В разработке ;]"
+    view = label
   }
   
   

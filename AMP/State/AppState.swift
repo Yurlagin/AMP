@@ -11,15 +11,20 @@ import ReSwift
 struct AppState: StateType {
   let authState: AuthState
   let eventsState: EventsState
+  let createEventState: CreateEventState
   let locationState: LocationState
-  let apiRequestsState: ApiRequestsState
+  let settingsState: SettingsState
 }
 
 func appReducer(action: Action, state: AppState?) -> AppState {
-  return AppState(
+  print("~~~ Action: \(action)")
+  let newState = AppState(
     authState: authReducer(action: action, state: state?.authState),
     eventsState: eventsReducer(action: action, state: state?.eventsState),
+    createEventState: createEventReducer(action: action, state: state?.createEventState),
     locationState: locationReducer(action: action, state: state?.locationState),
-    apiRequestsState: apiRequestsReducer(action: action, state: state?.apiRequestsState)
+    settingsState: settingsReducer(action: action, state: state?.settingsState)
   )
+
+  return newState
 }

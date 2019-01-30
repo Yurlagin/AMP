@@ -9,7 +9,7 @@
 import Foundation
 
 protocol EventSelectable: BaseView {
-  var onSelectItem: ((Int) -> ())? { get set }
+  var onSelect: ((EventId) -> ())? { get set }
 }
 
 protocol EventMapView: EventSelectable {

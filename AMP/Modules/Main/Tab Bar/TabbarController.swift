@@ -85,11 +85,11 @@ final class TabbarController: UITabBarController, UITabBarControllerDelegate, Ta
 extension TabbarController: StoreSubscriber {
   
   func newState(state: AppState) {
-    if case .success = state.apiRequestsState.createEventStatus {
-      selectedIndex = 1
-      guard let controller = viewControllers?[selectedIndex] as? UINavigationController else { return }
-      onEventsMapFlowSelect?(controller)
-    }
+//    if case .success = state.apiRequestsState.createEventStatus {
+//      selectedIndex = 1
+//      guard let controller = viewControllers?[selectedIndex] as? UINavigationController else { return }
+//      onEventsMapFlowSelect?(controller)
+//    }
   }
   
 }

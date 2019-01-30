@@ -7,9 +7,12 @@
 //
 
 import Foundation
+import DifferenceKit
 
-struct Event: Codable {
-  let id: Int
+typealias EventId = Int
+
+struct Event {
+  let id: EventId
   let userName: String?
   let avatarUrl: String?
   let latitude: Double
@@ -27,8 +30,6 @@ struct Event: Codable {
   var dislike: Bool
   let visible: Bool // visible=показывается всем pended= на премодерации и показывается только автору
   var comments: [Comment]?
-  let replyedComments: [Comment]?
-
   var maxCommentId: Int?
   var solutionCommentId: Int?
   
@@ -51,6 +52,11 @@ struct Event: Codable {
                                                    (.gibdds, "Гибдд"),
                                                    (.news, "Новости")]
   }
+  
+}
+
+
+extension Event: Decodable {
   
   enum CodingKeys: String, CodingKey {
     case id
@@ -75,10 +81,6 @@ struct Event: Codable {
     case maxCommentId
     case solutionCommentId
   }
-}
-
-
-extension Event {
   
   init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
@@ -122,10 +124,29 @@ extension Event {
     self.like = likeInt > 0
     self.dislike = dislikeInt > 0
     self.visible = visible == "visible"
-    self.comments = try values.decodeIfPresent([Comment].self, forKey: .comments)
-    self.replyedComments = try values.decodeIfPresent([Comment].self, forKey: .replyedComments)
     self.maxCommentId = try values.decodeIfPresent(Int.self, forKey: .maxCommentId)
     self.solutionCommentId = try values.decodeIfPresent(Int.self, forKey: .solutionCommentId)
+    
+    var comments = try values.decodeIfPresent([Comment].self, forKey: .comments)
+    let replyedComments = try values.decodeIfPresent([Comment].self, forKey: .replyedComments)
+
+    let allCommentsDict = ((comments ?? []) + (replyedComments ?? [])).reduce([CommentId: Comment]()) { (commentDict, comment) in
+      var newCommentDict = commentDict
+      newCommentDict[comment.id] = comment
+      return newCommentDict
+    }
+    
+    comments = comments?.compactMap({ (comment) in
+      if let quoteId = comment.replyToId, let repliedComment = allCommentsDict[quoteId] {
+        var commentWithQuote = comment
+        commentWithQuote.quote = CommentQuote(userName: repliedComment.userName ?? "Без имени", message: repliedComment.message ?? "")
+        return commentWithQuote
+      } else {
+        return comment
+      }
+    })
+    
+    self.comments = comments
   }
   
   enum EventDecodingError: Error {
@@ -133,22 +154,10 @@ extension Event {
   }
 }
 
+extension Event: Hashable {}
 
-
-extension Event: Equatable {
-  static func ==(lhs: Event, rhs: Event) -> Bool {
-    return lhs.id == rhs.id
-  }
-}
-
-extension Event: Hashable {
-  var hashValue: Int {
-    return created.hashValue +
-      commentsCount.hashValue +
-      dislikes.hashValue +
-      likes.hashValue +
-      like.hashValue +
-      dislike.hashValue +
-      visible.hashValue
+extension Event: Differentiable {
+  var differenceIdentifier: Int  {
+    return id
   }
 }

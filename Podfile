@@ -14,10 +14,12 @@ target 'AMP' do
 	pod 'PromiseKit/CoreLocation'
 	pod 'Kingfisher', '~> 4.0'
 	pod 'Locksmith'
-	pod 'DeepDiff'
+	pod 'DifferenceKit'
 	pod 'RSKImageCropper'
+  pod 'TableKit'
 end
 
 target 'AMPTests' do
     pod 'Firebase'
+    pod 'DifferenceKit'
 end

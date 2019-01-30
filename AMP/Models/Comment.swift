@@ -8,9 +8,10 @@
 
 import Foundation
 
-struct Comment: Codable {
-  
-  var id: Int
+typealias CommentId = Int
+
+struct Comment {
+  var id: CommentId
   var userId: Int
   var userName: String?
   var avatarURL: String?
@@ -18,8 +19,11 @@ struct Comment: Codable {
   var message: String?
   var like: Bool
   var likes: Int
-  var replyToId: Int?
-  
+  var replyToId: CommentId?
+  var quote: CommentQuote?
+}
+
+extension Comment: Codable {
   
   enum CodingKeys: String, CodingKey {
     case id = "comid"
@@ -31,12 +35,7 @@ struct Comment: Codable {
     case like
     case likes
     case replyToId = "replyTo"
-    
   }
-  
-}
-
-extension Comment {
   
   init(from decoder: Decoder) throws {
     
@@ -62,18 +61,7 @@ extension Comment {
     
     likes = try values.decodeIfPresent(Int.self, forKey: .likes) ?? 0
     replyToId = try values.decodeIfPresent(Int.self, forKey: .replyToId)
-    
   }
 }
 
-extension Comment: Equatable, Hashable {
-  var hashValue: Int {
-    return self.created.hashValue + self.like.hashValue + self.likes.hashValue
-  }
-  
-  static func ==(lhs: Comment, rhs: Comment) -> Bool {
-    return lhs.id == rhs.id
-  }
-  
-  
-}
+extension Comment: Hashable {}

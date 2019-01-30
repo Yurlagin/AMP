@@ -8,4 +8,5 @@
 
 protocol EventListModuleFactory {
   func makeEventListOutput() -> EventListView
+  func makeEventDetailOutput(eventId: EventId) -> EventDetailsView
 }

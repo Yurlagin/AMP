@@ -20,7 +20,7 @@ func locationReducer(action: Action, state: LocationState?) -> LocationState {
     
   case let action as SetNewLocation:
     state.currentlocation = action.location
-    print ("new location: \(action.location)")
+//    print ("new location: \(action.location)")
     
     
   case let action as SendLocationRequest:
@@ -28,7 +28,7 @@ func locationReducer(action: Action, state: LocationState?) -> LocationState {
     case .success(let sentLocation):
       state.lastSentLocation = sentLocation
       state.sendLocationRequest = .none
-      print("§§§ sent location: \(sentLocation)")
+//      print("§§§ sent location: \(sentLocation)")
     default:
       state.sendLocationRequest = action
     }

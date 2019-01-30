@@ -14,12 +14,12 @@ func authReducer(action: Action, state: AuthState?) -> AuthState {
 
   switch action {
     
-  case _ as ReSwiftInit:
+  case is ReSwiftInit:
     break
     
     
-  case _ as RequestAnonimousToken:
-    state.loginStatus = .anonimousFlow(.request)
+  case is RequestAnonymousToken:
+    state.loginStatus = .anonymousFlow(.loading)
     
     
   case let action as RequestSmsAction:
@@ -33,8 +33,10 @@ func authReducer(action: Action, state: AuthState?) -> AuthState {
   case let action as SetLoginState:
     state.loginStatus = action.state
     
+  case let action as SignedIn:
+    state.loginStatus = .loggedIn(user: action.credentials, logoutStatus: .none)
     
-  case _ as Logout:
+  case is Logout:
     if case .loggedIn(let user, let logoutStatus) = state.loginStatus {
       switch logoutStatus {
       case .error, .none: state.loginStatus = .loggedIn(user: user, logoutStatus: .request)
@@ -42,28 +44,18 @@ func authReducer(action: Action, state: AuthState?) -> AuthState {
       }
     }
     
-    
-  case let action as SetUserProfileRequestStatus:
-    if case .success(let userName, let about) = action, let userCredentials = state.loginStatus.getUserCredentials()  {
-      var newCredentials = userCredentials
-      newCredentials.name = userName
-      newCredentials.about = about
-      state.loginStatus = .loggedIn(user: newCredentials, logoutStatus: state.loginStatus.getLogoutStatus()!)
-    }
-    
-    
   case let action as DidRecieveFCMToken:
-    if var newCredentials = state.loginStatus.getUserCredentials() {
+    if var newCredentials = state.loginStatus.userCredentials {
       newCredentials.fcmTokenDelivered = newCredentials.fcmToken == action.token
       newCredentials.fcmToken = action.token
-      state.loginStatus = .loggedIn(user: newCredentials, logoutStatus: state.loginStatus.getLogoutStatus()!)
+      state.loginStatus = .loggedIn(user: newCredentials, logoutStatus: state.loginStatus.logoutStatus!)
     }
     
     
-  case _ as FcmTokenDelivered:
-    if var newCredentials = state.loginStatus.getUserCredentials() {
+  case is FcmTokenDelivered:
+    if var newCredentials = state.loginStatus.userCredentials {
       newCredentials.fcmTokenDelivered = true
-      state.loginStatus = .loggedIn(user: newCredentials, logoutStatus: state.loginStatus.getLogoutStatus()!)
+      state.loginStatus = .loggedIn(user: newCredentials, logoutStatus: state.loginStatus.logoutStatus!)
     }
 
     

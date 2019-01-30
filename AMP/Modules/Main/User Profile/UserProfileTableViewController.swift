@@ -12,41 +12,56 @@ import MBProgressHUD
 import Kingfisher
 import RSKImageCropper
 
-class UserProfileTableViewController: UITableViewController {
+class UserProfileTableViewController: UITableViewController, UserInfoView {
+  @IBOutlet private weak var avatarImageView: UIImageView!
+  @IBOutlet private weak var usernameTextField: UITextField!
+  @IBOutlet private weak var aboutTextField: UITextField!
   
+  var onDone: (() -> Void)?
+
+  private let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed))
+  private var hud: MBProgressHUD?
   
-  @IBOutlet weak var avatarImageView: UIImageView!
-  @IBOutlet weak var usernameTextField: UITextField!
-  @IBOutlet weak var aboutTextField: UITextField!
-  
-  let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(donePressed))
-  
-  var viewModelRendered = true
-  
-  var viewModel: UserProfileViewModel! {
+  var props: Props? {
     didSet {
-      viewModelRendered = false
-      view.setNeedsLayout()
+      if let props = props, state == nil { state = State(userInfo: props.userInfo) }
+      renderUI()
+      if let oldProps = oldValue { checkFlowCompletion(oldProps: oldProps) }
     }
   }
   
+  private func checkFlowCompletion(oldProps: Props) {
+    guard let props = props else { return }
+    let isChangeRequestCompletedSuccessfuly = props.errorAlert == nil && oldProps.showHud
+    if isChangeRequestCompletedSuccessfuly {
+      onDone?()
+    }
+  }
+  
+  private struct State {
+    var userInfo: UserInfo
+  }
+  private var state: State? {
+    didSet {
+      renderUI()
+    }
+  }
+  
+  private var isDoneButtonEnabled: Bool {
+    return state != nil
+      && props?.userInfo != state?.userInfo
+      && props?.canEditProfile == true
+      && props?.showHud == false
+  }
   
   @objc private func donePressed() {
-    viewModel.didPressDoneButton(usernameTextField.text, aboutTextField.text)
+    if let userInfo = state?.userInfo {
+      props?.onSendUserInfo(userInfo)
+    }
   }
   
-  
-  var hud: MBProgressHUD?
-  
   private func renderUI() {
-    
-    guard let viewModel = viewModel else { return }
-    
-    if let url = viewModel.avatarURL {
-      avatarImageView.kf.setImage(with: URL(string: url))
-    }
-    
-    if viewModel.showHud {
+    if props?.showHud == true {
       if hud == nil {
         hud = MBProgressHUD.showAdded(to: view, animated: true)
         hud?.removeFromSuperViewOnHide = true
@@ -56,15 +71,23 @@ class UserProfileTableViewController: UITableViewController {
       hud = nil
     }
     
-    doneButton.isEnabled = !viewModel.showHud
-    
-    navigationItem.rightBarButtonItem = viewModel.canEditProfile ? doneButton : nil
-    
-    usernameTextField.text = viewModel.userName
-    aboutTextField.text = viewModel.about
-    [usernameTextField, aboutTextField, avatarImageView].forEach { $0.isUserInteractionEnabled = viewModel.canEditProfile }
+    doneButton.isEnabled = isDoneButtonEnabled
+    navigationItem.rightBarButtonItem = props?.canEditProfile == true ? doneButton : nil
+    [usernameTextField, aboutTextField, avatarImageView].forEach {
+      $0?.isUserInteractionEnabled = props?.canEditProfile == true
+    }
+    if let (title, text) = props?.errorAlert {
+      showOkAlert(title: title, message: text)
+      props?.onShowError()
+    }
+
+    guard let state = state else { return }
+    if let url = state.userInfo.avatarURL {
+      avatarImageView.kf.setImage(with: URL(string: url))
+    }
+    usernameTextField.text = state.userInfo.userName
+    aboutTextField.text = state.userInfo.about
   }
-  
   
   @objc private func showAvatarPicker() {
     let imagePicker = UIImagePickerController()
@@ -73,7 +96,6 @@ class UserProfileTableViewController: UITableViewController {
     present(imagePicker, animated: true)
   }
   
-  
   fileprivate func showAvatarCropper(image: UIImage?) {
     guard let image = image else { return }
     let cropper = RSKImageCropViewController(image: image, cropMode: .circle)
@@ -81,51 +103,39 @@ class UserProfileTableViewController: UITableViewController {
     present(cropper, animated: false)
   }
   
-  
   override func viewDidLoad() {
     super.viewDidLoad()
-//    navigationItem.rightBarButtonItem = doneButton
     let avatarTapGesture = UITapGestureRecognizer(target: self, action: #selector(showAvatarPicker))
     avatarImageView.addGestureRecognizer(avatarTapGesture)
     avatarImageView.layer.cornerRadius = avatarImageView.frame.height / 2
     avatarImageView.layer.masksToBounds = true
+    [usernameTextField, aboutTextField].forEach{$0?.delegate = self}
   }
-  
-  
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(true)
     store.subscribe(self)
   }
   
-  
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
     store.unsubscribe(self)
   }
   
-  
-  override func viewWillLayoutSubviews() {
-    super.viewWillLayoutSubviews()
-    if !viewModelRendered {
-      renderUI()
-      viewModelRendered = true
-    }
+  deinit {
+    props?.onLeaveScreen()
   }
-  
   
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     switch indexPath.section {
-    case 1: viewModel.didTapLogout?()
+    case 1: props?.onLogout?()
     default: break
     }
     tableView.deselectRow(at: indexPath, animated: true)
   }
 }
 
-
 extension UserProfileTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
- 
   func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
     let image = info[UIImagePickerControllerOriginalImage] as? UIImage
     picker.dismiss(animated: false) { [weak self] in
@@ -136,34 +146,50 @@ extension UserProfileTableViewController: UIImagePickerControllerDelegate, UINav
   func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
     picker.dismiss(animated: true)
   }
-  
 }
 
-
 extension UserProfileTableViewController: RSKImageCropViewControllerDelegate {
-  
   func imageCropViewControllerDidCancelCrop(_ controller: RSKImageCropViewController) {
     controller.dismiss(animated: true)
   }
   
-  
   func imageCropViewController(_ controller: RSKImageCropViewController, didCropImage croppedImage: UIImage, usingCropRect cropRect: CGRect, rotationAngle: CGFloat) {
-    let cropedSize = CGSize(width: avatarImageView.frame.width * UIScreen.main.scale, height: avatarImageView.frame.height * UIScreen.main.scale)
+    let cropedSize = CGSize(
+      width: avatarImageView.frame.width * UIScreen.main.scale,
+      height: avatarImageView.frame.height * UIScreen.main.scale
+    )
     let sendingImage = croppedImage.kf.resize(to: cropedSize, for: .aspectFit)
     if let imageData = sendingImage.kf.pngRepresentation() {
       avatarImageView.image = sendingImage
-      viewModel.didSelectAvatar?(imageData)
+      props?.onSelectAvatar?(imageData)
     }
     controller.dismiss(animated: true)
   }
-  
 }
 
-
 extension UserProfileTableViewController: StoreSubscriber {
-  
   func newState(state: AppState) {
-    viewModel = UserProfileViewModel(state: state, sendProfileFunction: ApiService.sendProfileSettings)
+    props = Props(state: state)
+  }
+}
+
+extension UserProfileTableViewController: UITextFieldDelegate {
+  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    let finalString = NSString(string: textField.text!).replacingCharacters(in: range, with: string)
+    switch textField {
+    case aboutTextField: state?.userInfo.about = finalString
+    case usernameTextField: state?.userInfo.userName = finalString
+    default: break
+    }
+    
+    return false
   }
   
+  func textFieldDidEndEditing(_ textField: UITextField) {
+    switch textField {
+    case aboutTextField: state?.userInfo.about = textField.text
+    case usernameTextField: state?.userInfo.userName = textField.text
+    default: break
+    }
+  }
 }

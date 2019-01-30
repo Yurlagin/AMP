@@ -7,5 +7,5 @@
 //
 
 protocol EventListView: EventSelectable {
-
+  var onTapComment: ((EventId) -> Void)? { get set }
 }

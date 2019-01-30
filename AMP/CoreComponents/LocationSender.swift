@@ -33,7 +33,7 @@ class LocationSender: StoreSubscriber {
       let state = appState.locationState
       
       guard let currentLocation = state.currentlocation,
-        let token = appState.authState.loginStatus.getUserCredentials()?.token,
+        let token = appState.authState.loginStatus.userCredentials?.token,
         state.lastSentLocation == nil || state.lastSentLocation!.distance(from: currentLocation) > 200 else { return nil }
       
       if case .run = state.sendLocationRequest { return nil }
@@ -50,10 +50,10 @@ class LocationSender: StoreSubscriber {
       return SendLocationRequest.run(cancel)
     }
     
-    guard let credentials = state.authState.loginStatus.getUserCredentials(),
+    guard let credentials = state.authState.loginStatus.userCredentials,
       credentials.fcmTokenDelivered == false,
       let newFcmToken = credentials.fcmToken,
-      let token = state.authState.loginStatus.getUserCredentials()?.token else { return }
+      let token = state.authState.loginStatus.userCredentials?.token else { return }
     
     if newFcmToken != sendingFcmToken {
       sendFcmCancelFunction?()

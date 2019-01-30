@@ -8,7 +8,7 @@
 
 import UIKit
 
-//MARK: for identity perpose when making custom transitioning only
+// For identity perpose when making custom transitioning only
 class CreateEventNavigationController: UINavigationController {
 
 }

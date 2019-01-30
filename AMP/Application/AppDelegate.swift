@@ -2,10 +2,12 @@ import ReSwift
 import Firebase
 import UserNotifications
 
-let authSideEffects = injectService(service: AuthService(), receivers: authServiceSideEffects)
-let eventsSideEffects = injectService(service: ApiService(), receivers: eventsServiceSideEffects)
+fileprivate let authSideEffects = injectService(service: AuthServiceImpl(authStorage: AuthStorageImpl()),
+                                    receivers: authServiceSideEffects)
+fileprivate let eventsSideEffects = injectService(service: ApiServiceImpl(), receivers: eventsServiceSideEffects)
+fileprivate let settingsSideEffects = injectService(service: ApiServiceImpl(), receivers: settingsServiceSideEffects)
 
-let middleware = createMiddleware(items: authSideEffects + eventsSideEffects)
+fileprivate let middleware = createMiddleware(items: authSideEffects + eventsSideEffects + settingsSideEffects)
 
 let store = Store (
   reducer: appReducer,
@@ -23,7 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
   
   private lazy var applicationCoordinator: Coordinator = self.makeCoordinator()
-  
   
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
@@ -48,8 +49,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     )
   }
   
+  // MARK: - Handle push notifications and deep links
   
-  //MARK: Handle push notifications and deep links
   func application(_ application: UIApplication,
                    didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
     let dict = userInfo as? [String: AnyObject]
@@ -64,7 +65,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     applicationCoordinator.start(with: deepLink)
     return true
   }
-  
   
   func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
     
@@ -91,8 +91,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     completionHandler(.noData)
   }
-
-  
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
