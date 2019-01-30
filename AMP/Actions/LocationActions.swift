@@ -14,7 +14,10 @@ struct SetNewLocation: Action {
   init (_ location: CLLocation) { self.location = location }
 }
 
-struct UpdateLocationSent: Action {
-  let sent: Date
-  init (_ sent: Date) { self.sent = sent }
+
+struct SendLocation: Action {}
+
+enum SendingLocationResult: Action {
+  case success(CLLocation)
+  case error
 }

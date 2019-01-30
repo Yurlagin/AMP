@@ -9,33 +9,29 @@
 import ReSwift
 
 func locationReducer(action: Action, state: LocationState?) -> LocationState {
-  
-  var state = state ?? LocationState(currentlocation: nil, lastSentLocation: nil, sendLocationRequest: .none)
+  var state = state ?? LocationState(currentlocation: nil, lastSentLocation: nil, sendingStatus: .none)
   
   switch action {
-    
   case _ as ReSwiftInit:
     break
     
-    
   case let action as SetNewLocation:
     state.currentlocation = action.location
-//    print ("new location: \(action.location)")
     
+  case is SendLocation:
+    state.sendingStatus = .sending
     
-  case let action as SendLocationRequest:
+  case let action as SendingLocationResult:
     switch action {
-    case .success(let sentLocation):
-      state.lastSentLocation = sentLocation
-      state.sendLocationRequest = .none
-//      print("§§§ sent location: \(sentLocation)")
-    default:
-      state.sendLocationRequest = action
+    case .success(let location):
+      state.lastSentLocation = location
+      state.sendingStatus = .none
+    case .error:
+      state.sendingStatus = .error
     }
     
   default:
     break
-    
   }
   
   return state
