@@ -9,11 +9,9 @@
 import ReSwift
 
 func locationReducer(action: Action, state: LocationState?) -> LocationState {
-  
   var state = state ?? LocationState(currentlocation: nil, lastSentLocation: nil, sendingStatus: .none)
   
   switch action {
-    
   case _ as ReSwiftInit:
     break
     
