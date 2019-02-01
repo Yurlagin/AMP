@@ -1,11 +1,14 @@
 PODS:
   - Alamofire (4.8.0)
+  - Crashlytics (3.12.0):
+    - Fabric (~> 1.9.0)
   - DifferenceKit (0.8.0):
     - DifferenceKit/Core (= 0.8.0)
     - DifferenceKit/UIKitExtension (= 0.8.0)
   - DifferenceKit/Core (0.8.0)
   - DifferenceKit/UIKitExtension (0.8.0):
     - DifferenceKit/Core
+  - Fabric (1.9.0)
   - Firebase (5.15.0):
     - Firebase/Core (= 5.15.0)
   - Firebase/Auth (5.15.0):
@@ -109,7 +112,9 @@ PODS:
   - TableKit (2.8.0)
 
 DEPENDENCIES:
+  - Crashlytics (~> 3.12.0)
   - DifferenceKit
+  - Fabric (~> 1.9.0)
   - Firebase
   - Firebase/Auth
   - Firebase/Core
@@ -128,7 +133,9 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - Crashlytics
     - DifferenceKit
+    - Fabric
     - Firebase
     - FirebaseAnalytics
     - FirebaseAnalyticsInterop
@@ -153,7 +160,9 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: 3ec537f71edc9804815215393ae2b1a8ea33a844
+  Crashlytics: 07fb167b1694128c1c9a5a5cc319b0e9c3ca0933
   DifferenceKit: edcc9da33f545a49a70eefcf1a5327162cb72eb8
+  Fabric: f988e33c97f08930a413e08123064d2e5f68d655
   Firebase: 8bb9268bff82374f2cbaaabb143e725743c316ae
   FirebaseAnalytics: c06f9d70577d79074214700a71fd5d39de5550fb
   FirebaseAnalyticsInterop: e5f21be9af6548372e2f0815834ff909bff395a2
@@ -176,6 +185,6 @@ SPEC CHECKSUMS:
   RSKImageCropper: 98296ad26b41753f796b6898d015509598f13d97
   TableKit: d635663343d00e209f258e35d4ee0072ad1beb1a
 
-PODFILE CHECKSUM: 0d38072d6be6e0539e0581729c42b395d94f1f22
+PODFILE CHECKSUM: e04fdca177963749b380299115e12c86cb6e504d
 
 COCOAPODS: 1.5.3

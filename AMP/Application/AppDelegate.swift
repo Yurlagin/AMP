@@ -1,19 +1,19 @@
 import ReSwift
 import Firebase
 import UserNotifications
+import Fabric
+import Crashlytics
 
 fileprivate let authSideEffects = injectService(service: AuthServiceImpl(authStorage: AuthStorageImpl()),
                                     receivers: authServiceSideEffects)
 fileprivate let eventsSideEffects = injectService(service: ApiServiceImpl(), receivers: eventsServiceSideEffects)
 fileprivate let settingsSideEffects = injectService(service: ApiServiceImpl(), receivers: settingsServiceSideEffects)
-
 fileprivate let middleware = createMiddleware(items: authSideEffects + eventsSideEffects + settingsSideEffects)
 
 let store = Store (
   reducer: appReducer,
   state: nil,
   middleware: [middleware])
-
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -29,6 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
     FirebaseApp.configure()
+    Fabric.with([Crashlytics.self])
     
     UNUserNotificationCenter.current().delegate = self
     UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (_, _) in }
