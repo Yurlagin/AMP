@@ -1520,7 +1520,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Dmitry Yurlagin (GP8N2GV9ET)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Dmitry Yurlagin (GP8N2GV9ET)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 9J4YF85S53;
 				INFOPLIST_FILE = AMP/Info.plist;
@@ -1545,7 +1545,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Dmitry Yurlagin (9J4YF85S53)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dmitry Yurlagin (9J4YF85S53)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 9J4YF85S53;
 				INFOPLIST_FILE = AMP/Info.plist;
