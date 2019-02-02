@@ -58,14 +58,14 @@ class EventsMapViewController: UIViewController, EventMapView {
   fileprivate func getVisibleMapAnnotations() {
     let deltaX = mapView.visibleMapRect.size.width * (preloadScaleFactor - 1)
     let deltaY = mapView.visibleMapRect.size.height * (preloadScaleFactor - 1)
-    let maxPoint = MKMapPointMake(mapView.visibleMapRect.origin.x + mapView.visibleMapRect.size.width + deltaX,
-                                  mapView.visibleMapRect.origin.y + mapView.visibleMapRect.size.height + deltaY)
-    let minPoint = MKMapPointMake(mapView.visibleMapRect.origin.x - deltaX,
-                                  mapView.visibleMapRect.origin.y - deltaY)
-    let minLon = MKCoordinateForMapPoint(minPoint).longitude
-    let minLat = MKCoordinateForMapPoint(maxPoint).latitude
-    let maxLon = MKCoordinateForMapPoint(maxPoint).longitude
-    let maxLat = MKCoordinateForMapPoint(minPoint).latitude
+    let maxPoint = MKMapPoint.init(x: mapView.visibleMapRect.origin.x + mapView.visibleMapRect.size.width + deltaX,
+                                  y: mapView.visibleMapRect.origin.y + mapView.visibleMapRect.size.height + deltaY)
+    let minPoint = MKMapPoint.init(x: mapView.visibleMapRect.origin.x - deltaX,
+                                  y: mapView.visibleMapRect.origin.y - deltaY)
+    let minLon = minPoint.coordinate.longitude
+    let minLat = maxPoint.coordinate.latitude
+    let maxLon = maxPoint.coordinate.longitude
+    let maxLat = minPoint.coordinate.latitude
     viewModel?.fetchEventsFor(maxLat, maxLon, minLat, minLon)
   }
   
@@ -79,7 +79,7 @@ class EventsMapViewController: UIViewController, EventMapView {
     let overlay = MKTileOverlay(urlTemplate: tileSource)
     overlay.canReplaceMapContent = false
     overlay.maximumZ = 18
-    mapView.insert(overlay, at: 0)
+    mapView.insertOverlay(overlay, at: 0)
     
     [findMeButton, zoomInButton, zoomOutButton].forEach {
       $0?.layer.masksToBounds = true

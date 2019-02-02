@@ -4,7 +4,6 @@ import UserNotifications
 import Fabric
 import Crashlytics
 
-
 let store: Store<AppState> = {
   let authServiceSideEffects = [
     AuthMiddleWare.requestSms,
@@ -44,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   private lazy var applicationCoordinator: Coordinator = self.makeCoordinator()
   
   func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     FirebaseApp.configure()
     Fabric.with([Crashlytics.self])
     
@@ -78,7 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   
   func application(_ application: UIApplication, continue userActivity: NSUserActivity,
-                   restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+                   restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
     let deepLink = DeepLinkOption.build(with: userActivity)
     applicationCoordinator.start(with: deepLink)
     return true

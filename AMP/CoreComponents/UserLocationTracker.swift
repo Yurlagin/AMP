@@ -22,13 +22,13 @@ class UserLocationTracker: CLLocationManager {
     defaultCenter.addObserver(
       self,
       selector: #selector(startForegroundTracking),
-      name: .UIApplicationWillEnterForeground,
+      name: UIApplication.willEnterForegroundNotification,
       object: nil
     )
     defaultCenter.addObserver(
       self,
       selector: #selector(startBackgroundTracking),
-      name: .UIApplicationDidEnterBackground,
+      name: UIApplication.didEnterBackgroundNotification,
       object: nil
     )
   }

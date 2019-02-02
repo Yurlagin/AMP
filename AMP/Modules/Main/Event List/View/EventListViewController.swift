@@ -151,7 +151,7 @@ class EventListViewController: UIViewController, EventListView {
     refreshControl.addTarget(self, action: #selector(onRefresh), for: .valueChanged)
     tableView.refreshControl = refreshControl
     
-    let bottomSpinner = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+    let bottomSpinner = UIActivityIndicatorView(style: .gray)
     bottomSpinner.hidesWhenStopped = true
     self.bottomSpinner = bottomSpinner
     
@@ -164,7 +164,7 @@ class EventListViewController: UIViewController, EventListView {
     tableView.tableFooterView = footerView
     
     if #available(iOS 11.0, *) { } else {
-      let contentInsets = UIEdgeInsetsMake(topBarHeight, 0, tabbarHeight, 0)
+      let contentInsets = UIEdgeInsets.init(top: topBarHeight, left: 0, bottom: tabbarHeight, right: 0)
       tableView.contentInset = contentInsets
       tableView.scrollIndicatorInsets = contentInsets
     }

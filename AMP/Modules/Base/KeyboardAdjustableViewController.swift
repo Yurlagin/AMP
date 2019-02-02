@@ -17,11 +17,11 @@ class KeyboardAdjustableViewController: UIViewController {
     
     init?(notification: Notification) {
       guard let userInfo = notification.userInfo,
-        let kbDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as? TimeInterval,
-        let finalKBFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+        let kbDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval,
+        let finalKBFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
           return nil
       }
-      self.isShowing = notification.name == .UIKeyboardWillShow
+      self.isShowing = notification.name == UIResponder.keyboardWillShowNotification
       self.animationDuration = kbDuration
       self.finalFrame = finalKBFrame
     }
@@ -34,21 +34,21 @@ class KeyboardAdjustableViewController: UIViewController {
     notificationCenter.addObserver(
       self,
       selector: #selector(adjustForKeyboard(notification:)),
-      name: .UIKeyboardWillShow,
+      name: UIResponder.keyboardWillShowNotification,
       object: nil
     )
     notificationCenter.addObserver(
       self,
       selector: #selector(adjustForKeyboard(notification:)),
-      name: .UIKeyboardWillHide,
+      name: UIResponder.keyboardWillHideNotification,
       object: nil
     )
   }
   
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
-    notificationCenter.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
-    notificationCenter.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
+    notificationCenter.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+    notificationCenter.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
   }
   
   @objc final private func adjustForKeyboard(notification: Notification) {

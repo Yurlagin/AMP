@@ -96,7 +96,7 @@ class CreateEventViewController: KeyboardAdjustableViewController, CreateEventVi
     let overlay = MKTileOverlay(urlTemplate: tileSource)
     overlay.canReplaceMapContent = true
     overlay.maximumZ = 18
-    mapView.add(overlay)
+    mapView.addOverlay(overlay)
     textView.delegate = self
     view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cancelEditing)))
   }
@@ -172,7 +172,7 @@ class CreateEventViewController: KeyboardAdjustableViewController, CreateEventVi
   }
   
   override func adjustForKeyboard(params: KeyboardAdjustableViewController.KeyboardParameters) {
-    scrollView.contentInset = UIEdgeInsetsMake(0, 0, params.isShowing ? params.finalFrame.height : 0, 0)
+    scrollView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: params.isShowing ? params.finalFrame.height : 0, right: 0)
     UIView.animate(withDuration: params.animationDuration) {
       self.view.layoutIfNeeded()
     }

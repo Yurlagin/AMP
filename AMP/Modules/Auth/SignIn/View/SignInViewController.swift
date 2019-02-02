@@ -96,23 +96,23 @@ class SignInViewController: UIViewController, SignInViewInput {
     
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: .UIKeyboardWillShow, object: nil)
-    notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: .UIKeyboardWillHide, object: nil)
+    notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillShowNotification, object: nil)
+    notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
     output.onViewWillAppear()
   }
   
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
-    notificationCenter.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
-    notificationCenter.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
+    notificationCenter.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+    notificationCenter.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     output.onViewDidDissapear()
   }
   
   @objc private func adjustForKeyboard(notification: Notification) {
     let userInfo = notification.userInfo!
-    let kbDuration = userInfo[UIKeyboardAnimationDurationUserInfoKey] as! Double
-    let finalKBFrame = (userInfo[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
-    let isShowing = notification.name == .UIKeyboardWillShow
+    let kbDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
+    let finalKBFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+    let isShowing = notification.name == UIResponder.keyboardWillShowNotification
     scrollViewBottomConstraint.constant = isShowing ? finalKBFrame.height : 0
     UIView.animate(withDuration: kbDuration, animations: {
       self.view.layoutIfNeeded()
