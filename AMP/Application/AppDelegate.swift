@@ -4,16 +4,33 @@ import UserNotifications
 import Fabric
 import Crashlytics
 
-fileprivate let authSideEffects = injectService(service: AuthServiceImpl(authStorage: AuthStorageImpl()),
-                                    receivers: authServiceSideEffects)
-fileprivate let eventsSideEffects = injectService(service: ApiServiceImpl(), receivers: eventsServiceSideEffects)
-fileprivate let settingsSideEffects = injectService(service: ApiServiceImpl(), receivers: settingsServiceSideEffects)
-fileprivate let middleware = createMiddleware(items: authSideEffects + eventsSideEffects + settingsSideEffects)
 
-let store = Store (
-  reducer: appReducer,
-  state: nil,
-  middleware: [middleware])
+let store: Store<AppState> = {
+  let authServiceSideEffects = [
+    AuthMiddleWare.requestSms,
+    AuthMiddleWare.logIn
+  ]
+  let eventsServiceSideEffects = [
+    EventsSideEffects.eventsEffects
+  ]
+  let settingsServiceSideEffects = [
+    SettingsSideEffects.settingsSideEffects
+  ]
+  let apiService = ApiServiceImpl()
+  let authSideEffects = injectService(service: AuthServiceImpl(authStorage: AuthStorageImpl()),
+                                      receivers: authServiceSideEffects)
+  let eventsSideEffects = injectService(service: apiService, receivers: eventsServiceSideEffects)
+  let settingsSideEffects = injectService(service: apiService, receivers: settingsServiceSideEffects)
+  let middleware = createMiddleware(items: authSideEffects + eventsSideEffects + settingsSideEffects)
+  
+  return
+    Store (
+      reducer: appReducer,
+      state: nil,
+      middleware: [middleware]
+  )
+}()
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -88,14 +105,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let request = UNNotificationRequest(identifier: type + id, content: content, trigger: UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false))
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
       }
-
+      
     }
     completionHandler(.noData)
   }
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
- 
+  
   func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
     print (notification)
     completionHandler([.alert])
@@ -111,6 +128,6 @@ extension AppDelegate: MessagingDelegate {
   
   func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
     print (remoteMessage)
-//    remoteMessage.appData
+    //    remoteMessage.appData
   }
 }

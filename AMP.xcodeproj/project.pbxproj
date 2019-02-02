@@ -111,7 +111,6 @@
 		34BFAE38201C105C0079D566 /* InjectService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BFAE35201C105C0079D566 /* InjectService.swift */; };
 		34BFAE39201C105C0079D566 /* MiddlewareItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BFAE36201C105C0079D566 /* MiddlewareItem.swift */; };
 		34BFAE3C201C12FF0079D566 /* AuthSideEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BFAE3B201C12FF0079D566 /* AuthSideEffects.swift */; };
-		34BFAE3E201C1F650079D566 /* SideEffects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BFAE3D201C1F650079D566 /* SideEffects.swift */; };
 		34C6DB1420270C1700F7FF2C /* EventListProps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34C6DB1320270C1700F7FF2C /* EventListProps.swift */; };
 		34C7D96A21E724BE00EAFD94 /* EventListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 34C7D96921E724BE00EAFD94 /* EventListTableViewCell.xib */; };
 		34CE682E21E4E0CB0098B419 /* EventListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34CE682D21E4E0CB0098B419 /* EventListPresenter.swift */; };
@@ -270,7 +269,6 @@
 		34BFAE35201C105C0079D566 /* InjectService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InjectService.swift; sourceTree = "<group>"; };
 		34BFAE36201C105C0079D566 /* MiddlewareItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MiddlewareItem.swift; sourceTree = "<group>"; };
 		34BFAE3B201C12FF0079D566 /* AuthSideEffects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthSideEffects.swift; sourceTree = "<group>"; };
-		34BFAE3D201C1F650079D566 /* SideEffects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideEffects.swift; sourceTree = "<group>"; };
 		34C6DB1320270C1700F7FF2C /* EventListProps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListProps.swift; sourceTree = "<group>"; };
 		34C7D96921E724BE00EAFD94 /* EventListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventListTableViewCell.xib; sourceTree = "<group>"; };
 		34CE682D21E4E0CB0098B419 /* EventListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventListPresenter.swift; sourceTree = "<group>"; };
@@ -784,7 +782,6 @@
 		34BFAE3A201C12DB0079D566 /* SideEffects */ = {
 			isa = PBXGroup;
 			children = (
-				34BFAE3D201C1F650079D566 /* SideEffects.swift */,
 				34BFAE3B201C12FF0079D566 /* AuthSideEffects.swift */,
 				84045BC3203E7D7E00BC230C /* EventSideEffects.swift */,
 				3447820221FE3379003ACEA4 /* SettingsSideEffects.swift */,
@@ -1347,7 +1344,6 @@
 				344EB9D32035C42E009DDC65 /* UINavigationControllerExtensions.swift in Sources */,
 				345162BC21DF63A800D3130B /* SignInPresenter.swift in Sources */,
 				34356640202B63E90039B051 /* TabbarCoordinatorOutput.swift in Sources */,
-				34BFAE3E201C1F650079D566 /* SideEffects.swift in Sources */,
 				34BFAE38201C105C0079D566 /* InjectService.swift in Sources */,
 				34BFAE32201C06BC0079D566 /* AuthServiceImpl.swift in Sources */,
 				3484C29420367514002F3A10 /* Comment.swift in Sources */,
@@ -1524,7 +1520,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Dmitry Yurlagin (GP8N2GV9ET)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Dmitry Yurlagin (GP8N2GV9ET)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 7;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 9J4YF85S53;
 				INFOPLIST_FILE = AMP/Info.plist;
@@ -1533,7 +1529,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = club.usefulness.amp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "AMP Development Profile";
+				PROVISIONING_PROFILE_SPECIFIER = "ios development profile last";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1549,7 +1545,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Dmitry Yurlagin (9J4YF85S53)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dmitry Yurlagin (9J4YF85S53)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 7;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 9J4YF85S53;
 				INFOPLIST_FILE = AMP/Info.plist;
@@ -1558,7 +1554,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = club.usefulness.amp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "AMP Distribution Profile";
+				PROVISIONING_PROFILE_SPECIFIER = "AMP iOS Distribution";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
