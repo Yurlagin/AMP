@@ -1051,7 +1051,7 @@
 					};
 					34745CC0200593CE00D19835 = {
 						CreatedOnToolsVersion = 9.2;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = "";
 						ProvisioningStyle = Automatic;
 						TestTargetID = 34745CAC200593CE00D19835;
 					};
@@ -1567,7 +1567,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 950995ABCCB2D091CAEA13AF /* Pods-AMPTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9J4YF85S53;
@@ -1575,7 +1574,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.usefulness.AMPTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AMP.app/AMP";
 			};
@@ -1585,7 +1584,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 149156D074A066AE563FC489 /* Pods-AMPTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9J4YF85S53;
@@ -1593,7 +1591,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = net.usefulness.AMPTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AMP.app/AMP";
 			};
