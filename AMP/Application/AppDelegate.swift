@@ -4,32 +4,7 @@ import UserNotifications
 import Fabric
 import Crashlytics
 
-let store: Store<AppState> = {
-  let authServiceSideEffects = [
-    AuthMiddleWare.requestSms,
-    AuthMiddleWare.logIn
-  ]
-  let eventsServiceSideEffects = [
-    EventsSideEffects.eventsEffects
-  ]
-  let settingsServiceSideEffects = [
-    SettingsSideEffects.settingsSideEffects
-  ]
-  let apiService = ApiServiceImpl()
-  let authSideEffects = injectService(service: AuthServiceImpl(authStorage: AuthStorageImpl()),
-                                      receivers: authServiceSideEffects)
-  let eventsSideEffects = injectService(service: apiService, receivers: eventsServiceSideEffects)
-  let settingsSideEffects = injectService(service: apiService, receivers: settingsServiceSideEffects)
-  let middleware = createMiddleware(items: authSideEffects + eventsSideEffects + settingsSideEffects)
-  
-  return
-    Store (
-      reducer: appReducer,
-      state: nil,
-      middleware: [middleware]
-  )
-}()
-
+private(set) var store: Store<AppState>!
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -44,15 +19,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func application(_ application: UIApplication,
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    store = buildStore()
     FirebaseApp.configure()
     Fabric.with([Crashlytics.self])
-    
     UNUserNotificationCenter.current().delegate = self
     UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { (_, _) in }
     application.registerForRemoteNotifications()
     
     Messaging.messaging().delegate = self
-    
     let notification = launchOptions?[.remoteNotification] as? [String: AnyObject]
     let deepLink = DeepLinkOption.build(with: notification)
     applicationCoordinator.start(with: deepLink)
@@ -128,5 +102,33 @@ extension AppDelegate: MessagingDelegate {
   func messaging(_ messaging: Messaging, didReceive remoteMessage: MessagingRemoteMessage) {
     print (remoteMessage)
     //    remoteMessage.appData
+  }
+}
+
+extension AppDelegate {
+  fileprivate func buildStore() -> Store<AppState> {
+    let authServiceSideEffects = [
+      AuthMiddleWare.requestSms,
+      AuthMiddleWare.logIn
+    ]
+    let eventsServiceSideEffects = [
+      EventsSideEffects.eventsEffects
+    ]
+    let settingsServiceSideEffects = [
+      SettingsSideEffects.settingsSideEffects
+    ]
+    let apiService = ApiServiceImpl()
+    let authSideEffects = injectService(service: AuthServiceImpl(authStorage: AuthStorageImpl()),
+                                        receivers: authServiceSideEffects)
+    let eventsSideEffects = injectService(service: apiService, receivers: eventsServiceSideEffects)
+    let settingsSideEffects = injectService(service: apiService, receivers: settingsServiceSideEffects)
+    let middleware = createMiddleware(items: authSideEffects + eventsSideEffects + settingsSideEffects)
+    
+    return
+      Store (
+        reducer: appReducer,
+        state: nil,
+        middleware: [middleware]
+    )
   }
 }

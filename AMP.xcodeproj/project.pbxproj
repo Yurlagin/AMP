@@ -1520,9 +1520,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Dmitry Yurlagin (GP8N2GV9ET)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Dmitry Yurlagin (GP8N2GV9ET)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 11;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 9J4YF85S53;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = AMP/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1545,9 +1546,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Dmitry Yurlagin (9J4YF85S53)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Dmitry Yurlagin (9J4YF85S53)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 11;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 9J4YF85S53;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = AMP/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
