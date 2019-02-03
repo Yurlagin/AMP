@@ -4,7 +4,6 @@ use_frameworks!
 
 target 'AMP' do
 	pod 'Fabric', '~> 1.9.0'
-	pod 'Answers'
 	pod 'Crashlytics', '~> 3.12.0'
 	pod 'PhoneNumberKit', '~> 2.1'
 	pod 'MBProgressHUD', '~> 1.1.0'
@@ -19,7 +18,7 @@ target 'AMP' do
 	pod 'Locksmith'
 	pod 'DifferenceKit'
 	pod 'RSKImageCropper'
-  	pod 'TableKit'
+  pod 'TableKit'
 end
 
 target 'AMPTests' do
