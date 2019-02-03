@@ -40,6 +40,11 @@ class LocationSender: StoreSubscriber {
       
       sendLocationPromise
         .then { _ -> Void in
+          if let userId = appState.settingsState.userInfo?.userId {
+            MetricaImpl.shared.logUpdateLocation(userId: userId)
+          } else {
+            assertionFailure("Must have userId on the main flow")
+          }
           store.dispatch(SendingLocationResult.success(currentLocation))
         }.catch { _ in
           store.dispatch(SendingLocationResult.error)

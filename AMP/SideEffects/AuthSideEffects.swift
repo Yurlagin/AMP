@@ -38,7 +38,7 @@ extension AuthMiddleWare {
       case let action as RequestTokenAction:
         
         func loginErrorHandler(error: Error) {
-          MetricaImpl.shared.loginFail(loginType: .anonymous, reason: error.localizedDescription)
+          MetricaImpl.shared.logLoginFailure(loginType: .anonymous, reason: error.localizedDescription)
           let authServiceError = AuthServiceError(error: error)
           switch authServiceError {
           case .smsSessionExpired:
@@ -52,7 +52,7 @@ extension AuthMiddleWare {
         
         authService.login(smsCode: action.smsCode, verificationId: action.verificationId)
           .then { userData -> Void in
-            MetricaImpl.shared.loggedIn(loginType: .mobile, userId: userData.1.userId)
+            MetricaImpl.shared.logLogin(loginType: .mobile, userId: userData.1.userId)
             dispatch(SignedIn(credentials: userData.0, userInfo: userData.1))
           }
           .catch (execute: loginErrorHandler)
@@ -60,10 +60,10 @@ extension AuthMiddleWare {
       case is RequestAnonymousToken:
         authService.signInAnonymously()
           .then { userData -> Void in
-            MetricaImpl.shared.loggedIn(loginType: .anonymous, userId: userData.1.userId)
+            MetricaImpl.shared.logLogin(loginType: .anonymous, userId: userData.1.userId)
             dispatch(SignedIn(credentials: userData.0, userInfo: userData.1)) }
           .catch { error in
-            MetricaImpl.shared.loginFail(loginType: .anonymous, reason: error.localizedDescription)
+            MetricaImpl.shared.logLoginFailure(loginType: .anonymous, reason: error.localizedDescription)
             dispatch(SetLoginState(.anonymousFlow(.fail(AuthServiceError(error: error))))) // TODO: - replace this action with others
         }
         

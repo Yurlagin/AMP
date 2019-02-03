@@ -9,8 +9,8 @@
 import Firebase
 
 protocol Metrica {
-  func loggedIn(loginType: LoginType, userId: Int)
-  func loginFail(loginType: LoginType, reason: String)
+  func logLogin(loginType: LoginType, userId: Int)
+  func logLoginFailure(loginType: LoginType, reason: String)
 }
 
 enum LoginType: String {
@@ -25,21 +25,36 @@ class MetricaImpl {
 }
 
 extension MetricaImpl: Metrica {
-  func loggedIn(loginType: LoginType, userId: Int) {
+  
+  private enum UserInfoKeys {
+    static let userId = "UserId"
+    static let reason = "Reason"
+  }
+  
+  private enum EventNames {
+    static let didUpdateLocation = "Did Update Location"
+  }
+  
+  func logLogin(loginType: LoginType, userId: Int) {
     Answers.logLogin(
       withMethod: loginType.rawValue,
       success: 1,
       customAttributes: [
-        "UserId": userId
+        UserInfoKeys.userId: userId
       ]
     )
   }
   
-  func loginFail(loginType: LoginType, reason: String) {
+  func logLoginFailure(loginType: LoginType, reason: String) {
     Answers.logLogin(
       withMethod: loginType.rawValue,
       success: 0,
-      customAttributes: ["Reason": reason]
+      customAttributes: [UserInfoKeys.reason: reason]
     )
+  }
+  
+  func logUpdateLocation(userId: Int) {
+    Answers.logCustomEvent(withName: EventNames.didUpdateLocation,
+                           customAttributes: [UserInfoKeys.userId: userId])
   }
 }
