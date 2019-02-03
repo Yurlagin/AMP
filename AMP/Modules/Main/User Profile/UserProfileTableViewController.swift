@@ -39,7 +39,7 @@ class UserProfileTableViewController: UITableViewController, UserInfoView {
   }
   
   private struct State {
-    var userInfo: UserInfo
+    var userInfo: UserInfo?
   }
   private var state: State? {
     didSet {
@@ -82,11 +82,11 @@ class UserProfileTableViewController: UITableViewController, UserInfoView {
     }
 
     guard let state = state else { return }
-    if let url = state.userInfo.avatarURL {
+    if let url = state.userInfo?.avatarURL {
       avatarImageView.kf.setImage(with: URL(string: url))
     }
-    usernameTextField.text = state.userInfo.userName
-    aboutTextField.text = state.userInfo.about
+    usernameTextField.text = state.userInfo?.userName
+    aboutTextField.text = state.userInfo?.about
   }
   
   @objc private func showAvatarPicker() {
@@ -180,8 +180,8 @@ extension UserProfileTableViewController: UITextFieldDelegate {
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
     let finalString = NSString(string: textField.text!).replacingCharacters(in: range, with: string)
     switch textField {
-    case aboutTextField: state?.userInfo.about = finalString
-    case usernameTextField: state?.userInfo.userName = finalString
+    case aboutTextField: state?.userInfo?.about = finalString
+    case usernameTextField: state?.userInfo?.userName = finalString
     default: break
     }
     
@@ -190,8 +190,8 @@ extension UserProfileTableViewController: UITextFieldDelegate {
   
   func textFieldDidEndEditing(_ textField: UITextField) {
     switch textField {
-    case aboutTextField: state?.userInfo.about = textField.text
-    case usernameTextField: state?.userInfo.userName = textField.text
+    case aboutTextField: state?.userInfo?.about = textField.text
+    case usernameTextField: state?.userInfo?.userName = textField.text
     default: break
     }
   }

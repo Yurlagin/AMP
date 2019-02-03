@@ -385,8 +385,12 @@ extension ApiServiceImpl: SettingsService {
       let sendUserInfoRequest = SendProfileRequest (
         token: token,
         keyvalues: [
-          ["key": "name", "value": userName ?? ""],
-          ["key": "about", "value": about ?? ""]
+          ["key": "name",
+           "value": userName ?? ""
+          ],
+          ["key": "about",
+           "value": about ?? ""
+          ]
         ]
       )
       

@@ -13,11 +13,6 @@ struct AmpFirAuthCredentialsResponse: Decodable {
   let info: UserCredentials?
 }
 
-struct AmpFirAuthUserInfoResponse: Decodable { // TODO: - refactor this shit =]
-  let answer: String
-  let info: UserInfo?
-}
-
 struct UserCredentials: Decodable {
   let phone: String?
   let level: Int
@@ -35,12 +30,29 @@ struct EventsAnswer: Decodable {
 
 enum Parser {
   
+  private static func userInfoFrom(data: Data) -> UserInfo? {
+    
+    guard let rootDict = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
+      let userSettingsDictArray = rootDict?["userSettings"] as? [[String: Any]],
+      let userIdDict = userSettingsDictArray.first(where: { $0["key"] as? String == "userid"}),
+      let userIdString = userIdDict["value"] as? String,
+      let userId = Int(userIdString)
+    else {
+      return nil
+    }
+    return
+      UserInfo(
+        userId: userId,
+        avatarURL: userSettingsDictArray.first(where: { $0["key"] as? String == "smallavatarurl"})?["value"] as? String,
+        userName: userSettingsDictArray.first(where: { ($0["key"] as? String) == "username" })?["value"] as? String,
+        about: userSettingsDictArray.first(where: { ($0["key"] as? String) == "about" })?["value"] as? String)
+  }
+  
   static func ampUser(data: Data) -> Promise<(UserCredentials, UserInfo)> {
     return Promise(resolvers: { (resolve, error) in
       let decoder = JSONDecoder()
       let credentialsResponse = try decoder.decode(AmpFirAuthCredentialsResponse.self, from: data)
-      let userInfoResponse = try decoder.decode(AmpFirAuthUserInfoResponse.self, from: data)
-      if let credentials = credentialsResponse.info, let userInfo = userInfoResponse.info {
+      if let credentials = credentialsResponse.info, let userInfo = userInfoFrom(data: data) {
         resolve((credentials, userInfo))
       } else {
         error(ApiError.parsingError(underlyingError: nil))

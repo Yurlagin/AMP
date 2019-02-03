@@ -10,7 +10,7 @@ import Foundation
 
 extension UserProfileTableViewController {
   struct Props {
-    let userInfo: UserInfo
+    let userInfo: UserInfo?
     let canEditProfile: Bool
     let showHud: Bool
     let errorAlert: (title: String?, text: String)?

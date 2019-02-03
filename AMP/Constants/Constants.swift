@@ -18,6 +18,7 @@ extension Constants {
   
   enum UserDefaultsKeys {
     static let fcmToken = "fcmToken"
+    static let userId = "userId"
     static let avatarURL = "avatarURL"
     static let email = "email"
     static let level = "level"

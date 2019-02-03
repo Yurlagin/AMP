@@ -9,7 +9,7 @@
 import Foundation
 
 struct SettingsState: Hashable {
-  var userInfo: UserInfo
+  var userInfo: UserInfo?
   var sendingUserInfoStatus: SendingUserInfoStatus
   var isHavingScreen: Bool
   
@@ -21,31 +21,19 @@ struct SettingsState: Hashable {
 }
 
 struct UserInfo: Hashable {
+  var userId: Int
   var avatarURL: String?
   var userName: String?
   var about: String?
 }
 
-extension UserInfo: Decodable {
-  private enum CodingKeys: String, CodingKey  {
-    case avatarURL = "avaurl"
-    case userName = "name"
-    case about = "about"
-  }
-  
-  init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    avatarURL = try container.decodeIfPresent(String.self, forKey: .avatarURL)
-    userName = try container.decodeIfPresent(String.self, forKey: .userName)
-    about = try container.decodeIfPresent(String.self, forKey: .about)
-  }
-}
-
 extension UserInfo {
-  static func loadFromDefaults() -> UserInfo {
+  static func loadFromDefaults() -> UserInfo? {
     let defaults = UserDefaults.standard
+    guard let userId = defaults.object(forKey: Constants.UserDefaultsKeys.userId) as? Int else { return nil }
     return
       UserInfo(
+        userId: userId,
         avatarURL: defaults.string(forKey: Constants.UserDefaultsKeys.avatarURL),
         userName: defaults.string(forKey: Constants.UserDefaultsKeys.userName),
         about: defaults.string(forKey: Constants.UserDefaultsKeys.about)
@@ -54,6 +42,7 @@ extension UserInfo {
   
   func saveToDefaults() {
     let defaults = UserDefaults.standard
+    defaults.set(userId, forKey: Constants.UserDefaultsKeys.userId)
     defaults.set(avatarURL, forKey: Constants.UserDefaultsKeys.avatarURL)
     defaults.set(userName, forKey: Constants.UserDefaultsKeys.userName)
     defaults.set(about, forKey: Constants.UserDefaultsKeys.about)

@@ -87,8 +87,8 @@ extension SettingsTableViewController: StoreSubscriber  {
 extension SettingsTableViewController.Props {
   init? (state: AppState) {
     let userInfo = state.settingsState.userInfo
-    avatarURL = userInfo.avatarURL
-    userName = userInfo.userName
-    about = userInfo.about
+    avatarURL = userInfo?.avatarURL
+    userName = userInfo?.userName
+    about = userInfo?.about
   }
 }
