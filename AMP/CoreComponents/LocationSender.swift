@@ -15,6 +15,7 @@ fileprivate let locationThreshold = 200.0
 class LocationSender: StoreSubscriber {
   private let sendLocation: (CLLocation, _ token: String) -> (Promise<()>, Cancel)
   private var sendingLocationCancelation: Cancel?
+  private var sendingLocation: CLLocation?
   
   init (sendLocation: @escaping (CLLocation, _ token: String) -> (Promise<()>, Cancel)) {
     self.sendLocation = sendLocation
@@ -22,6 +23,9 @@ class LocationSender: StoreSubscriber {
 
   func newState(state: LocationState) {
     store.dispatch { [weak self] (appState, store) -> Action? in
+      guard self?.sendingLocation != state.currentlocation else {
+        print("same location")
+        return nil }
       guard let currentLocation = state.currentlocation,
         state.lastSentLocation == nil || state.lastSentLocation!.distance(from: currentLocation) > locationThreshold,
         let token = appState.authState.loginStatus.userCredentials?.token
@@ -36,9 +40,14 @@ class LocationSender: StoreSubscriber {
       
       guard let strongSelf = self else { return nil }
       let (sendLocationPromise, cancel) = strongSelf.sendLocation(currentLocation, token)
-      self?.sendingLocationCancelation = cancel
+      strongSelf.sendingLocationCancelation = cancel
+      strongSelf.sendingLocation = currentLocation
       
       sendLocationPromise
+        .always { [weak self] in
+          self?.sendingLocation = nil
+          self?.sendingLocationCancelation = nil
+        }
         .then { _ -> Void in
           if let userId = appState.settingsState.userInfo?.userId {
             MetricaImpl.shared.logUpdateLocation(userId: userId)
@@ -46,34 +55,11 @@ class LocationSender: StoreSubscriber {
             assertionFailure("Must have userId on the main flow")
           }
           store.dispatch(SendingLocationResult.success(currentLocation))
-        }.catch { _ in
+        }
+        .catch { _ in
           store.dispatch(SendingLocationResult.error)
       }
       return SendLocation()
     }
-    
-//    guard let credentials = state.authState.loginStatus.userCredentials,
-//      credentials.fcmTokenDelivered == false,
-//      let newFcmToken = credentials.fcmToken,
-//      let token = state.authState.loginStatus.userCredentials?.token else { return }
-//
-//    if newFcmToken != sendingFcmToken {
-//      sendFcmCancelFunction?()
-//    }
-//
-//    let (sendingPromise, cancel) = sendFcmToken(newFcmToken, token)
-//    self.sendFcmCancelFunction = cancel
-//    self.sendingFcmToken = newFcmToken
-//
-//    sendingPromise
-//      .then { _ -> () in
-//        UserDefaults.standard.set(true, forKey: "fcmTokenDelivered")
-//        UserDefaults.standard.synchronize()
-//        store.dispatch(FcmTokenDelivered())
-//      }
-//      .always { [weak self] in
-//        self?.sendFcmCancelFunction = nil
-//        self?.sendingFcmToken = nil
-//    }
   }
 }
