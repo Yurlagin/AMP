@@ -27,6 +27,7 @@ class SettingsTableViewController: UITableViewController, SettingsRootView {
     let avatarURL: String?
     let userName: String?
     let about: String?
+    let userId: Int
   }
   
   override func viewDidLoad() {
@@ -54,7 +55,13 @@ class SettingsTableViewController: UITableViewController, SettingsRootView {
       let avatarUrl = URL(string: urlString)
       avatarImageView.kf.setImage(with: avatarUrl)
     }
-    userNameLabel.text = props?.userName
+    userNameLabel.text = {
+        if let props = props {
+            let userName = props.userName ?? "NoName"
+            return userName + " (id: \(props.userId))"
+        }
+        return nil
+    }()
     aboutLabel.text = props?.about
   }
   
@@ -86,9 +93,10 @@ extension SettingsTableViewController: StoreSubscriber  {
 
 extension SettingsTableViewController.Props {
   init? (state: AppState) {
-    let userInfo = state.settingsState.userInfo
-    avatarURL = userInfo?.avatarURL
-    userName = userInfo?.userName
-    about = userInfo?.about
+    guard let userInfo = state.settingsState.userInfo else { return nil }
+    avatarURL = userInfo.avatarURL
+    userName = userInfo.userName
+    about = userInfo.about
+    userId = userInfo.userId
   }
 }
