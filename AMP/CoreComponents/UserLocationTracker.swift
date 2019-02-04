@@ -15,6 +15,7 @@ class UserLocationTracker: CLLocationManager {
     super.init()
     distanceFilter = 200
     delegate = self
+    subscribeToAppState()
   }
   
   private func subscribeToAppState() {
@@ -48,18 +49,18 @@ class UserLocationTracker: CLLocationManager {
       stopMonitoringSignificantLocationChanges()
       startUpdatingLocation()
     } else {
-      requestWhenInUseAuthorization()
+      requestAlwaysAuthorization()
     }
   }
   
   @objc private func startBackgroundTracking() {
-    if isAuthorized {
+    if case .authorizedAlways = CLLocationManager.authorizationStatus() {
       stopUpdatingLocation()
       startMonitoringSignificantLocationChanges()
     }
   }
   
-  private func startTracking() {
+   @objc private func startTracking() {
     let appState = UIApplication.shared.applicationState
     switch appState {
     case .active:

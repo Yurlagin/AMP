@@ -58,8 +58,10 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Разрешите доступ к камере для возможности делать снимки и прикреплять их к событиям или комментариям.</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Разрешите доступ к службе геолокации, чтобы мы могли отображать события рядом с вами</string>
+  <key>NSLocationWhenInUseUsageDescription</key>
+  <string>Разрешите доступ к службе геолокации, чтобы мы могли отображать события рядом с вами</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Разрешите доступ к фото-библиотеке для возможности прикреплять снимки к событиям, комментариям, а так же использовать в качестве аватарки.</string>
 	<key>UIBackgroundModes</key>
